@@ -1,7 +1,7 @@
 {
   "name": "finance",
-  "repo": "noflo/personal-finance-tracker-flo",
-  "version": "0.0.9",
+  "repo": "arete/finance",
+  "version": "0.1.0",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
