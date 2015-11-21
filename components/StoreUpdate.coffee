@@ -33,6 +33,6 @@ class StoreUpdate extends Database
           successful: rows is 1
           data: updateData
       .catch (e) ->
-        console.log e, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
+        console.log e
 
 exports.getComponent = -> new StoreUpdate

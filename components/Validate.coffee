@@ -281,8 +281,6 @@ class Validate extends noflo.Component
       if validateId(id) or validateId(id.id)
         @outPorts.out.send id
       else
-        # console.log id, 'wtfffffffffffffffffffff'
-        # console.log id.id, 'wwwwwwwwwwwwwwwwwwww'
         @error
           key: 'id'
           error: "id `#{id}` is not a valid id"

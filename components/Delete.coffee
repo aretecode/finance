@@ -3,6 +3,6 @@ noflo = require 'noflo'
 
 class Delete extends CRUD
   description: 'Deleting'
-  icon: 'expand'
+  icon: 'trash'
 
 exports.getComponent = -> new Delete

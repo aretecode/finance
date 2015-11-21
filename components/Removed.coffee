@@ -3,7 +3,7 @@ noflo = require 'noflo'
 
 class Removed extends Database
   description: 'Find a finance operation.'
-  icon: 'search'
+  icon: 'trash'
 
   childConstructor: ->
     @pg = require('./../src/Persistence/connection.coffee').getPg()

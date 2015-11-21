@@ -2,7 +2,7 @@ noflo = require 'noflo'
 
 class Response extends noflo.Component
   description: 'Send a Response.'
-  icon: 'database'
+  icon: 'send'
 
   constructor: ->
     @inPorts = new noflo.InPorts
