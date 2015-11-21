@@ -12,12 +12,14 @@ Middle APP -> APP Router(xpress/Router)
 'delete /api/expenses/delete/:id' -> PATTERN[2] Router
 'put /api/expenses/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[3] Router
 'get /api/expenses/list' -> PATTERN[4] Router
+'get /api/reports/expenses/monthly' -> PATTERN[5] Router
 
 'expense' -> NAME Store(finance/Store)
 'expense' -> NAME Fetch(finance/Fetch)
 'expense' -> NAME Removed(finance/Removed)
 'expense' -> NAME StoreUpdate(finance/StoreUpdate)
 'expense' -> NAME FetchList(finance/FetchList)
+'expense' -> NAME WithMonthYear(finance/FetchWithMonthYear)
 
 #
 # CREATE/SAVE
@@ -64,6 +66,20 @@ Router REQ[4] -> REQ List(finance/List)
 List RES -> RES ListResponse(finance/Response)
 List OUT -> IN FetchList(finance/FetchList)
 FetchList OUT -> RETRIEVED ListResponse(finance/Response)
+
+######
+
+#
+# REPORTS/MONTHLY
+#
+Router REQ[5] -> REQ Monthly(finance/Monthly)
+Monthly RES -> RES MonthlyResponse(finance/Response)
+Monthly OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
+WithMonthYear OUT -> MONTHLY MonthlyResponse(finance/Response)
+
+# Monthly OUT -> DATE MonthlyValidate(finance/Validate)
+# MonthlyValidate OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
+
 
 # Log with TestLogger
 Server ERROR -> IN Logger(xpress/TestLogger)

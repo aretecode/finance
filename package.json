@@ -46,12 +46,14 @@
       "Delete": "components/Delete.coffee",
       "Update": "components/Update.coffee",
       "List": "components/List.coffee",
+      "Monthly": "components/Monthly.coffee",
 
       "Store": "components/Store.coffee",
       "Removed": "components/Removed.coffee",
       "FetchList": "components/FetchList.coffee",
       "StoreUpdate": "components/StoreUpdate.coffee",
       "Fetch": "components/Fetch.coffee",
+      "FetchWithMonthYear": "components/FetchWithMonthYear.coffee",
 
       "Validate": "components/Validate.coffee",
       "Response": "components/Response.coffee",

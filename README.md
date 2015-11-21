@@ -34,6 +34,8 @@
 * [ ] TODOS in non noflo `personal-finance-tracker`
 * [x] add Travis
 * [ ] use Travis
+* [ ] use Groups to send the data to Response
+* [ ] Test using noflo-tester using .fbp
 
 # Future
 * [ ] Change update to use query insteadof params for updating individual parts

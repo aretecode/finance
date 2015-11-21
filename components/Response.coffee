@@ -17,6 +17,8 @@ class Response extends noflo.Component
         datatype: 'object'
       retrieved:
         datatype: 'object'
+      monthly:
+        datatype: 'object'
 
     @outPorts = new noflo.OutPorts
       out:
@@ -86,6 +88,20 @@ class Response extends noflo.Component
             body: updated.data
         else
           res.status(500).json JSON.stringify
+            message: 'not updated'
+            body: updated.data
+      catch e
+        console.log e
+
+
+    wirePatternFor @, 'monthly', (res, updated) ->
+      try
+        if updated.successful is true
+          res.status(302).json JSON.stringify
+            message: 'updated'
+            body: updated.data
+        else
+          res.status(404).json JSON.stringify
             message: 'not updated'
             body: updated.data
       catch e
