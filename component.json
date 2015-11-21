@@ -6,7 +6,7 @@
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
     "noflo/noflo-interaction": "*",
-    "noflo/noflo-runtime-webrtc": "*"
+    "noflo/noflo-runtime-webrtc": "*",
     "noflo/noflo-core": "^0.1.14",
     "noflo/noflo-filesystem": "^1.0.6",
     "noflo/noflo-math": "0.0.6",
