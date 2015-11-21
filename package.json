@@ -1,9 +1,9 @@
 {
-  "name": "personal-finance-tracker-flo",
-  "version": "0.0.9",
+  "name": "finance",
+  "version": "0.1.0",
     "repository": {
     "type": "git",
-    "url": "git://github.com/aretecode/personal-finance-tracker-flo.git"
+    "url": "git://github.com/aretecode/finance.git"
   },
   "dependencies": {
     "coffee-script": "~1.9.1",
