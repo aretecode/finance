@@ -1,0 +1,61 @@
+{
+  "name": "personal-finance-tracker-flo",
+  "version": "0.0.9",
+    "repository": {
+    "type": "git",
+    "url": "git://github.com/aretecode/personal-finance-tracker-flo.git"
+  },
+  "dependencies": {
+    "coffee-script": "~1.9.1",
+    "express": "^4.13.3",
+    "knex": "~0.9.0",
+    "noflo": "^0.5.14",
+    "noflo-core": "^0.1.14",
+    "noflo-filesystem": "^1.0.6",
+    "noflo-math": "0.0.6",
+    "noflo-nodejs": "^0.5.2",
+    "noflo-runtime-websocket": "^0.5.2",
+    "noflo-tester": "0.0.2",
+    "noflo-xpress": "^0.2.0",
+    "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "pg": "~4.4.3",
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.1",
+    "uuid-validate": "0.0.2"
+  },
+  "devDependencies": {
+    "chai": "~3.4.1",
+    "coffeelint": "^1.13.1",
+    "mocha": "~2.3.4"
+  },
+  "scripts": {
+    "start": "coffee node_modules/.bin/noflo-nodejs",
+    "pretest": "coffeelint -r components",
+    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/*.coffee"
+  },
+  "noflo": {
+    "icon": "globe",
+    "loader": "ComponentLoader.coffee",
+    "components": {
+      "Database": "components/Database.coffee",
+      "CRUD": "components/CRUD.coffee",
+
+      "Retrieve": "components/Retrieve.coffee",
+      "Create": "components/Create.coffee",
+      "Delete": "components/Delete.coffee",
+      "Update": "components/Update.coffee",
+      "List": "components/List.coffee",
+
+      "Store": "components/Store.coffee",
+      "Removed": "components/Removed.coffee",
+      "FetchList": "components/FetchList.coffee",
+      "StoreUpdate": "components/StoreUpdate.coffee",
+      "Fetch": "components/Fetch.coffee",
+
+      "Validate": "components/Validate.coffee",
+      "Response": "components/Response.coffee",
+      "AuthMiddleware": "components/AuthMiddleware/coffee"
+    }
+  }
+}

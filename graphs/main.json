@@ -1,0 +1,89 @@
+{
+    "properties": {
+        "name": "main",
+        "id": "finance/main",
+        "project": "finance",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "xpress/Server_iv6v5": {
+            "component": "xpress/Server",
+            "metadata": {
+                "label": "xpress/Server",
+                "x": -36,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "xpress/Router_n2vff": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "xpress/Router",
+                "x": 144,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_x25vd": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "core/Output",
+                "x": 324,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Expenses_8gb3e": {
+            "component": "finance/Expenses",
+            "metadata": {
+                "label": "finance/Expenses",
+                "x": 324,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "xpress/Server_iv6v5",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "xpress/Router_n2vff",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "xpress/Router_n2vff",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "core/Output_x25vd",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": 3033,
+            "tgt": {
+                "process": "xpress/Server_iv6v5",
+                "port": "port"
+            }
+        }
+    ]
+}

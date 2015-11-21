@@ -1,0 +1,70 @@
+# Adding the app server
+'4011' -> PORT Server(xpress/Server)
+# Server APP -> APP Router(xpress/FilterRouter)
+
+Server APP -> APP Middle(finance/AuthMiddleware)
+# Was using FilterRouter
+Middle APP -> APP Router(xpress/Router)
+
+# Routing
+'post /api/expenses/:currency/:amount/:tags/:created_at?/:description?/:id?' -> PATTERN[0] Router
+'get /api/expenses/retrieve/:id' -> PATTERN[1] Router
+'delete /api/expenses/delete/:id' -> PATTERN[2] Router
+'put /api/expenses/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[3] Router
+'get /api/expenses/list' -> PATTERN[4] Router
+
+'expense' -> NAME Store(finance/Store)
+'expense' -> NAME Fetch(finance/Fetch)
+'expense' -> NAME Removed(finance/Removed)
+'expense' -> NAME StoreUpdate(finance/StoreUpdate)
+'expense' -> NAME FetchList(finance/FetchList)
+
+#
+# CREATE/SAVE
+#
+Router REQ[0] -> REQ Create(finance/Create)
+Create RES -> RES CreateResponse(finance/Response)
+Create OUT -> IN CreateValidate(finance/Validate)
+CreateValidate OUT -> IN Store(finance/Store)
+Store OUT -> CREATED CreateResponse(finance/Response)
+
+#
+# RETRIEVE/FIND/GET
+#
+Router REQ[1] -> REQ Retrieve(finance/Retrieve)
+Retrieve RES -> RES RetrieveResponse(finance/Response)
+Retrieve OUT -> ID RetrieveValidate(finance/Validate)
+RetrieveValidate OUT -> IN Fetch(finance/Fetch)
+Fetch OUT -> RETRIEVED RetrieveResponse(finance/Response)
+
+#
+# REMOVE/DELETE 
+#
+Router REQ[2] -> REQ Delete(finance/Delete)
+Delete RES -> RES DeleteResponse(finance/Response)
+Delete OUT -> IN Removed(finance/Removed)
+Removed OUT -> DELETED DeleteResponse(finance/Response)
+
+# DeleteResponse OUT -> ID DeleteValidate(finance/Validate)
+# DeleteValidate OUT -> IN Remove(finance/Remove)
+
+#
+# UPDATE
+#
+Router REQ[3] -> REQ Update(finance/Update)
+Update RES -> RES UpdateResponse(finance/Response)
+Update OUT -> ID UpdateValidate(finance/Validate)
+UpdateValidate OUT -> IN StoreUpdate(finance/StoreUpdate)
+StoreUpdate OUT -> RETRIEVED UpdateResponse(finance/Response)
+
+#
+# LIST
+#
+Router REQ[4] -> REQ List(finance/List)
+List RES -> RES ListResponse(finance/Response)
+List OUT -> IN FetchList(finance/FetchList)
+FetchList OUT -> RETRIEVED ListResponse(finance/Response)
+
+# Log with TestLogger
+Server ERROR -> IN Logger(xpress/TestLogger)
+Router ERROR -> IN Logger

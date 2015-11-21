@@ -1,0 +1,429 @@
+{
+  "processes": {
+    "Server": {
+      "component": "xpress/Server"
+    },
+    "Middle": {
+      "component": "finance/AuthMiddleware"
+    },
+    "Router": {
+      "component": "xpress/Router"
+    },
+    "Store": {
+      "component": "finance/Store"
+    },
+    "Fetch": {
+      "component": "finance/Fetch"
+    },
+    "Removed": {
+      "component": "finance/Removed"
+    },
+    "StoreUpdate": {
+      "component": "finance/StoreUpdate"
+    },
+    "FetchList": {
+      "component": "finance/FetchList"
+    },
+    "Create": {
+      "component": "finance/Create"
+    },
+    "CreateResponse": {
+      "component": "finance/Response"
+    },
+    "CreateValidate": {
+      "component": "finance/Validate"
+    },
+    "Retrieve": {
+      "component": "finance/Retrieve"
+    },
+    "RetrieveResponse": {
+      "component": "finance/Response"
+    },
+    "RetrieveValidate": {
+      "component": "finance/Validate"
+    },
+    "Delete": {
+      "component": "finance/Delete"
+    },
+    "DeleteResponse": {
+      "component": "finance/Response"
+    },
+    "Update": {
+      "component": "finance/Update"
+    },
+    "UpdateResponse": {
+      "component": "finance/Response"
+    },
+    "UpdateValidate": {
+      "component": "finance/Validate"
+    },
+    "List": {
+      "component": "finance/List"
+    },
+    "ListResponse": {
+      "component": "finance/Response"
+    },
+    "Logger": {
+      "component": "xpress/TestLogger"
+    }
+  },
+  "connections": [
+    {
+      "data": "4011",
+      "tgt": {
+        "process": "Server",
+        "port": "port"
+      }
+    },
+    {
+      "src": {
+        "process": "Server",
+        "port": "app"
+      },
+      "tgt": {
+        "process": "Middle",
+        "port": "app"
+      }
+    },
+    {
+      "src": {
+        "process": "Middle",
+        "port": "app"
+      },
+      "tgt": {
+        "process": "Router",
+        "port": "app"
+      }
+    },
+    {
+      "data": "post /api/expenses/:currency/:amount/:tags/:created_at?/:description?/:id?",
+      "tgt": {
+        "process": "Router",
+        "port": "pattern",
+        "index": 0
+      }
+    },
+    {
+      "data": "get /api/expenses/retrieve/:id",
+      "tgt": {
+        "process": "Router",
+        "port": "pattern",
+        "index": 1
+      }
+    },
+    {
+      "data": "delete /api/expenses/delete/:id",
+      "tgt": {
+        "process": "Router",
+        "port": "pattern",
+        "index": 2
+      }
+    },
+    {
+      "data": "put /api/expenses/update/:id/:currency/:amount/:tags/:created_at?/:description?",
+      "tgt": {
+        "process": "Router",
+        "port": "pattern",
+        "index": 3
+      }
+    },
+    {
+      "data": "get /api/expenses/list",
+      "tgt": {
+        "process": "Router",
+        "port": "pattern",
+        "index": 4
+      }
+    },
+    {
+      "data": "expense",
+      "tgt": {
+        "process": "Store",
+        "port": "name"
+      }
+    },
+    {
+      "data": "expense",
+      "tgt": {
+        "process": "Fetch",
+        "port": "name"
+      }
+    },
+    {
+      "data": "expense",
+      "tgt": {
+        "process": "Removed",
+        "port": "name"
+      }
+    },
+    {
+      "data": "expense",
+      "tgt": {
+        "process": "StoreUpdate",
+        "port": "name"
+      }
+    },
+    {
+      "data": "expense",
+      "tgt": {
+        "process": "FetchList",
+        "port": "name"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "req",
+        "index": 0
+      },
+      "tgt": {
+        "process": "Create",
+        "port": "req"
+      }
+    },
+    {
+      "src": {
+        "process": "Create",
+        "port": "res"
+      },
+      "tgt": {
+        "process": "CreateResponse",
+        "port": "res"
+      }
+    },
+    {
+      "src": {
+        "process": "Create",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "CreateValidate",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "CreateValidate",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "Store",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "Store",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "CreateResponse",
+        "port": "created"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "req",
+        "index": 1
+      },
+      "tgt": {
+        "process": "Retrieve",
+        "port": "req"
+      }
+    },
+    {
+      "src": {
+        "process": "Retrieve",
+        "port": "res"
+      },
+      "tgt": {
+        "process": "RetrieveResponse",
+        "port": "res"
+      }
+    },
+    {
+      "src": {
+        "process": "Retrieve",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "RetrieveValidate",
+        "port": "id"
+      }
+    },
+    {
+      "src": {
+        "process": "RetrieveValidate",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "Fetch",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "Fetch",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "RetrieveResponse",
+        "port": "retrieved"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "req",
+        "index": 2
+      },
+      "tgt": {
+        "process": "Delete",
+        "port": "req"
+      }
+    },
+    {
+      "src": {
+        "process": "Delete",
+        "port": "res"
+      },
+      "tgt": {
+        "process": "DeleteResponse",
+        "port": "res"
+      }
+    },
+    {
+      "src": {
+        "process": "Delete",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "Removed",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "Removed",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "DeleteResponse",
+        "port": "deleted"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "req",
+        "index": 3
+      },
+      "tgt": {
+        "process": "Update",
+        "port": "req"
+      }
+    },
+    {
+      "src": {
+        "process": "Update",
+        "port": "res"
+      },
+      "tgt": {
+        "process": "UpdateResponse",
+        "port": "res"
+      }
+    },
+    {
+      "src": {
+        "process": "Update",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "UpdateValidate",
+        "port": "id"
+      }
+    },
+    {
+      "src": {
+        "process": "UpdateValidate",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "StoreUpdate",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "StoreUpdate",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "UpdateResponse",
+        "port": "retrieved"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "req",
+        "index": 4
+      },
+      "tgt": {
+        "process": "List",
+        "port": "req"
+      }
+    },
+    {
+      "src": {
+        "process": "List",
+        "port": "res"
+      },
+      "tgt": {
+        "process": "ListResponse",
+        "port": "res"
+      }
+    },
+    {
+      "src": {
+        "process": "List",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "FetchList",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "FetchList",
+        "port": "out"
+      },
+      "tgt": {
+        "process": "ListResponse",
+        "port": "retrieved"
+      }
+    },
+    {
+      "src": {
+        "process": "Server",
+        "port": "error"
+      },
+      "tgt": {
+        "process": "Logger",
+        "port": "in"
+      }
+    },
+    {
+      "src": {
+        "process": "Router",
+        "port": "error"
+      },
+      "tgt": {
+        "process": "Logger",
+        "port": "in"
+      }
+    }
+  ]
+}
