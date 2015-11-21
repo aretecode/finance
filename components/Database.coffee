@@ -39,7 +39,8 @@ class Database extends noflo.Component
     @inPorts.in.on 'disconnect', =>
       @outPorts.out.disconnect()
 
-    @childConstructor()
+    unless typeof @childConstructor "undefined"
+      @childConstructor()
 
 exports.getComponent = -> new Database
 exports.Database = Database

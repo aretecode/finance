@@ -2,6 +2,8 @@
 * [ ] default wiring for Components connect & disconnect? (@see component/Validate)
 * [ ] how to test components that do database transactions? (@see spec/)
 * [x] why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
+* [ ] how to send array to inPort.pattern in xpress/Router using FlowHub
+* [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
 
 # @TODO:
 * [x] Validate
