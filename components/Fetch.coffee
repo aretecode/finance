@@ -22,13 +22,16 @@ class Fetch extends Database
               data: []
           else
             try
+              result = Factory.hydrateAllFrom table, rows, tags
               outPorts.out.send
                 successful: true
-                data: Factory.hydrateAllFrom table, rows, tags
+                data: result[0]
             catch e
               console.log 'why would this ever fail?'
               outPorts.out.send
                 successful: false
                 data: ':-('
+          
+          outPorts.out.disconnect()
 
 exports.getComponent = -> new Fetch

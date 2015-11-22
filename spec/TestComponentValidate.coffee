@@ -60,7 +60,6 @@ describe 'Validate', ->
       done()
 
     t.receive 'error', (data) ->
-      console.log data, 'fffffffffffffffffffffffffffffffff'
       done()
 
     t.send

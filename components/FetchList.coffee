@@ -30,5 +30,6 @@ class FetchList extends Database
         outPorts.out.send
           successful: result
           data: row
+        outPorts.out.disconnect()
 
 exports.getComponent = -> new FetchList

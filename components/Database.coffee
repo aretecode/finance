@@ -36,8 +36,6 @@ class Database extends noflo.Component
       @outPorts.out.beginGroup group
     @inPorts.in.on 'endgroup', =>
       @outPorts.out.endGroup()
-    @inPorts.in.on 'disconnect', =>
-      @outPorts.out.disconnect()
 
     unless typeof @childConstructor "undefined"
       @childConstructor()

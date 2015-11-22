@@ -10,7 +10,6 @@ describe 'Test StoreUpdate Component', ->
     t.start ->
       done()
 
-  ### @TODO: NOT SURE HOW TO TEST... ###
   it 'should send out correct params after storing UPDATED data', (done) ->
     d =
       id: '003125ad-d043-41d4-825d-958d54a89d4e'
@@ -19,6 +18,7 @@ describe 'Test StoreUpdate Component', ->
       tags: 'component-store-update'
 
     t.receive 'out', (data) ->
+      chai.expect(data.successful).to.equal true
       # body = data.data
       # chai.expect(data.successful).to.equal true
       # chai.expect(body.currency).to.equal d.currency
@@ -29,4 +29,3 @@ describe 'Test StoreUpdate Component', ->
     t.send
       name: 'expense'
       in: d
-###

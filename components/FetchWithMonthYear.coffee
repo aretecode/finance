@@ -27,35 +27,35 @@ class FetchWithMonthYear extends Database
       @pg.raw(query).then (all) -> return all.rows
       .map (item) ->
         pg.select('tag').from('tags').where('id', '=', item.id).then (tagRow) ->
+          return null if tagRow.length is 0
           return Factory.hydrateFrom table, item, tagArrayToString(tagRow)
       .then (all) ->
         all = _.flatten(all)
 
-        # @TODO: optimize, don't need to loop 2x
         tags = {}
-
         # getting all the tags from all the items
-        for item in all
-          continue unless item? # continue if item is undefined
+        for i in [0 .. all.length-1]
+          continue unless all[i]?
 
-          itemTags = item.tags
-
-          if _.isArray itemTag
-            for itemTag in itemTags
-              tags[itemTag.name] = 0
+          tag = all[i].tags
+          if _.isArray tag
+            for ii in [0 .. tag.length-1]
+              tags[tag[ii].name] = 0
           else
-            tags[itemTags.name] = 0
-
+            tags[tag.name] = 0
         # go through all tags
         # and get items that correspond
         for tag, value of tags
           for item in all
             # add the income or expense to the tag
-            tags[tag] += item.money.amount if item.hasTag(tag)
+            unless item is null
+              tags[tag] += item.money.amount if item.hasTag(tag)
 
         outPorts.out.send
           successful: tags?
           data: tags
+        outPorts.out.disconnect()
+
         # error
         # table + ' reporting not found for month: `' + date.getMonth() + '`
         # and year: `' + date.getFullYear() + '`'

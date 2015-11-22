@@ -24,7 +24,7 @@ class FinanceOperation
 
   hasTag: (tagName) ->
     if _.isArray @tags
-      for tags in @tags
+      for tag in @tags
         return true if tagName is tag.name
       return false
     return if (@tags.name is tagName) then true else false 

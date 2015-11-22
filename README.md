@@ -1,6 +1,9 @@
 # Wondering
-* [ ] default wiring for Components connect & disconnect? (@see component/Validate)
-* [ ] how to test components that do database transactions? (@see spec/)
+* [x] default wiring for Components connect & disconnect? (@see component/Validate)
+* [x] how to test components that do database transactions? (@see spec/)
+
+^ both of these were caused thanks to inheriting an auto disconnect when prev process disconnected.
+
 * [x] why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
 * [ ] how to send array to inPort.pattern in xpress/Router using FlowHub
 * [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
@@ -19,7 +22,10 @@
 * [x] PATCH to PUT unless I extend lib/BaseRouter
 * [x] fix PUT to POST
 * [x] .fbp into .json 
-* [ ] import .json into flo via github (using https://github.com/noflo/noflo-browser-app)
+* [x] import .json into flowhub via github (using https://github.com/noflo/noflo-browser-app)
+* [x] add .json to github via flowhub
+* [ ] Test methods of the src/ (FinanceOperation, Tag)
+* [ ] improve code clarity in FetchWithMonthYear
 
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
@@ -36,6 +42,7 @@
 * [ ] use Travis
 * [ ] use Groups to send the data to Response
 * [ ] Test using noflo-tester using .fbp
+* [ ] Test in FlowHub (http Component?) 
 
 # Future
 * [ ] Change update to use query insteadof params for updating individual parts
@@ -47,5 +54,8 @@
 * [ ] add chaining constructor to src/Factory
 * [ ] Test the AuthMiddleware & Delete 
 * [ ] could change CRUD to take inPort of the action and not need named Components
+
+# Other
+* [ ] rename `successful` to `success`
 
 * A lot was learned & used from https://github.com/noflo/noflo-xpress

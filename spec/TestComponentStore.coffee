@@ -10,8 +10,7 @@ describe 'Test Store Component', ->
     t.start ->
       done()
 
-  it 'should send out correct params after storing data
-      @TODO: NOT SURE HOW TO TEST...', (done) ->
+  it 'should send out correct params after storing data', (done) ->
     d =
       currency: 'AUS'
       amount: 20
@@ -19,8 +18,8 @@ describe 'Test Store Component', ->
       # created_at: new Date()
 
     t.receive 'out', (data) ->
+      chai.expect(data.successful).to.equal true
       # body = data.data
-      # chai.expect(data.successful).to.equal true
       # chai.expect(body.currency).to.equal d.currency
       # chai.expect(body.amount).to.equal d.amount
       # chai.expect(body.created_at).to.equal d.created_at

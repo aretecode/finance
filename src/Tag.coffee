@@ -29,8 +29,8 @@ class Tag
     tagArray = []
     for tag in tags
       unless tag instanceof Tag 
-       tag = new Tag(tag)
-      tagArray.push 
+        tag = new Tag(tag)
+      tagArray.push tag
     tagArray
 
 module.exports.Tag = Tag

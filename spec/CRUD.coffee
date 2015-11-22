@@ -151,6 +151,27 @@ describe 'CRUD', ->
     catch e
       done e
 
+  it 'should give monthly report for expenses', (done) ->
+    options =
+      hostname: 'localhost'
+      port: 4011
+      path: '/api/reports/expenses/monthly' 
+      method: 'GET'
+      headers:
+        'Pass': 'noflo'
+        'Authorization': 'Bearer 123456789'
+
+    try
+      req = http.request options, (res) ->
+        if res.statusCode isnt 302
+          return done new Error "Invalid status code: #{res.statusCode}"
+        getResultJSON res, (json) ->
+          done()
+      req.end()
+    catch e
+      done e
+
+
   it 'should delete using DELETE', (done) ->
     options =
       hostname: 'localhost'

@@ -39,13 +39,12 @@ class CRUD extends noflo.Component
     @inPorts.req.on 'endgroup', =>
       @outPorts.res.endGroup()
       @outPorts.out.endGroup()
-    @inPorts.req.on 'disconnect', =>
-      @outPorts.res.disconnect()
-      @outPorts.out.disconnect()
 
     @inPorts.req.on 'data', (data) =>
       @outPorts.res.send data.res
       @outPorts.out.send data.params
+      @outPorts.res.disconnect()
+      @outPorts.out.disconnect()
 
 exports.getComponent = -> new CRUD
 exports.CRUD = CRUD

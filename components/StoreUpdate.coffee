@@ -32,6 +32,7 @@ class StoreUpdate extends Database
         outPorts.out.send
           successful: rows is 1
           data: updateData
+        outPorts.out.disconnect()
       .catch (e) ->
         console.log e
 

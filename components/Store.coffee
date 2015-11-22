@@ -38,6 +38,7 @@ class Store extends Database
         outPorts.out.send
           successful: rows.rowCount is 1
           data: store
+        outPorts.out.disconnect()
 
       .catch (e) ->
         console.log e, 'AAAAAAAAAAAAAAAAAAAAAA'
