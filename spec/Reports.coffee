@@ -47,10 +47,9 @@ describe 'Reports', ->
  
     try
       req = http.request options, (res) ->
-        if res.statusCode isnt 302
+        if res.statusCode isnt 200
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          console.log json, 'ppppppppppppppleasseeee'
           jso = JSON.parse json
           chai.expect(jso.body.successful).to.equal true
           chai.expect(jso.body.data).to.be.an 'array'        

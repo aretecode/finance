@@ -20,8 +20,6 @@ class FetchList extends Database
       @pg(table).select().then (row) -> return row
       .map (item) ->
         pg.select().from('tags').where('id', '=', item.id).then (tags) ->
-          # because not all tags are in all tables
-          return null if tags.length is 0
           return Factory.hydrateFrom table, item, tagArrayToString(tags)
 
       .then (row) ->

@@ -13,7 +13,7 @@
 * [x] Validate.update (optional params)
 * [x] use WirePattern
 * [ ] use WirePattern more in depth 
-* [ ] use Group
+* [x] use Group
 * [x] use FloHub
 * [ ] use FloHub more in depth
 * [x] fix this Test inconsistency (sometimes has a timeout, usually on first test?)
@@ -26,20 +26,19 @@
 * [x] add .json to github via flowhub
 * [ ] Test methods of the src/ (FinanceOperation, Tag)
 * [ ] improve code clarity in FetchWithMonthYear
-* [ ] add Income
-* [ ] add Balance Reports
+* [x] add Income
+* [x] add Balance Reports
 * [ ] download flowhub graphs and run them in noflo
 
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
-* [ ] Add `Income` & `Reports`
-* [ ] Test with HTTP
+* [x] Test with HTTP
 * [ ] List Test could load the list from the db and compare each result
 * [ ] update tags
 * [ ] add Morgan as Middleware to log 
 * [ ] send things after tags are all saved (@see components/Store)
 * [ ] improve query to save if not exists (use Raw) (@see components/Store)
-* [ ] Filter null instead of returning in the map in FetchList
+* [x] Filter null instead of returning in the map in FetchList
 * [ ] TODOS in non noflo `personal-finance-tracker`
 * [x] add Travis
 * [ ] use Travis

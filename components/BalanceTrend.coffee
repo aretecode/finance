@@ -6,7 +6,6 @@ tagArrayToString = (tagRow) ->
   tags = ''
   tags += (tag.tag + ',') for tag in tagRow
   return tags.substring(0, tags.length - 1) # trim the trailing comma
-# (tagRow.map((tag) -> tag.tag;).join(','))
 
 class BalanceTrend extends noflo.Component
   description: 'Balance trending by month'
@@ -28,18 +27,8 @@ class BalanceTrend extends noflo.Component
     @inPorts.range.on 'connect', (range) =>
       @range = range
 
-    ###
-    @@@@@@!!!
-    Pass their own Range in, or use the default range
-    > so if dataIsSet -> go out one port
-    > else, go out a diff port
-
-    @@@@@@!!!
-    ###
-
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
-     
 
       if data.hasOwnProperty 'startMonth'
         @range = data
