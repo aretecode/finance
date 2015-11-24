@@ -1,7 +1,6 @@
 class Money 
   ### 
-  @TODO: Can assert the types
-  @param {string|Currency} currency - must be valid in Currencies
+  @param {string|Currency} currency - must be valid in Currencies @see Validate
   @param {int} amount       
   ###
   constructor: (@currency, @amount) ->

@@ -4,7 +4,6 @@ Tester = require 'noflo-tester'
 c = require('./../components/BalanceTrend.coffee').getComponent()
 moment = require 'moment'
 
-
 describe 'Test BalanceTrend Component', ->
   t = new Tester c
 
@@ -27,5 +26,3 @@ describe 'Test BalanceTrend Component', ->
         startYear: 2000
         endMonth: 12
         endYear: 2050
-
-

@@ -4,7 +4,6 @@ uuid = require 'uuid'
 
 class FinanceOperation
   ### 
-  @TODO: Validate types
   @param {Money}      money
   @param {array<Tag>} tags        1+
   @param {Timestamp}  created_at  (optional) default: now

@@ -62,7 +62,6 @@ Router REQ[2] -> REQ Delete(finance/Delete)
 Delete RES -> RES DeleteResponse(finance/Response)
 Delete OUT -> IN Removed(finance/Removed)
 Removed OUT -> DELETED DeleteResponse(finance/Response)
-
 # DeleteResponse OUT -> ID DeleteValidate(finance/Validate)
 # DeleteValidate OUT -> IN Remove(finance/Remove)
 
@@ -142,7 +141,6 @@ FetchListIncome OUT -> RETRIEVED ListIncomeResponse(finance/Response)
 
 
 ######
-
 #
 # REPORTS/MONTHLY (expenses)
 #
@@ -162,6 +160,7 @@ IncomeWithMonthYear OUT -> MONTHLY MonthlyIncomeResponse(finance/Response)
 # Monthly OUT -> DATE MonthlyValidate(finance/Validate)
 # MonthlyValidate OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
 
+#
 # REPORTS/BALANCE/TREND
 #
 Router REQ[12] -> REQ Trend(finance/Trend)

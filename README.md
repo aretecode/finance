@@ -63,6 +63,7 @@
 * [ ] validate range in BalanceTrend
 * [ ] write documentation?
 * [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
+* [ ] port for each Validate param?
 
 # Other
 * [ ] rename `successful` to `success`

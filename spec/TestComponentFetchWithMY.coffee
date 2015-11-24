@@ -17,16 +17,13 @@ describe 'Test Monthly>FetchWithMonthYear Component', ->
 
     t.receive 'out', (data) ->
       chai.expect(data.successful).to.equal true
-      chai.expect(data.data).to.be.an 'object'        
-      # expect all properties
-      # get all tags from db      
+      chai.expect(data.data).to.be.an 'object'
+      # expect all properties, get all tags from db
       done()
 
     t.receive 'error', (data) ->
-      # console.log data
       done()
 
     t.send
       name: 'expense'
       in:  d
-

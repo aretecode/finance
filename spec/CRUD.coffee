@@ -185,7 +185,6 @@ describe 'CRUD', ->
     catch e
       done e
 
-
   it 'should delete using DELETE', (done) ->
     options = optionsFrom 'DELETE', "/api/expenses/delete/" + id
 
@@ -275,10 +274,8 @@ describe 'CRUD', ->
         done()
       req.end()
     catch e
-      # console.log e
       done()
 
-  ###
   it 'should not be able to find a deleted finance operation', (done) ->
     options =
       hostname: 'localhost'
@@ -292,13 +289,11 @@ describe 'CRUD', ->
 
     try
       req = http.request options, (res) ->
-        if res.statusCode isnt 200
+        if res.statusCode isnt 404
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          chai.expect(json).to.be.a 'string'
 
           done()
       req.end()
     catch e
       done e
-  ###

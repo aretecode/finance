@@ -181,17 +181,13 @@ class Validate extends noflo.Component
   icon: 'balance-scale'
  
   currency: (currency) ->
-    # Validate Currency
-    # if not in currencies
-    inCurrencies = _.contains Object.keys(currencies), currency.toUpperCase()
-    if not inCurrencies
+    unless _.contains Object.keys(currencies), currency.toUpperCase()
       @error
         key: 'currency'
         error: 'currency `#{currency}` was not a valid currency.'
   amount: (amount) ->
-    # Validate Amount
     amountIsAtLeastZero = parseInt(amount) >= 0
-    if not amountIsAtLeastZero
+    unless amountIsAtLeastZero
       @error
         key: 'amount'
         error: 'amount `#{amount}`is not at least 0.'
@@ -200,9 +196,7 @@ class Validate extends noflo.Component
   tags: (tags) ->
   idv: (id) ->
     # if sent in as raw, or as params
-    if validateId(id) or validateId(id.id)
-      @outPorts.out.send id
-    else
+    unless validateId id or validateId id.id
       @error
         key: 'id'
         error: "id `#{id}` is not a valid id"
@@ -224,52 +218,32 @@ class Validate extends noflo.Component
         datatype: 'object'
       error:
         datatype: 'object'
-        description: 'sent through the error port if not valid.
-        @TODO: add port for each param'
+        description: 'sent through the error port if not valid.'
 
     @inPorts.in.on 'data', (data) =>
-      # Validate Currency
-      inCurrencies = _.contains Object.keys(currencies),
-        data.currency.toUpperCase()
-
-      unless inCurrencies
-        @error
-          key: 'currency'
-          error: 'currency `#{data.currency}` was not a valid currency.'
-
-      # Validate Amount
-      amountIsAtLeastZero = parseInt(data.amount) >= 0
-      unless amountIsAtLeastZero
-        @error
-          key: 'amount'
-          error: 'amount `#{data.amount}`is not at least 0.'
-
-
-      ###
-      id: uuid.v4()
-      created_at: p.created_at
-      description: p.description
-      ###
+      @currency data.currency
+      @amount data.amount
+      @createdAt data.created_at if data.created_at?
+      @descriptions data.descriptions if data.descriptions?
+      @tags data.tags if data.tags?
+      @idv data.id if data.id?
 
       @outPorts.out.send data
       @outPorts.out.disconnect()
 
     @inPorts.update.on 'data', (data) =>
       @idv data.id
-      if data.amount?
-        @amount data.amount
-      if data.currency?
-        @currency data.currency
-      if data.created_at?
-        @createdAt data.created_at
-      if data.descriptions?
-        @descriptions data.descriptions
-      if data.tags?
-        @tags data.tags
+      @amount data.amount if data.amount?
+      @currency data.currency if data.currency?
+      @createdAt data.created_at if data.created_at?
+      @descriptions data.descriptions if data.descriptions?
+      @tags data.tags if data.tags?
+        
       @outPorts.out.send data
       @outPorts.out.disconnect()
 
     @inPorts.id.on 'data', (id) =>
+
       # if sent in as raw, or as params
       if validateId(id) or validateId(id.id)
         @outPorts.out.send id

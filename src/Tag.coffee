@@ -4,9 +4,6 @@
 # it could be enforced that lowercase is passed in 
 # we could enforce a character range 
 class Tag 
-  # id 
-  name: ""
-
   # Invariant: name is always lowercase
   constructor: (aName) ->
     @name = aName.toLowerCase()

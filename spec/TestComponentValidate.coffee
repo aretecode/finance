@@ -23,7 +23,6 @@ describe 'Validate', ->
     t.send
       in: d
 
-
   it 'should give an error for an invalid amount.', (done) ->
     t.receive 'error', (data) ->
       chai.expect(data.key).to.equal 'amount'
