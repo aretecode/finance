@@ -232,14 +232,14 @@ class Validate extends noflo.Component
       inCurrencies = _.contains Object.keys(currencies),
         data.currency.toUpperCase()
 
-      if not inCurrencies
+      unless inCurrencies
         @error
           key: 'currency'
           error: 'currency `#{data.currency}` was not a valid currency.'
 
       # Validate Amount
       amountIsAtLeastZero = parseInt(data.amount) >= 0
-      if not amountIsAtLeastZero
+      unless amountIsAtLeastZero
         @error
           key: 'amount'
           error: 'amount `#{data.amount}`is not at least 0.'
@@ -252,7 +252,8 @@ class Validate extends noflo.Component
       ###
 
       @outPorts.out.send data
-   
+      @outPorts.out.disconnect()
+
     @inPorts.update.on 'data', (data) =>
       @idv data.id
       if data.amount?
@@ -266,20 +267,13 @@ class Validate extends noflo.Component
       if data.tags?
         @tags data.tags
       @outPorts.out.send data
-
-    @inPorts.in.on 'connect', => @outPorts.out.connect()
-    @inPorts.in.on 'begingroup', (group) => @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', => @outPorts.out.endGroup()
-    @inPorts.in.on 'disconnect', => @outPorts.out.disconnect()
-    @inPorts.id.on 'connect', => @outPorts.out.connect()
-    @inPorts.id.on 'begingroup', (group) => @outPorts.out.beginGroup group
-    @inPorts.id.on 'endgroup', => @outPorts.out.endGroup()
-    @inPorts.id.on 'disconnect', => @outPorts.out.disconnect()
+      @outPorts.out.disconnect()
 
     @inPorts.id.on 'data', (id) =>
       # if sent in as raw, or as params
       if validateId(id) or validateId(id.id)
         @outPorts.out.send id
+        @outPorts.out.disconnect()
       else
         @error
           key: 'id'

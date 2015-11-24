@@ -44,7 +44,7 @@ class Store extends Database
         outPorts.out.disconnect()
 
       .catch (e) ->
-        console.log e, 'AAAAAAAAAAAAAAAAAAAAAA'
+        console.log e
         toError
           message: 'could not save!'
           error: e

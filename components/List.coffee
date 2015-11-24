@@ -24,16 +24,6 @@ class List extends CRUD
         datatype: 'object'
         description: 'Response object'
 
-    @inPorts.req.on 'connect', =>
-      @outPorts.res.connect()
-      @outPorts.out.connect()
-    @inPorts.req.on 'begingroup', (group) =>
-      @outPorts.res.beginGroup group
-      @outPorts.out.beginGroup group
-    @inPorts.req.on 'endgroup', =>
-      @outPorts.res.endGroup()
-      @outPorts.out.endGroup()
-
     @inPorts.req.on 'data', (data) =>
       @outPorts.res.send data.res
       @outPorts.out.send

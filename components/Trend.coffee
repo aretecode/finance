@@ -21,19 +21,6 @@ class Trend extends noflo.Component
         datatype: 'object'
         description: 'Response object'
 
-    @inPorts.req.on 'connect', =>
-      @outPorts.res.connect()
-      @outPorts.withrange.connect()
-      @outPorts.withoutrange.connect()
-    @inPorts.req.on 'begingroup', (group) =>
-      @outPorts.res.beginGroup group
-      @outPorts.withrange.beginGroup group
-      @outPorts.withoutrange.beginGroup group
-    @inPorts.req.on 'endgroup', =>
-      @outPorts.res.endGroup()
-      @outPorts.withrange.endGroup()
-      @outPorts.withoutrange.endGroup()
-
     @inPorts.req.on 'data', (data) =>
       if data.params.startMonth?
         range =

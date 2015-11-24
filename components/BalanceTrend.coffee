@@ -16,6 +16,7 @@ class BalanceTrend extends noflo.Component
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'object'
+        required: true
       error:
         datatype: 'object'
 

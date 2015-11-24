@@ -30,16 +30,6 @@ class CRUD extends noflo.Component
         return
       throw new Error msg
 
-    @inPorts.req.on 'connect', =>
-      @outPorts.res.connect()
-      @outPorts.out.connect()
-    @inPorts.req.on 'begingroup', (group) =>
-      @outPorts.res.beginGroup group
-      @outPorts.out.beginGroup group
-    @inPorts.req.on 'endgroup', =>
-      @outPorts.res.endGroup()
-      @outPorts.out.endGroup()
-
     @inPorts.req.on 'data', (data) =>
       @outPorts.res.send data.res
       @outPorts.out.send data.params

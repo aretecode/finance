@@ -34,7 +34,6 @@
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
 * [x] Test with HTTP
-* [ ] List Test could load the list from the db and compare each result
 * [ ] update tags
 * [ ] add Morgan as Middleware to log 
 * [ ] send things after tags are all saved (@see components/Store)
@@ -48,6 +47,7 @@
 * [ ] Test in FlowHub (http Component?) 
 * [ ] call Super insteadof childConstructor
 * [ ] rename CRUD component to better represent it as the router connection
+* [ ] remove unnessecary port events
 
 # Future
 * [ ] Change update to use query insteadof params for updating individual parts
@@ -61,6 +61,8 @@
 * [ ] could change CRUD to take inPort of the action and not need named Components
 * [ ] work with BlueBird Promises
 * [ ] validate range in BalanceTrend
+* [ ] write documentation?
+* [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
 
 # Other
 * [ ] rename `successful` to `success`

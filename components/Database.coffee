@@ -12,6 +12,7 @@ class Database extends noflo.Component
         datatype: 'all'
         description: 'The name of the database
         /type-of-finance-operation (income, or expense)'
+        required: true
       pg:
         datatype: 'object'
         description: 'Postgres knex database connection'
@@ -24,18 +25,8 @@ class Database extends noflo.Component
         description: 'sent through the error port
         if not valid. @TODO: add port for each param'
 
-    @inPorts.name.on 'data', (data) =>
-      @table = data
-
-    @inPorts.pg.on 'data', (data) =>
-      @pg = data
-
-    @inPorts.in.on 'connect', =>
-      @outPorts.out.connect()
-    @inPorts.in.on 'begingroup', (group) =>
-      @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', =>
-      @outPorts.out.endGroup()
+    @inPorts.name.on 'data', (@table) =>
+    @inPorts.pg.on 'data', (@pg) =>
 
     unless typeof @childConstructor "undefined"
       @childConstructor()

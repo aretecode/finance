@@ -80,11 +80,4 @@ class Reports extends noflo.Component
         data: reports
       @outPorts.out.disconnect()
 
-    @inPorts.in.on 'connect', =>
-      @outPorts.out.connect()
-    @inPorts.in.on 'begingroup', (group) =>
-      @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', =>
-      @outPorts.out.endGroup()
-
 exports.getComponent = -> new Reports

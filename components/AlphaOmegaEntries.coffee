@@ -31,11 +31,4 @@ class AlphaOmegaEntries extends noflo.Component
             latest: new Date(latest.rows[0].created_at)
           outPorts.out.disconnect()
 
-    @inPorts.in.on 'connect', =>
-      @outPorts.out.connect()
-    @inPorts.in.on 'begingroup', (group) =>
-      @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', =>
-      @outPorts.out.endGroup()
-
 exports.getComponent = -> new AlphaOmegaEntries
