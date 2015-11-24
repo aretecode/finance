@@ -20,6 +20,9 @@ class Store extends Database
 
       store.id = if data.id? then data.id else uuid.v4()
       store.created_at = dateFromAny(data.created_at)
+      # @TODO: CHANGE DATEFROMANY
+      unless store.created_at?
+        store.created_at = new Date()
 
       # need to fix this... can't I just alias the method???
       # could this be inherited as well?
@@ -53,7 +56,7 @@ class Store extends Database
         .insert(tag)
         .into('tags')
         .whereNotExists( ->
-          @select(@pg.raw(1)).from('tags')
+          @select(pg.raw(1)).from('tags')
           .where(id: tag.id)
           .andWhere(tag: tag.tag)
         )
@@ -61,7 +64,7 @@ class Store extends Database
           if (_.isFunction cb)
             cb tag
         )
-        .catch ((e) -> )
+        # .catch ((e) -> console.log e)
         #  console.log "catch - could call toError here
         # if it works for whereNotExists.. @TODO"
 
@@ -72,16 +75,16 @@ class Store extends Database
           if tag is _.last tags # only want to call cb on the last one
             saveTag
               tag: tag.name
-              id: data.id
+              id: store.id
           else
             saveTag
               tag: tag.name
-              id: data.id
+              id: store.id
               , (result) -> # outPorts.out.send result
       else
         saveTag
           tag: tags.name
-          id: data.id
+          id: store.id
         , (result) -> # outPorts.out.send result
 
 exports.getComponent = -> new Store

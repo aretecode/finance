@@ -16,7 +16,10 @@ describe 'Test Monthly>FetchWithMonthYear Component', ->
       month: new Date().getMonth()+1
 
     t.receive 'out', (data) ->
-      console.log data
+      chai.expect(data.successful).to.equal true
+      chai.expect(data.data).to.be.an 'object'        
+      # expect all properties
+      # get all tags from db      
       done()
 
     t.receive 'error', (data) ->

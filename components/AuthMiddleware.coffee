@@ -20,11 +20,13 @@ exports.getComponent = ->
           emails: [ { value: process.env.AUTH_EMAIL } ]
         }
       ]
+
       findByToken = (token, cb) ->
         process.nextTick ->
           for i in [0 .. records.length]
-            return cb(null, records[i]) if records[i].token is token
-          return cb(null, null)
+            if records[i]? and records[i].token is token
+              return cb null, records[i]
+          return cb null, null
       passport.use new Strategy (token, cb) ->
         findByToken token, (err, user) ->
           return cb err if err

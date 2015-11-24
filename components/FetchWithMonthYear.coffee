@@ -19,36 +19,32 @@ class FetchWithMonthYear extends Database
       data.month = new Date().getMonth()+1 unless data.month?
       dataOut = {year: data.year; month: data.month}
       {outPorts, table, pg} = {@outPorts, @table, @pg}
-      query = @pg(@table).select()
+
+      query = pg(table).select()
       .whereRaw("EXTRACT(MONTH FROM created_at) = " + data.month)
       .andWhereRaw("EXTRACT(YEAR FROM created_at) = " + data.year)
       .toString()
 
-      @pg.raw(query).then (all) -> return all.rows
+      pg.raw(query).then (all) -> return all.rows
       .map (item) ->
-        pg.select('tag').from('tags').where('id', '=', item.id).then (tagRow) ->
-          return null if tagRow.length is 0
-          return Factory.hydrateFrom table, item, tagArrayToString(tagRow)
+        pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
+          Factory.hydrateFrom table, item, tagArrayToString(tagRow)
       .then (all) ->
         all = _.flatten(all)
-
         tags = {}
         # getting all the tags from all the items
-        for i in [0 .. all.length-1]
-          continue unless all[i]?
-
-          tag = all[i].tags
+        for item in all
+          continue unless item?
+          tag = item.tags
           if _.isArray tag
-            for ii in [0 .. tag.length-1]
-              tags[tag[ii].name] = 0
+            for nestedTag in tag
+              tags[nestedTag.name] = 0
           else
             tags[tag.name] = 0
-        # go through all tags
-        # and get items that correspond
+        # go through all tags & get items that correspond
         for tag, value of tags
           for item in all
-            # add the income or expense to the tag
-            unless item is null
+            unless item is null # add the income or expense to the tag
               tags[tag] += item.money.amount if item.hasTag(tag)
 
         outPorts.out.send

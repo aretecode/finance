@@ -24,7 +24,7 @@ class Removed extends Database
         outPorts.out.send
           successful: result is 1
           data: result
-
+        outPorts.out.disconnect()
         pg('tags').where(hasId).del()
         .then (result) -> return result
         .catch (e) ->
@@ -33,5 +33,6 @@ class Removed extends Database
           outPorts.out.send
             successful: false
             data: ':-('
+          outPorts.out.disconnect()
 
 exports.getComponent = -> new Removed

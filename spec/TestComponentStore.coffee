@@ -2,7 +2,7 @@ chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
 c = require('./../components/Store.coffee').getComponent()
-
+moment = require 'moment'
 describe 'Test Store Component', ->
   t = new Tester c
 
@@ -10,19 +10,20 @@ describe 'Test Store Component', ->
     t.start ->
       done()
 
-  it 'should send out correct params after storing data', (done) ->
+  it 'should send out correct params after storing data 
+    (without specifying created_at or description)', (done) ->
     d =
       currency: 'AUS'
       amount: 20
       tags: 'component-store'
-      # created_at: new Date()
 
     t.receive 'out', (data) ->
       chai.expect(data.successful).to.equal true
-      # body = data.data
-      # chai.expect(body.currency).to.equal d.currency
-      # chai.expect(body.amount).to.equal d.amount
-      # chai.expect(body.created_at).to.equal d.created_at
+      chai.expect(data.data.currency).to.equal 'AUS'
+      chai.expect(data.data.amount).to.equal 20
+      chai.expect(data.data.description).to.equal undefined
+      createdAt = moment(data.data.created_at)
+      chai.expect(createdAt.isValid()).to.equal true
       done()
 
     t.send

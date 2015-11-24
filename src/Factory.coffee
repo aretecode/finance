@@ -11,13 +11,13 @@ class Factory
   @see {Money}
   @see {Income}
   @see {Expense}
-  @TODO: if this fails, give back a payload http status code
   @TODO: add a constructor + chaining builder
   ###
   @createFrom: (opType, id, currency, amount, tags, createdAt = new Date(), description = "") =>
     c = dateFromAny(createdAt)
     id = uuid.v4() if id is null or id is undefined
     money = new Money(currency, amount)
+
     if opType is 'income'
       return new Income(id, money, tags, createdAt, description) 
     else if opType is 'expense'
@@ -30,6 +30,14 @@ class Factory
 
   @hydrateAllFrom: (opType, objs, tags) ->
     return objs.map (o) -> Factory.hydrateFrom(opType, o, tags)
+  
+  @hydrateMergedFrom: (opType, o) ->   
+    c = new Date(o.created_at)
+    return Factory.createFrom(
+      opType, o.id, o.currency, o.amount, o.tags, c, o.description)
+
+  @hydrateAllMergedFrom: (opType, objs) ->   
+    return objs.map (o) -> Factory.hydrateJoinFrom(opType, o)
 
   @income: (id, currency, amount, tags, createdAt = new Date, description = "") ->
     return Factory.createFrom('income', id, currency, amount, tags, createdAt, description)

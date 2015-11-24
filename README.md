@@ -26,6 +26,9 @@
 * [x] add .json to github via flowhub
 * [ ] Test methods of the src/ (FinanceOperation, Tag)
 * [ ] improve code clarity in FetchWithMonthYear
+* [ ] add Income
+* [ ] add Balance Reports
+* [ ] download flowhub graphs and run them in noflo
 
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
@@ -43,6 +46,8 @@
 * [ ] use Groups to send the data to Response
 * [ ] Test using noflo-tester using .fbp
 * [ ] Test in FlowHub (http Component?) 
+* [ ] call Super insteadof childConstructor
+* [ ] rename CRUD component to better represent it as the router connection
 
 # Future
 * [ ] Change update to use query insteadof params for updating individual parts
@@ -54,6 +59,8 @@
 * [ ] add chaining constructor to src/Factory
 * [ ] Test the AuthMiddleware & Delete 
 * [ ] could change CRUD to take inPort of the action and not need named Components
+* [ ] work with BlueBird Promises
+* [ ] validate range in BalanceTrend
 
 # Other
 * [ ] rename `successful` to `success`

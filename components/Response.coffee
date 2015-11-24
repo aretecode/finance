@@ -19,6 +19,8 @@ class Response extends noflo.Component
         datatype: 'object'
       monthly:
         datatype: 'object'
+      trend:
+        datatype: 'object'
 
     @outPorts = new noflo.OutPorts
       out:
@@ -26,6 +28,20 @@ class Response extends noflo.Component
         description: 'optional'
       error:
         datatype: 'object'
+
+    # @TODO: multiple not just failure success(pass)
+    wiredResponse = (res, data, passCode, passMsg, failCode, failMsg) ->
+      try
+        if data.successful is true
+          res.status(passCode).json JSON.stringify
+            message: passMsg
+            body: data
+        else
+          res.status(failCode).json JSON.stringify
+            message: failMsg
+            body: data
+      catch e
+        console.log e
 
     wirePatternFor = (context, name, cb) ->
       noflo.helpers.WirePattern context,
@@ -37,74 +53,18 @@ class Response extends noflo.Component
       , (params) ->
         req = params.res.req
         res = req.res
-        # data = params.created
         data = params[name]
         cb res, data
 
-    wirePatternFor @, 'created', (res, created) ->
-      try
-        if created.successful is true
-          res.status(201).json JSON.stringify
-            message: 'created'
-            body: created
-        else
-          res.status(500).json JSON.stringify
-            message: 'could not create'
-            body: created
-      catch e
-        console.log e
+    wirePatternResFor = (context, name, passCode, passMsg, failCode, failMsg) ->
+      wirePatternFor context, name, (res, data) ->
+        wiredResponse res, data, passCode, passMsg, failCode, failMsg
 
-    wirePatternFor @, 'retrieved', (res, retrieved) ->
-      try
-        if retrieved.successful is true
-          res.status(200).json JSON.stringify
-            message: 'found'
-            body: retrieved.data
-        else
-          res.status(404).json JSON.stringify
-            message: 'not found'
-            body: retrieved.data
-      catch e
-        console.log e
-
-    wirePatternFor @, 'deleted', (res, deleted) ->
-      try
-        if deleted.successful is true
-          res.status(200).json JSON.stringify
-            message: 'deleted'
-            body: deleted.data
-        else
-          res.status(500).json JSON.stringify
-            message: 'not found'
-            body: deleted.data
-      catch e
-        console.log e
-
-    wirePatternFor @, 'updated', (res, updated) ->
-      try
-        if updated.successful is true
-          res.status(200).json JSON.stringify
-            message: 'updated'
-            body: updated.data
-        else
-          res.status(500).json JSON.stringify
-            message: 'not updated'
-            body: updated.data
-      catch e
-        console.log e
-
-
-    wirePatternFor @, 'monthly', (res, updated) ->
-      try
-        if updated.successful is true
-          res.status(302).json JSON.stringify
-            message: 'updated'
-            body: updated.data
-        else
-          res.status(404).json JSON.stringify
-            message: 'not updated'
-            body: updated.data
-      catch e
-        console.log e
+    wirePatternResFor @, 'created', 201, 'created', 500, 'could not create'
+    wirePatternResFor @, 'retrieved', 200, 'found', 404, 'not found'
+    wirePatternResFor @, 'deleted', 200, 'deleted', 500, 'not able to delete'
+    wirePatternResFor @, 'updated', 200, 'updated', 500, 'not updated'
+    wirePatternResFor @, 'monthly', 302, 'found', 404, 'not found (month & yr)'
+    wirePatternResFor @, 'trend', 200, 'found', 404, 'not found'
 
 exports.getComponent = -> new Response

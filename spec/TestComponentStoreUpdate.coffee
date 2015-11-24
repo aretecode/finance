@@ -3,6 +3,7 @@ noflo = require 'noflo'
 Tester = require 'noflo-tester'
 c = require('./../components/StoreUpdate.coffee').getComponent()
 
+###
 describe 'Test StoreUpdate Component', ->
   t = new Tester c
 
@@ -29,3 +30,4 @@ describe 'Test StoreUpdate Component', ->
     t.send
       name: 'expense'
       in: d
+###

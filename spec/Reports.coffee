@@ -4,6 +4,8 @@ http = require 'http'
 uuid = require 'uuid'
 express = require 'express'
 
+require './../.env.coffee'
+
 getResultJSON = (res, callback) ->
   data = ''
   res.on 'data', (chunk) ->
@@ -14,6 +16,20 @@ getResultJSON = (res, callback) ->
       callback json
     catch e
       throw new Error e.message + ". Body:" + data
+
+optionsFrom = (method, path) ->
+  options = 
+    hostname: 'localhost'
+    port: 4011
+    path: path 
+    method: method
+    headers:
+      'Pass': 'noflo'
+      'Authorization': 'Bearer 123456789'
+  return options
+
+expectAllProperties = (data, properties) ->
+  (chai.expect(data).to.have.property property) for property in properties 
 
 describe 'Reports', ->
   net = null
@@ -26,22 +42,22 @@ describe 'Reports', ->
     net.stop()
     done()
   
-  it 'should give monthly report for expenses', (done) ->
-    options =
-      hostname: 'localhost'
-      port: 4011
-      path: '/api/reports/expenses/monthly' 
-      method: 'GET'
-      headers:
-        'Pass': 'noflo'
-        'Authorization': 'Bearer 123456789'
-
+  it 'should report balance trends', (done) ->
+    options = optionsFrom 'GET', "/api/reports/trend" 
+ 
     try
       req = http.request options, (res) ->
         if res.statusCode isnt 302
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          chai.expect(json).to.be.a 'string'
+          console.log json, 'ppppppppppppppleasseeee'
+          jso = JSON.parse json
+          chai.expect(jso.body.successful).to.equal true
+          chai.expect(jso.body.data).to.be.an 'array'        
+          expectAllProperties(
+            jso.body.data[0], 
+            ['income', 'expense', 'balance', 'month', 'year'])
+
           done()
       req.end()
     catch e

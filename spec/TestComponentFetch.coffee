@@ -3,6 +3,7 @@ noflo = require 'noflo'
 Tester = require 'noflo-tester'
 c = require('./../components/Fetch.coffee').getComponent()
 
+###
 describe 'Test Fetch Component', ->
   t = new Tester c
 
@@ -23,3 +24,4 @@ describe 'Test Fetch Component', ->
     t.send
       name: 'expense'
       in: d
+###

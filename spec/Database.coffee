@@ -1,4 +1,10 @@
 chai = require 'chai'
+require './../.env.coffee'
+
+truncateAll = (pg) ->
+  pg('tags').truncate()
+  pg('expense').truncate()
+  pg('income').truncate()
 
 createFinancialOperation = (pg, name) ->
   pg.schema.createTableIfNotExists name, (table) ->
@@ -21,13 +27,7 @@ createTags = (pg) ->
     console.log "created tags"
 
 describe 'Creating & validating Database Tables', ->
-  conn =
-    host: process.env.DATABASE_HOST
-    user: process.env.DATABASE_USER
-    password: process.env.DATABASE_PASSWORD
-    database: process.env.DATABASE_NAME
-    charset: 'utf8'
-  pg = require('knex')({client: 'pg', connection: conn, debug: false})
+  pg = require('./../src/Persistence/connection.coffee').getPg()
 
   it 'should create income', ->
     pg.schema.hasTable('income').then (exists) ->
@@ -48,3 +48,6 @@ describe 'Creating & validating Database Tables', ->
       chai.expect(exists).to.equal(true)
     pg.schema.hasTable('expense').then (exists) ->
       chai.expect(exists).to.equal(true)
+
+  # it 'should truncate data', ->
+    # truncateAll()

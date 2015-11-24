@@ -14,6 +14,21 @@ Middle APP -> APP Router(xpress/Router)
 'get /api/expenses/list' -> PATTERN[4] Router
 'get /api/reports/expenses/monthly' -> PATTERN[5] Router
 
+'post /api/incomes/:currency/:amount/:tags/:created_at?/:description?/:id?' -> PATTERN[6] Router
+'get /api/incomes/retrieve/:id' -> PATTERN[7] Router
+'delete /api/incomes/delete/:id' -> PATTERN[8] Router
+'put /api/incomes/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[9] Router
+'get /api/incomes/list' -> PATTERN[10] Router
+'get /api/reports/incomes/monthly' -> PATTERN[11] Router
+
+'get /api/reports/trend' -> PATTERN[12] Router
+
+
+############
+#
+# EXPENSES 
+#
+############
 'expense' -> NAME Store(finance/Store)
 'expense' -> NAME Fetch(finance/Fetch)
 'expense' -> NAME Removed(finance/Removed)
@@ -57,7 +72,7 @@ Router REQ[3] -> REQ Update(finance/Update)
 Update RES -> RES UpdateResponse(finance/Response)
 Update OUT -> ID UpdateValidate(finance/Validate)
 UpdateValidate OUT -> IN StoreUpdate(finance/StoreUpdate)
-StoreUpdate OUT -> RETRIEVED UpdateResponse(finance/Response)
+StoreUpdate OUT -> UPDATED UpdateResponse(finance/Response)
 
 #
 # LIST
@@ -67,18 +82,99 @@ List RES -> RES ListResponse(finance/Response)
 List OUT -> IN FetchList(finance/FetchList)
 FetchList OUT -> RETRIEVED ListResponse(finance/Response)
 
+
+############
+#
+# INCOME 
+#
+############
+
+#
+# CREATE/SAVE
+#
+'income' -> NAME StoreIncome(finance/Store)
+Router REQ[6] -> REQ CreateIncome(finance/Create)
+CreateIncome RES -> RES CreateIncomeResponse(finance/Response)
+CreateIncome OUT -> IN CreateIncomeValidate(finance/Validate)
+CreateIncomeValidate OUT -> IN StoreIncome(finance/Store)
+StoreIncome OUT -> CREATED CreateIncomeResponse(finance/Response)
+
+#
+# RETRIEVE/FIND/GET
+#
+'income' -> NAME FetchIncome(finance/Fetch)
+Router REQ[7] -> REQ RetrieveIncome(finance/Retrieve)
+RetrieveIncome RES -> RES RetrieveIncomeResponse(finance/Response)
+RetrieveIncome OUT -> ID RetrieveIncomeValidate(finance/Validate)
+RetrieveIncomeValidate OUT -> IN FetchIncome(finance/Fetch)
+FetchIncome OUT -> RETRIEVED RetrieveIncomeResponse(finance/Response)
+
+#
+# REMOVE/DELETE 
+#
+'income' -> NAME RemovedIncome(finance/Removed)
+Router REQ[8] -> REQ DeleteIncome(finance/Delete)
+DeleteIncome RES -> RES DeleteIncomeResponse(finance/Response)
+DeleteIncome OUT -> IN RemovedIncome(finance/Removed)
+RemovedIncome OUT -> DELETED DeleteIncomeResponse(finance/Response)
+# DeleteResponse OUT -> ID DeleteValidate(finance/Validate)
+# DeleteValidate OUT -> IN Remove(finance/Remove)
+
+#
+# UPDATE
+#
+'income' -> NAME StoreIncomeUpdate(finance/StoreUpdate)
+Router REQ[9] -> REQ UpdateIncome(finance/Update)
+UpdateIncome RES -> RES UpdateIncomeResponse(finance/Response)
+UpdateIncome OUT -> UPDATE UpdateIncomeValidate(finance/Validate)
+UpdateIncomeValidate OUT -> IN StoreIncomeUpdate(finance/StoreUpdate)
+StoreIncomeUpdate OUT -> UPDATED UpdateIncomeResponse(finance/Response)
+
+#
+# LIST
+#
+'income' -> NAME FetchListIncome(finance/FetchList)
+Router REQ[10] -> REQ ListIncome(finance/List)
+ListIncome RES -> RES ListIncomeResponse(finance/Response)
+ListIncome OUT -> IN FetchListIncome(finance/FetchList)
+FetchIncomeList OUT -> RETRIEVED ListIncomeResponse(finance/Response)
+
+
 ######
 
 #
-# REPORTS/MONTHLY
+# REPORTS/MONTHLY (expenses)
 #
 Router REQ[5] -> REQ Monthly(finance/Monthly)
 Monthly RES -> RES MonthlyResponse(finance/Response)
 Monthly OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
 WithMonthYear OUT -> MONTHLY MonthlyResponse(finance/Response)
 
+#
+# REPORTS/MONTHLY (income)
+#
+'expense' -> NAME IncomeWithMonthYear(finance/FetchWithMonthYear)
+Router REQ[11] -> REQ MonthlyIncome(finance/Monthly)
+MonthlyIncome RES -> RES MonthlyIncomeResponse(finance/Response)
+MonthlyIncome OUT -> IN IncomeWithMonthYear(finance/FetchWithMonthYear)
+IncomeWithMonthYear OUT -> MONTHLY MonthlyIncomeResponse(finance/Response)
 # Monthly OUT -> DATE MonthlyValidate(finance/Validate)
 # MonthlyValidate OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
+
+# REPORTS/BALANCE/TREND
+#
+Router REQ[12] -> REQ Trend(finance/Trend)
+Trend RES -> RES TrendResponse(finance/Response)
+
+# if it has no range, get one
+Trend WITHOUTRANGE -> IN Entries(AlphaOmegaEntries)
+Entries OUT -> IN BalanceTrend(finance/BalanceTrend)
+
+# else, it has one, use it
+Trend WITHRANGE -> IN BalanceTrend(finance/BalanceTrend)
+
+BalanceTrend OUT -> IN Reports(finance/Reports)
+Reports OUT -> TREND TrendResponse(finance/Response)
 
 
 # Log with TestLogger
