@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.2",
+  "version": "0.2.6",
     "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -57,7 +57,11 @@
 
       "Validate": "components/Validate.coffee",
       "Response": "components/Response.coffee",
-      "AuthMiddleware": "components/AuthMiddleware/coffee"
+      "AuthMiddleware": "components/AuthMiddleware.coffee",
+
+      "BalanceTrend": "components/BalanceTrend.coffee",
+      "Reports": "components/Reports.coffee",
+      "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee"
     }
   }
 }

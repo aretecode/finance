@@ -5,6 +5,11 @@ dateFromAny = require('./Util/dateFromAny.coffee').dateFromAny
 {Tag} = require('./Tag.coffee')
 {Expense, Income} = require('./FinanceOperation.coffee')
 
+tagArrayToString = (tagRow) ->
+  tags = ''
+  tags += (tag.tag + ',') for tag in tagRow
+  return tags.substring(0, tags.length - 1) # trim the trailing comma
+
 # AbstractFinanceOperationFactory
 class Factory 
   ### 
@@ -25,6 +30,10 @@ class Factory
 
   @hydrateFrom: (opType, o, tags) ->
     c = new Date(o.created_at)
+    
+    if _.isArray tags
+      tags = tagArrayToString tags
+
     return Factory.createFrom(
       opType, o.id, o.currency, o.amount, tags, c, o.description)
 
@@ -37,7 +46,7 @@ class Factory
       opType, o.id, o.currency, o.amount, o.tags, c, o.description)
 
   @hydrateAllMergedFrom: (opType, objs) ->   
-    return objs.map (o) -> Factory.hydrateJoinFrom(opType, o)
+    return objs.map (o) -> Factory.hydrateMergedFrom(opType, o)
 
   @income: (id, currency, amount, tags, createdAt = new Date, description = "") ->
     return Factory.createFrom('income', id, currency, amount, tags, createdAt, description)

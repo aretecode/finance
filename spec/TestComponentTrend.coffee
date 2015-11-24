@@ -43,3 +43,20 @@ describe 'Test Create Component', ->
 
     t.send
       req: d
+      
+  it 'should send out params', (done) ->
+    d =
+      params:
+        startMonth: 1
+        startYear: 2000
+        endMonth: 12
+        endYear: 2050
+      res:
+        'res'
+
+    t.receive 'out', (data) ->
+      chai.expect(data).to.equal d.params
+      done()
+
+    t.send
+      req: d

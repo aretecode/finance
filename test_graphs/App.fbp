@@ -11,17 +11,18 @@ Middle APP -> APP Router(xpress/Router)
 'get /api/expenses/retrieve/:id' -> PATTERN[1] Router
 'delete /api/expenses/delete/:id' -> PATTERN[2] Router
 'put /api/expenses/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[3] Router
-'get /api/expenses/list' -> PATTERN[4] Router
-'get /api/reports/expenses/monthly' -> PATTERN[5] Router
+'get /api/expenses/list*' -> PATTERN[4] Router
+'get /api/reports/expenses/monthly/:month?/:year?' -> PATTERN[5] Router
 
 'post /api/incomes/:currency/:amount/:tags/:created_at?/:description?/:id?' -> PATTERN[6] Router
 'get /api/incomes/retrieve/:id' -> PATTERN[7] Router
 'delete /api/incomes/delete/:id' -> PATTERN[8] Router
 'put /api/incomes/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[9] Router
-'get /api/incomes/list' -> PATTERN[10] Router
-'get /api/reports/incomes/monthly' -> PATTERN[11] Router
+'get /api/incomes/list*' -> PATTERN[10] Router
+'get /api/reports/incomes/monthly/:month?/:year?' -> PATTERN[11] Router
 
 'get /api/reports/trend' -> PATTERN[12] Router
+'get /api/reports/trend/:startmonth?-:startyear?,:endmonth?-:endyear?' -> PATTERN[12] Router
 
 
 ############
@@ -137,7 +138,7 @@ StoreIncomeUpdate OUT -> UPDATED UpdateIncomeResponse(finance/Response)
 Router REQ[10] -> REQ ListIncome(finance/List)
 ListIncome RES -> RES ListIncomeResponse(finance/Response)
 ListIncome OUT -> IN FetchListIncome(finance/FetchList)
-FetchIncomeList OUT -> RETRIEVED ListIncomeResponse(finance/Response)
+FetchListIncome OUT -> RETRIEVED ListIncomeResponse(finance/Response)
 
 
 ######

@@ -22,10 +22,10 @@ class Fetch extends Database
           array_to_string(array(
             SELECT "tags".tag
             FROM "tags"
-            WHERE "tags".id = "expense".id
+            WHERE "tags".id = "'+table+'".id
           ), \', \') AS tags
-        FROM "expense"
-        WHERE "expense".id = \'' + data.id + '\''
+        FROM "'+table+'"
+        WHERE "'+table+'".id = \'' + data.id + '\''
 
       @pg.raw(query)
       .then (rows) ->

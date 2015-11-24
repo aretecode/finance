@@ -3,7 +3,9 @@ chai = require 'chai'
 http = require 'http'
 uuid = require 'uuid'
 express = require 'express'
+moment = require 'moment'
 require './../.env.coffee'
+expect = chai.expect 
 
 getResultJSON = (res, callback) ->
   data = ''
@@ -16,12 +18,22 @@ getResultJSON = (res, callback) ->
     catch e
       throw new Error e.message + ". Body:" + data
 
-getResult = (res, callback) ->
-  data = ''
-  res.on 'data', (chunk) ->
-    data += chunk
-  res.on 'end', ->
-    callback data
+expectValidDate = (data) ->
+  expect(moment(data).isValid()).to.equal true
+
+expectFinanceObject = (data) ->
+  expect(data).to.be.an 'object'
+  if data.currency?
+    expect(data.currency).to.be.a 'string'
+    expect(parseInt(data.amount)).to.be.at.least 0
+  else if data.money?
+    expect(data.money.currency).to.be.a 'string'
+    expect(parseInt(data.money.amount)).to.be.at.least 0
+  expectValidDate data.created_at
+  expect(data.id).to.be.a 'string'
+  # expectAllProperties data, ['description', 'tags', 'created_at']
+  # expect(data).to.have.property 'description'
+  # expect(data.tag).to.be.a 'string' # or an array, or object...
 
 expectAllProperties = (data, properties) ->
   (chai.expect(data).to.have.property property) for property in properties 
@@ -38,7 +50,6 @@ optionsFrom = (method, path) ->
   return options
 
 describe 'CRUD', ->
-  expect = chai.expect 
   net = null
 
   before (done) ->
@@ -64,7 +75,7 @@ describe 'CRUD', ->
         if res.statusCode isnt 201
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          chai.expect(json).to.be.a 'string'
+          expect(json).to.be.a 'string'
           data = JSON.parse json
           # expect it to equal the same parameters passed into url
           expect(data.message).to.equal 'created'
@@ -97,7 +108,7 @@ describe 'CRUD', ->
           expect(found.description).to.equal 'example-description'
           expect(found.id).to.equal id
           #expect(found.tags.toString()).to.equal
-          #expect(found.created_at).to.be.a.valid.date
+          expectValidDate(found.created_at)
           done()
       req.end()
     catch e
@@ -191,6 +202,60 @@ describe 'CRUD', ->
       req.end()
     catch e
       done e
+  
+  it 'should be able to list expenses with tag', (done) ->
+    options = optionsFrom 'GET', "/api/expenses/list/?tag=component-store"
+    try
+      req = http.request options, (res) ->
+        getResultJSON res, (json) ->
+          data = JSON.parse json
+          list = data.body.data
+          expect(list).to.be.an 'array'
+          expectFinanceObject list[0]
+          expect(list).to.have.length.of.at.least 1
+          expect(res.statusCode).to.equal 200 #302
+          done()
+      req.end()
+    catch e
+      done e
+
+  it 'should be able to list expenses with date (timestamp)', (done) ->
+    options = optionsFrom 'GET', '/api/expenses/list/?date=' + new Date().getTime()
+    try
+      req = http.request options, (res) ->
+        getResultJSON res, (json) ->
+          data = JSON.parse json
+          list = data.body.data
+          expect(list).to.be.an 'array'
+          expectFinanceObject list[0]
+          expect(list).to.have.length.of.at.least 1
+          expect(res.statusCode).to.equal 200 #302
+          done()
+      req.end()
+    catch e
+      done e
+
+  it 'should be able to list expenses with date (y-m-d)', (done) ->
+    date = new Date()
+    month = date.getMonth()+1
+    year = date.getFullYear()
+    day = date.getDay()
+    dateString = year + '-' + month + '-' + day
+    options = optionsFrom 'GET', '/api/expenses/list/?date=' + dateString
+
+    try
+      req = http.request options, (res) ->
+        getResultJSON res, (json) ->
+          data = JSON.parse json
+          list = data.body.data
+          expect(list).to.be.an 'array'
+          expectFinanceObject list[0]
+          expect(list).to.have.length.of.at.least 1
+          expect(res.statusCode).to.equal 200 #302
+          done()
+      req.end()
+    catch e
+      done e
 
   it 'should not allow unauthorized access', (done) ->
     options =
@@ -212,7 +277,7 @@ describe 'CRUD', ->
     catch e
       # console.log e
       done()
-  
+
   ###
   it 'should not be able to find a deleted finance operation', (done) ->
     options =

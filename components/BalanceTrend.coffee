@@ -2,11 +2,6 @@ noflo = require 'noflo'
 {_} = require 'underscore'
 {Factory} = require './../src/Boot.coffee'
 
-tagArrayToString = (tagRow) ->
-  tags = ''
-  tags += (tag.tag + ',') for tag in tagRow
-  return tags.substring(0, tags.length - 1) # trim the trailing comma
-
 class BalanceTrend extends noflo.Component
   description: 'Balance trending by month'
   icon: 'scale'
@@ -55,7 +50,7 @@ class BalanceTrend extends noflo.Component
         pg.raw(query).then (all) -> return all.rows
         .map (item) ->
           pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
-            Factory.hydrateFrom table, item, tagArrayToString(tagRow)
+            Factory.hydrateFrom table, item, tagRow
         .then (all) ->
           cb _.flatten(all)
 
