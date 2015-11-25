@@ -18,7 +18,7 @@ class Tag
       stringTags = tags.split ','
       return Tag.uniqueAndMakeList stringTags
     if _.isString tags
-      return new Tag(tags)
+      return [new Tag(tags)]
     else 
       throw new Error("#{tags} was not an array, or a string!")
   @uniqueAndMakeList: (tags) ->

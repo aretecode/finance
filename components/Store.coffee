@@ -20,9 +20,8 @@ class Store extends Database
         description: data.description
 
       store.id = if data.id? then data.id else uuid.v4()
-      store.created_at = dateFromAny(data.created_at)
-      # @TODO: CHANGE DATEFROMANY
-      unless store.created_at?
+      store.created_at = dateFromAny data.created_at
+      unless store.created_at? # @TODO: CHANGE DATEFROMANY
         store.created_at = new Date()
 
       @pg.insert(store).into(@table)
@@ -37,7 +36,6 @@ class Store extends Database
         _this.error
           message: 'could not save!'
           error: e
-
 
       ############################################ TAGS ##########
       saveTag = (tag, cb) ->
@@ -54,24 +52,10 @@ class Store extends Database
             cb tag
         )
         # .catch ((e) -> _this.error(e))
-
-      ### @TODO: optimize & combine ###
-      tags = Tag.tagsFrom(data.tags)
-      if _.isArray tags
-        for tag in tags
-          if tag is _.last tags # only want to call cb on the last one
-            saveTag
-              tag: tag.name
-              id: store.id
-          else
-            saveTag
-              tag: tag.name
-              id: store.id
-              , (result) -> # outPorts.out.send result
-      else
+      tags = Tag.tagsFrom data.tags
+      for tag in tags
         saveTag
-          tag: tags.name
+          tag: tag.name
           id: store.id
-        , (result) -> # outPorts.out.send result
 
 exports.getComponent = -> new Store

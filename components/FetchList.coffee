@@ -24,8 +24,8 @@ class FetchList extends Database
           ), \', \') AS tags
           FROM "'+table+'"
           INNER JOIN "tags" ON "tags".id = "'+table+'".id
-        WHERE "tags".tag = \'' + 'eh' + "'" #\'eh\'';
-
+        WHERE "tags".tag = \'' + data.query.tag + "'"
+        
         @pg.raw(query).then (rows) ->
           row = rows.rows
           result = unless row.length is 1 then true else false

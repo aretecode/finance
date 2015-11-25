@@ -4,7 +4,6 @@ fs = require 'fs'
 module.exports = (loader, done) ->
   dirs = [
     "components"
-    "src"
   ]
   for dir in dirs
     for file in fs.readdirSync __dirname + "/#{dir}"

@@ -30,6 +30,7 @@
 * [x] add Balance Reports
 * [ ] download flowhub graphs and run them in noflo
 * [ ] convert raw queries to knexjs
+* [ ] change test order so it doesn't have to be run three times
 
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
