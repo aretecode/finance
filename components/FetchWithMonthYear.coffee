@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
-{Factory} = require './../src/Boot.coffee'
+{Factory} = require './../src/Finance.coffee'
 {Database} = require './Database.coffee'
 dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny
 
@@ -13,18 +13,15 @@ class FetchWithMonthYear extends Database
     @inPorts.in.on 'data', (data) =>
       data.year = new Date().getFullYear() unless data.year?
       data.month = new Date().getMonth()+1 unless data.month?
-      dataOut = {year: data.year; month: data.month}
-      {outPorts, table, pg} = {@outPorts, @table, @pg}
 
-      query = pg(table).select()
+      query = @pg(@table).select()
       .whereRaw("EXTRACT(MONTH FROM created_at) = " + data.month)
       .andWhereRaw("EXTRACT(YEAR FROM created_at) = " + data.year)
       .toString()
-
-      pg.raw(query).then (all) -> return all.rows
+      @pg.raw(query).then (all) -> return all.rows
       .map (item) ->
-        pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
-          Factory.hydrateFrom table, item, tagRow
+        _this.pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
+          Factory.hydrateFrom _this.table, item, tagRow
       .then (all) ->
         all = _.flatten(all)
         tags = {}
@@ -43,11 +40,10 @@ class FetchWithMonthYear extends Database
             unless item is null # add the income or expense to the tag
               tags[tag] += item.money.amount if item.hasTag(tag)
 
-        outPorts.out.send
+        _this.outPorts.out.send
           successful: tags?
           data: tags
-        outPorts.out.disconnect()
-
+        _this.outPorts.out.disconnect()
         # error
         # table + ' reporting not found for month: `' + date.getMonth() + '`
         # and year: `' + date.getFullYear() + '`'

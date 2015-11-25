@@ -14,25 +14,19 @@ class StoreUpdate extends Database
 
       updateData =
         id: data.id
+      updateData.currency = data.currency if data.currency?
+      updateData.created_at = data.created_at if data.created_at?
+      updateData.amount = data.amount if data.amount?
+      updateData.description = data.description if data.description?
 
-      if data.currency?
-        updateData.currency = data.currency
-      if data.created_at?
-        updateData.created_at = data.created_at
-      if data.amount?
-        updateData.amount = data.amount
-      if data.description?
-        updateData.description = data.descriptio
-
-      outPorts = @outPorts
       @pg(@table)
       .where('id', '=', data.id)
       .update(updateData)
       .then (rows) ->
-        outPorts.out.send
+        _this.outPorts.out.send
           successful: rows is 1
           data: updateData
-        outPorts.out.disconnect()
+        _this.outPorts.out.disconnect()
       .catch (e) ->
         console.log e
 

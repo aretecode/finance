@@ -1,6 +1,7 @@
 noflo = require 'noflo'
+{ExtendedComponent} = require './../src/Finance.coffee'
 
-class CRUD extends noflo.Component
+class CRUD extends ExtendedComponent
   constructor: ->
     @pg = require('./../src/Persistence/connection.coffee').getPg()
 
@@ -11,24 +12,16 @@ class CRUD extends noflo.Component
         could just use this instead of individual components'
       req:
         datatype: 'object'
+        required: true
 
     @outPorts = new noflo.OutPorts
       out:
-        datatype: 'all'
-      tags:
         datatype: 'all'
       error:
         datatype: 'object'
       res:
         datatype: 'object'
         description: 'Response object'
-
-    error: (msg) ->
-      if @outPorts.error.isAttached()
-        @outPorts.error.send new Error msg
-        @outPorts.error.disconnect()
-        return
-      throw new Error msg
 
     @inPorts.req.on 'data', (data) =>
       @outPorts.res.send data.res

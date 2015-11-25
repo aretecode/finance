@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-{_} = require 'underscore'
+_ = require 'underscore'
 validateId = require 'uuid-validate'
 
 currencies = JSON.parse('{
@@ -179,7 +179,7 @@ currencies = JSON.parse('{
 class Validate extends noflo.Component
   description: 'Validate income from xpress params.'
   icon: 'balance-scale'
- 
+
   currency: (currency) ->
     unless _.contains Object.keys(currencies), currency.toUpperCase()
       @error
@@ -238,26 +238,13 @@ class Validate extends noflo.Component
       @createdAt data.created_at if data.created_at?
       @descriptions data.descriptions if data.descriptions?
       @tags data.tags if data.tags?
-        
+
       @outPorts.out.send data
       @outPorts.out.disconnect()
 
     @inPorts.id.on 'data', (id) =>
-
-      # if sent in as raw, or as params
-      if validateId(id) or validateId(id.id)
-        @outPorts.out.send id
-        @outPorts.out.disconnect()
-      else
-        @error
-          key: 'id'
-          error: "id `#{id}` is not a valid id"
-
-    error: (msg) ->
-      if @outPorts.error.isAttached()
-        @outPorts.error.send new Error msg
-        @outPorts.error.disconnect()
-        return
-      throw new Error msg
+      @idv id
+      @outPorts.out.send id
+      @outPorts.out.disconnect()
 
 exports.getComponent = -> new Validate

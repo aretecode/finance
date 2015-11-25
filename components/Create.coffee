@@ -1,8 +1,7 @@
-noflo = require 'noflo'
 {CRUD} = require './CRUD.coffee'
 
-class Create extends CRUD
-  description: 'Creating'
-  icon: 'gavel'
-
-exports.getComponent = -> new Create
+exports.getComponent = ->
+  c = new CRUD
+  c.description = 'Creating'
+  c.icon = 'gavel'
+  c

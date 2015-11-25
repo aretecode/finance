@@ -24,49 +24,35 @@ class Store extends Database
       unless store.created_at?
         store.created_at = new Date()
 
-      # need to fix this... can't I just alias the method???
-      # could this be inherited as well?
-      # or even a noflo.helper?
-      {outPorts, table, pg} = {@outPorts, @table, @pg}
-      toError = (msg) ->
-        if outPorts.error.isAttached()
-          outPorts.error.send new Error msg
-          outPorts.error.disconnect()
-          return
-        console.log msg #, store
-        throw new Error msg
-
-      @pg.insert(store).into(table)
+      @pg.insert(store).into(@table)
       .then (rows) ->
-        outPorts.out.send
+        _this.outPorts.out.send
           successful: rows.rowCount is 1
           data: store
-        outPorts.out.disconnect()
+        _this.outPorts.out.disconnect()
 
       .catch (e) ->
         console.log e
-        toError
+        _this.error
           message: 'could not save!'
           error: e
 
 
       ############################################ TAGS ##########
       saveTag = (tag, cb) ->
-        pg
+        _this.pg
         .insert(tag)
         .into('tags')
         .whereNotExists( ->
-          @select(pg.raw(1)).from('tags')
+          @select(_this.pg.raw(1)).from('tags')
           .where(id: tag.id)
           .andWhere(tag: tag.tag)
         )
         .then ((tag) ->
-          if (_.isFunction cb)
+          if _.isFunction cb
             cb tag
         )
-        # .catch ((e) -> console.log e)
-        #  console.log "catch - could call toError here
-        # if it works for whereNotExists.. @TODO"
+        # .catch ((e) -> _this.error(e))
 
       ### @TODO: optimize & combine ###
       tags = Tag.tagsFrom(data.tags)

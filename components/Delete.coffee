@@ -1,8 +1,7 @@
-noflo = require 'noflo'
 {CRUD} = require './CRUD.coffee'
 
-class Delete extends CRUD
-  description: 'Deleting'
-  icon: 'trash'
-
-exports.getComponent = -> new Delete
+exports.getComponent = ->
+  c = new CRUD
+  c.description = 'Deleting'
+  c.icon = 'trash'
+  c

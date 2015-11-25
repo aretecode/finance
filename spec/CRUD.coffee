@@ -7,6 +7,8 @@ moment = require 'moment'
 require './../.env.coffee'
 expect = chai.expect 
 
+finance = require './../src/Finance.coffee'
+
 getResultJSON = (res, callback) ->
   data = ''
   res.on 'data', (chunk) ->
@@ -62,6 +64,27 @@ describe 'CRUD', ->
   
   id = uuid.v4()
 
+  it 'should be able to use `add` on an object', ->
+    # t = {}
+    # t.add 'something'
+    # console.log t, 'ttttttttttttttttttttt'
+    ## t = new InPort()
+    ## t.add 'data'
+    
+    # ## t = new Ports()
+    # ## t.add 'data'
+    # ## console.log '\x1b[35m', t
+
+    # ## tt = new Ports 
+    # ## t.addOn 'data', 
+    # c = new ExtendedComponent
+    # c.inPorts.addOn 'awesomein', (data) ->
+    #   console.log data
+    
+    c = new finance.ExtendedComponent
+    c.inPorts.addOn 'awesomein', (data) ->
+      console.log data
+
   it 'should create using POST', (done) ->
 
     path = "/api/expenses/cad/100/canadian,eh/" +
@@ -75,7 +98,6 @@ describe 'CRUD', ->
         if res.statusCode isnt 201
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          expect(json).to.be.a 'string'
           data = JSON.parse json
           # expect it to equal the same parameters passed into url
           expect(data.message).to.equal 'created'

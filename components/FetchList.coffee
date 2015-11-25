@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
 {Database} = require './Database.coffee'
-{Factory} = require './../src/Boot.coffee'
+{Factory} = require './../src/Finance.coffee'
 dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny
 
 class FetchList extends Database
@@ -33,7 +33,7 @@ class FetchList extends Database
             successful: result
             data: row
           outPorts.out.disconnect()
-        return null
+        return
 
       else if data.query? and data.query.date?
         date = dateFromAny data.query.date
@@ -56,7 +56,7 @@ class FetchList extends Database
             successful: result
             data: row
           outPorts.out.disconnect()
-        return null
+        return
         # message = table + ' listing not found for month: `' +
         # date.getMonth() + '` and year: `' + date.getFullYear() + '`'
 

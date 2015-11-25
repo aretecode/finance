@@ -16,8 +16,6 @@ class AlphaOmegaEntries extends noflo.Component
 
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
-
-      {outPorts, pg} = {@outPorts, @pg}
       sortedBy = (sorted) ->
         '(SELECT created_at FROM expense LIMIT 1)
         UNION (SELECT created_at FROM income LIMIT 1)
@@ -25,10 +23,10 @@ class AlphaOmegaEntries extends noflo.Component
       earliestQ = sortedBy 'DESC'
       latestQ = sortedBy 'ASC'
       @pg.raw(earliestQ).then (earliest) ->
-        pg.raw(latestQ).then (latest) ->
-          outPorts.out.send
+        _this.pg.raw(latestQ).then (latest) ->
+          _this.outPorts.out.send
             earliest: new Date(earliest.rows[0].created_at)
             latest: new Date(latest.rows[0].created_at)
-          outPorts.out.disconnect()
+          _this.outPorts.out.disconnect()
 
 exports.getComponent = -> new AlphaOmegaEntries

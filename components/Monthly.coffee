@@ -1,7 +1,7 @@
-noflo = require 'noflo'
 {CRUD} = require './CRUD.coffee'
 
-class Monthly extends CRUD
-  description: 'Monthly reporting for finance operations'
-
-exports.getComponent = -> new Monthly
+exports.getComponent = ->
+  c = new CRUD
+  c.description = 'Monthly reporting for finance operations'
+  c.icon = 'calendar-o'
+  c

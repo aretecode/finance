@@ -4,7 +4,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
-  },
+  },  
+  "main": "./src/Finance.coffee",
+   
   "dependencies": {
     "coffee-script": "~1.9.1",
     "express": "^4.13.3",

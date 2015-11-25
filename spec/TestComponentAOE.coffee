@@ -23,4 +23,3 @@ describe 'Test AlphaOmegaEntries Component', ->
 
     t.send
       in: ""
-

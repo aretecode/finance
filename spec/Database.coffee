@@ -1,5 +1,4 @@
 chai = require 'chai'
-require './../.env.coffee'
 
 truncateAll = (pg) ->
   pg('tags').truncate()
@@ -8,7 +7,6 @@ truncateAll = (pg) ->
 
 createFinancialOperation = (pg, name) ->
   pg.schema.createTableIfNotExists name, (table) ->
-    ### @TODO: should change to uuid ###
     table.string('id').primary()
     table.string('currency').notNullable()
     table.integer('amount').notNullable()
@@ -19,7 +17,6 @@ createFinancialOperation = (pg, name) ->
 
 createTags = (pg) ->
   pg.schema.createTableIfNotExists 'tags', (table) ->
-    ### @TODO: should change to uuid ###
     table.string('id')
     table.string('tag').notNullable()
     table.primary(['id', 'tag'])

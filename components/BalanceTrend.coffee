@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
-{Factory} = require './../src/Boot.coffee'
+{Factory} = require './../src/Finance.coffee'
 
 class BalanceTrend extends noflo.Component
   description: 'Balance trending by month'

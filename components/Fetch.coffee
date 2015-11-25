@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 {Database} = require './Database.coffee'
-{Factory} = require './../src/Boot.coffee'
+{Factory} = require './../src/Finance.coffee'
 
 class Fetch extends Database
   description: 'Find a finance operation.'
@@ -10,8 +10,7 @@ class Fetch extends Database
     @pg = require('./../src/Persistence/connection.coffee').getPg()
 
     @inPorts.in.on 'data', (data) =>
-      hasId = id: data.id
-      {outPorts, table, pg} = {@outPorts, @table, @pg}
+      {outPorts, table} = {@outPorts, @table}
 
       # 0. selecting all fields
       # 1. selecting all of the tags

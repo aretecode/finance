@@ -1,12 +1,9 @@
 noflo = require 'noflo'
-{CRUD} = require './CRUD.coffee'
 
-class List extends CRUD
+class List extends noflo.Component
   description: 'List finance operations.'
   icon: 'list'
   constructor: ->
-    @pg = require('./../src/Persistence/connection.coffee').getPg()
-
     @inPorts = new noflo.InPorts
       name:
         datatype: 'string'

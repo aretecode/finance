@@ -3,8 +3,6 @@ chai = require 'chai'
 http = require 'http'
 uuid = require 'uuid'
 express = require 'express'
-
-require './../.env.coffee'
 expect = chai.expect
 
 getResultJSON = (res, callback) ->
@@ -62,4 +60,3 @@ describe 'Reports', ->
       req.end()
     catch e
       done e
-      
