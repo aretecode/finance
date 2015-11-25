@@ -6,7 +6,8 @@ class Fetch extends Database
   description: 'Find a finance operation.'
   icon: 'search'
 
-  childConstructor: ->
+  constructor: ->
+    super()
     @pg = require('./../src/Persistence/connection.coffee').getPg()
 
     @inPorts.in.on 'data', (data) =>

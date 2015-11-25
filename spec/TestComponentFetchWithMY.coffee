@@ -10,7 +10,8 @@ describe 'Test Monthly>FetchWithMonthYear Component', ->
     t.start ->
       done()
 
-  it 'should send out correct params after fetching data for Month & Year', (done) ->
+  it 'should send out correct params
+  after fetching data for Month & Year', (done) ->
     d =
       year: new Date().getFullYear()
       month: new Date().getMonth()+1

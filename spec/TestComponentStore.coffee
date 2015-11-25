@@ -10,7 +10,7 @@ describe 'Test Store Component', ->
     t.start ->
       done()
 
-  it 'should send out correct params after storing data 
+  it 'should send out correct params after storing data
     (without specifying created_at or description)', (done) ->
     d =
       currency: 'AUS'

@@ -5,7 +5,7 @@ uuid = require 'uuid'
 express = require 'express'
 moment = require 'moment'
 require './../.env.coffee'
-expect = chai.expect 
+expect = chai.expect
 
 finance = require './../src/Finance.coffee'
 
@@ -38,13 +38,13 @@ expectFinanceObject = (data) ->
   # expect(data.tag).to.be.a 'string' # or an array, or object...
 
 expectAllProperties = (data, properties) ->
-  (chai.expect(data).to.have.property property) for property in properties 
+  (chai.expect(data).to.have.property property) for property in properties
 
 optionsFrom = (method, path) ->
-  options = 
+  options =
     hostname: 'localhost'
     port: 4011
-    path: path 
+    path: path
     method: method
     headers:
       'Pass': 'noflo'
@@ -61,26 +61,10 @@ describe 'CRUD', ->
   after (done) ->
     net.stop()
     done()
-  
+
   id = uuid.v4()
 
   it 'should be able to use `add` on an object', ->
-    # t = {}
-    # t.add 'something'
-    # console.log t, 'ttttttttttttttttttttt'
-    ## t = new InPort()
-    ## t.add 'data'
-    
-    # ## t = new Ports()
-    # ## t.add 'data'
-    # ## console.log '\x1b[35m', t
-
-    # ## tt = new Ports 
-    # ## t.addOn 'data', 
-    # c = new ExtendedComponent
-    # c.inPorts.addOn 'awesomein', (data) ->
-    #   console.log data
-    
     c = new finance.ExtendedComponent
     c.inPorts.addOn 'awesomein', (data) ->
       console.log data
@@ -92,7 +76,7 @@ describe 'CRUD', ->
     "/example-description/"+id
 
     options = optionsFrom 'POST', path
- 
+
     try
       req = http.request options, (res) ->
         if res.statusCode isnt 201
@@ -145,7 +129,7 @@ describe 'CRUD', ->
       req = http.request options, (res) ->
         if res.statusCode isnt 200
           return done new Error "Invalid status code: #{res.statusCode}"
-        
+
         getResultJSON res, (json) ->
           expect(json).to.be.a 'string'
           data = JSON.parse json
@@ -161,7 +145,7 @@ describe 'CRUD', ->
       req.end()
     catch e
       done e
-  
+
   it 'should list using GET', (done) ->
     options = optionsFrom 'GET', "/api/expenses/list"
 
@@ -169,7 +153,7 @@ describe 'CRUD', ->
       req = http.request options, (res) ->
         if res.statusCode isnt 200
           return done new Error "Invalid status code: #{res.statusCode}"
-        
+
         getResultJSON res, (json) ->
           data = JSON.parse json
           list = data.body.data
@@ -179,8 +163,8 @@ describe 'CRUD', ->
           expect(data.body.successful).to.equal true
           expect(list).to.be.an 'array'
           expect(list).to.have.length.of.at.least 1
-      
-          # expectAllProperties list[0], ['properties from Finance']          
+
+          # expectAllProperties list[0], ['properties from Finance']
           # expect(updated.tags).to.equal 'new-tag,old-tag'
           done()
 
@@ -189,7 +173,7 @@ describe 'CRUD', ->
       done e
 
   it 'should give monthly report for expenses', (done) ->
-    options = optionsFrom 'GET', '/api/reports/expenses/monthly' 
+    options = optionsFrom 'GET', '/api/reports/expenses/monthly'
 
     try
       req = http.request options, (res) ->
@@ -215,7 +199,7 @@ describe 'CRUD', ->
         if res.statusCode isnt 200
           return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          expect(json).to.be.a 'string'          
+          expect(json).to.be.a 'string'
           data = JSON.parse json
           expect(data.message).to.equal 'deleted'
           expect(data.body.successful).to.equal true
@@ -223,7 +207,7 @@ describe 'CRUD', ->
       req.end()
     catch e
       done e
-  
+
   it 'should be able to list expenses with tag', (done) ->
     options = optionsFrom 'GET', "/api/expenses/list/?tag=component-store"
     try
@@ -292,7 +276,7 @@ describe 'CRUD', ->
       req = http.request options, (res) ->
         if res.statusCode isnt 401
           return done new Error "Invalid status code: #{res.statusCode}"
-        
+
         done()
       req.end()
     catch e

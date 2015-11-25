@@ -8,7 +8,8 @@ class FetchWithMonthYear extends Database
   description: 'Find a finance operation with a specific Month & Year.'
   icon: 'area-chart'
 
-  childConstructor: ->
+  constructor: ->
+    super()
     @pg = require('./../src/Persistence/connection.coffee').getPg()
     @inPorts.in.on 'data', (data) =>
       data.year = new Date().getFullYear() unless data.year?

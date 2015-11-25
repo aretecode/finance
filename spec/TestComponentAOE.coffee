@@ -18,7 +18,7 @@ describe 'Test AlphaOmegaEntries Component', ->
       latest = moment(data.latest)
       chai.expect(earliest.isValid()).to.equal true
       chai.expect(latest.isValid()).to.equal true
-      
+
       done()
 
     t.send

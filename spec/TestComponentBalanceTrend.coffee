@@ -21,7 +21,7 @@ describe 'Test BalanceTrend Component', ->
       done()
 
     t.send
-      in:        
+      in:
         startMonth: 1
         startYear: 2000
         endMonth: 12

@@ -28,8 +28,5 @@ class Database extends noflo.Component
     @inPorts.name.on 'data', (@table) =>
     @inPorts.pg.on 'data', (@pg) =>
 
-    unless typeof @childConstructor "undefined"
-      @childConstructor()
-
 exports.getComponent = -> new Database
 exports.Database = Database

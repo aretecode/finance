@@ -8,7 +8,8 @@ dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny
 class Store extends Database
   description: 'Store the data.'
 
-  childConstructor: ->
+  constructor: ->
+    super()
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
 

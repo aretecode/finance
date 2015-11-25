@@ -5,7 +5,8 @@ class Removed extends Database
   description: 'Find a finance operation.'
   icon: 'trash'
 
-  childConstructor: ->
+  constructor: ->
+    super()
     @pg = require('./../src/Persistence/connection.coffee').getPg()
     @inPorts.in.on 'data', (data) =>
       hasId = id: data.id

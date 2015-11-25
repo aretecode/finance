@@ -43,7 +43,7 @@ describe 'Test Create Component', ->
 
     t.send
       req: d
-      
+
   it 'should send out params', (done) ->
     d =
       params:

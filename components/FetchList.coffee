@@ -8,7 +8,8 @@ class FetchList extends Database
   description: 'Fetch the list of finance operations.'
   icon: 'list'
 
-  childConstructor: ->
+  constructor: ->
+    super()
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
       {pg, table, outPorts} = {@pg, @table, @outPorts}
