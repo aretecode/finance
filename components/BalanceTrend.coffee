@@ -63,11 +63,4 @@ class BalanceTrend extends noflo.Component
             expenses: expenses
           outPorts.out.disconnect()
 
-    @inPorts.in.on 'connect', =>
-      @outPorts.out.connect()
-    @inPorts.in.on 'begingroup', (group) =>
-      @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', =>
-      @outPorts.out.endGroup()
-
 exports.getComponent = -> new BalanceTrend

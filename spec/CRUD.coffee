@@ -4,10 +4,13 @@ http = require 'http'
 uuid = require 'uuid'
 express = require 'express'
 moment = require 'moment'
-require './../.env.coffee'
 expect = chai.expect
-
 finance = require './../src/Finance.coffee'
+
+try
+  require './../.env.coffee'
+catch e
+  #
 
 getResultJSON = (res, callback) ->
   data = ''
@@ -18,7 +21,7 @@ getResultJSON = (res, callback) ->
       json = JSON.parse data
       callback json
     catch e
-      throw new Error e.message + ". Body:" + data
+      throw new Error e.message + '. Body:' + data
 
 expectValidDate = (data) ->
   expect(moment(data).isValid()).to.equal true
@@ -71,9 +74,9 @@ describe 'CRUD', ->
 
   it 'should create using POST', (done) ->
 
-    path = "/api/expenses/cad/100/canadian,eh/" +
+    path = '/api/expenses/cad/100/canadian,eh/' +
     Date.now() +
-    "/example-description/"+id
+    '/example-description/'+id
 
     options = optionsFrom 'POST', path
 
@@ -97,7 +100,7 @@ describe 'CRUD', ->
       done e
 
   it 'should retrieve/find using GET', (done) ->
-    options = optionsFrom 'GET', "/api/expenses/retrieve/" + id
+    options = optionsFrom 'GET', '/api/expenses/retrieve/' + id
 
     try
       req = http.request options, (res) ->
@@ -121,9 +124,9 @@ describe 'CRUD', ->
       done e
 
   it 'should update using PUT', (done) ->
-    #  + id + "/NZD/70/new-tag,old-tag"
+    #  + id + '/NZD/70/new-tag,old-tag'
     # /new-created-at/new-description
-    options = optionsFrom 'PUT', "/api/expenses/update/"+ id + "/NZD/70/new-tag,old-tag"
+    options = optionsFrom 'PUT', '/api/expenses/update/'+ id + '/NZD/70/new-tag,old-tag'
 
     try
       req = http.request options, (res) ->
@@ -147,7 +150,7 @@ describe 'CRUD', ->
       done e
 
   it 'should list using GET', (done) ->
-    options = optionsFrom 'GET', "/api/expenses/list"
+    options = optionsFrom 'GET', '/api/expenses/list'
 
     try
       req = http.request options, (res) ->
@@ -190,9 +193,9 @@ describe 'CRUD', ->
       req.end()
     catch e
       done e
-  
+
   it 'should delete using DELETE', (done) ->
-    options = optionsFrom 'DELETE', "/api/expenses/delete/" + id
+    options = optionsFrom 'DELETE', '/api/expenses/delete/' + id
 
     try
       req = http.request options, (res) ->
@@ -209,7 +212,7 @@ describe 'CRUD', ->
       done e
 
   it 'should be able to list expenses with tag', (done) ->
-    options = optionsFrom 'GET', "/api/expenses/list/?tag=component-store"
+    options = optionsFrom 'GET', '/api/expenses/list/?tag=component-store'
     try
       req = http.request options, (res) ->
         getResultJSON res, (json) ->
@@ -266,7 +269,7 @@ describe 'CRUD', ->
     options =
       hostname: 'localhost'
       port: 4011
-      path: "/api/expenses/retrieve/" + id
+      path: '/api/expenses/retrieve/' + id
       method: 'GET'
       headers:
         'Pass': 'noflo'
@@ -287,7 +290,7 @@ describe 'CRUD', ->
       hostname: 'localhost'
       port: 4011
 
-      path: "/api/expenses/retrieve/" + id
+      path: '/api/expenses/retrieve/' + id
       method: 'GET'
       headers:
         'Pass': 'noflo'

@@ -29,7 +29,6 @@ class Response extends noflo.Component
       error:
         datatype: 'object'
 
-    # @TODO: multiple not just failure success(pass)
     wiredResponse = (res, data, passCode, passMsg, failCode, failMsg) ->
       try
         if data.successful is true

@@ -35,7 +35,7 @@
 # After 
 * [ ] pass in connection to an inPort (@see components/Database)
 * [x] Test with HTTP
-* [ ] update tags
+* [x] update tags
 * [ ] add Morgan as Middleware to log 
 * [ ] send things after tags are all saved (@see components/Store)
 * [ ] improve query to save if not exists (use Raw) (@see components/Store)
@@ -46,9 +46,9 @@
 * [ ] use Groups to send the data to Response
 * [ ] Test using noflo-tester using .fbp
 * [ ] Test in FlowHub (http Component?) 
-* [ ] call Super insteadof childConstructor
+* [x] call Super insteadof childConstructor
 * [ ] rename CRUD component to better represent it as the router connection
-* [ ] remove unnessecary port events
+* [x] remove unnessecary port events
 
 # Future
 * [ ] Change update to use query insteadof params for updating individual parts
@@ -65,6 +65,7 @@
 * [ ] write documentation?
 * [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
 * [ ] port for each Validate param?
+* [ ] multiple responses in components/Response not just failure success(pass)
 
 # Other
 * [ ] rename `successful` to `success`

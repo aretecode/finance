@@ -1,16 +1,17 @@
 noflo = require 'noflo'
 passport = require 'passport'
 Strategy = require('passport-http-bearer').Strategy
+{ExtendedComponent} = require './../src/Finance.coffee'
 
 exports.getComponent = ->
-  c = new noflo.Component
+  c = new ExtendedComponent
   c.description = "Adds very basic auth"
 
-  c.inPorts.add 'app',
+  c.inPorts.addOn 'app',
     datatype: 'object'
     description: 'Express Application'
-  , (event, app) ->
-    return unless event is 'data'
+    on: 'data'
+  , (app) ->
     try
       records = [
         {
