@@ -1,7 +1,7 @@
 {
   "name": "finance",
   "repo": "arete/finance",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",

@@ -25,10 +25,10 @@ class FetchList extends Database
           FROM "'+table+'"
           INNER JOIN "tags" ON "tags".id = "'+table+'".id
         WHERE "tags".tag = \'' + data.query.tag + "'"
-        
+
         @pg.raw(query).then (rows) ->
           row = rows.rows
-          result = unless row.length is 1 then true else false
+          result = unless row.length is 0 then true else false
           item = Factory.hydrateAllMergedFrom table, row
           outPorts.out.send
             successful: result
@@ -52,7 +52,7 @@ class FetchList extends Database
           .then (tags) ->
             Factory.hydrateFrom table, item, tags
         .then (row) ->
-          result = unless row.length is 1 then true else false
+          result = unless row.length is 0 then true else false
           outPorts.out.send
             successful: result
             data: row
@@ -67,7 +67,7 @@ class FetchList extends Database
           Factory.hydrateFrom table, item, tags
       .then (row) ->
         row = _.uniq row
-        result = unless row.length is 1 then true else false
+        result = unless row.length is 0 then true else false
         outPorts.out.send
           successful: result
           data: row

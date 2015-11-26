@@ -7,11 +7,6 @@ moment = require 'moment'
 expect = chai.expect
 finance = require './../src/Finance.coffee'
 
-try
-  require './../.env.coffee'
-catch e
-  #
-
 getResultJSON = (res, callback) ->
   data = ''
   res.on 'data', (chunk) ->
@@ -71,13 +66,12 @@ describe 'CRUD', ->
     c = new finance.ExtendedComponent
     c.inPorts.addOn 'awesomein', (data) ->
       console.log data
-
-  it 'should create using POST', (done) ->
-
+ 
+  it 'should create using POST (using specified id)', (done) ->
+   
     path = '/api/expenses/cad/100/canadian,eh/' +
     Date.now() +
     '/example-description/'+id
-
     options = optionsFrom 'POST', path
 
     try
@@ -94,6 +88,24 @@ describe 'CRUD', ->
           expect(data.body.data.description).to.equal 'example-description'
           expect(data.body.data.id).to.equal id
           # expect(data.tags).to.equal 'cad'
+          done()
+      req.end()
+    catch e
+      done e
+
+  it 'should create using POST', (done) ->
+    options = optionsFrom 'POST', '/api/expenses/cad/100/component-store'
+
+    try
+      req = http.request options, (res) ->
+        if res.statusCode isnt 201
+          return done new Error "Invalid status code: #{res.statusCode}"
+        getResultJSON res, (json) ->
+          data = JSON.parse json
+          expect(data.message).to.equal 'created'
+          expect(data.body.successful).to.equal true
+          expect(data.body.data.currency).to.equal 'cad'
+          expect(data.body.data.amount).to.equal '100'
           done()
       req.end()
     catch e
@@ -194,23 +206,6 @@ describe 'CRUD', ->
     catch e
       done e
 
-  it 'should delete using DELETE', (done) ->
-    options = optionsFrom 'DELETE', '/api/expenses/delete/' + id
-
-    try
-      req = http.request options, (res) ->
-        if res.statusCode isnt 200
-          return done new Error "Invalid status code: #{res.statusCode}"
-        getResultJSON res, (json) ->
-          expect(json).to.be.a 'string'
-          data = JSON.parse json
-          expect(data.message).to.equal 'deleted'
-          expect(data.body.successful).to.equal true
-          done()
-      req.end()
-    catch e
-      done e
-
   it 'should be able to list expenses with tag', (done) ->
     options = optionsFrom 'GET', '/api/expenses/list/?tag=component-store'
     try
@@ -284,6 +279,23 @@ describe 'CRUD', ->
       req.end()
     catch e
       done()
+
+  it 'should delete using DELETE', (done) ->
+    options = optionsFrom 'DELETE', '/api/expenses/delete/' + id
+
+    try
+      req = http.request options, (res) ->
+        if res.statusCode isnt 200
+          return done new Error "Invalid status code: #{res.statusCode}"
+        getResultJSON res, (json) ->
+          expect(json).to.be.a 'string'
+          data = JSON.parse json
+          expect(data.message).to.equal 'deleted'
+          expect(data.body.successful).to.equal true
+          done()
+      req.end()
+    catch e
+      done e
 
   it 'should not be able to find a deleted finance operation', (done) ->
     options =

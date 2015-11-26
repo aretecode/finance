@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.8",
+  "version": "0.2.10",
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -35,7 +35,7 @@
   "scripts": {
     "start": "coffee node_modules/.bin/noflo-nodejs",
     "pretest": "coffeelint components",
-    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/*.coffee"
+    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/tests.coffee"
   },
   "noflo": {
     "icon": "globe",
