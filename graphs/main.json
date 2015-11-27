@@ -1,4 +1,14 @@
 {
+  "properties": {
+    "name": "main",
+    "environment": {
+      "type": "noflo-nodejs"
+    },
+    "icon": ""
+  },
+  "inports": {},
+  "outports": {},
+  "groups": [],
   "processes": {
     "Server": {
       "component": "xpress/Server"
