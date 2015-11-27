@@ -10,18 +10,17 @@ class Removed extends Database
     @pg = require('./../src/Persistence/connection.coffee').getPg()
     @inPorts.in.on 'data', (data) =>
       hasId = id: data.id
-      @pg(@table).where(hasId).del().then (result) ->
-        _this.outPorts.out.send
-          successful: result is 1
-          data: result
-        _this.outPorts.out.disconnect()
+      @pg('finance_op').where(hasId).del().then (result) ->
         _this.pg('tags').where(hasId).del()
-        .then (result) -> return result
-        .catch (e) ->
-          console.log e, 'this may fail if deleting while saving tags...'
+        .then (tagResult) ->
           _this.outPorts.out.send
-            successful: false
-            data: ':-('
+            success: result is 1
+            data: result, tagResult
           _this.outPorts.out.disconnect()
+      .catch (e) ->
+        _this.outPorts.out.send
+          success: false
+          data: data
+        _this.outPorts.out.disconnect()
 
 exports.getComponent = -> new Removed

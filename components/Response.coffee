@@ -31,14 +31,16 @@ class Response extends noflo.Component
 
     wiredResponse = (res, data, passCode, passMsg, failCode, failMsg) ->
       try
-        if data.successful is true
+        if data.success is true
           res.status(passCode).json JSON.stringify
+           #  success: data.data.success
             message: passMsg
-            body: data
+            body: data.data
         else
           res.status(failCode).json JSON.stringify
+            # success: data.data.success
             message: failMsg
-            body: data
+            body: data.data
       catch e
         console.log e
 

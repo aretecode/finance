@@ -12,6 +12,7 @@ class Reports extends noflo.Component
     @inPorts = new noflo.InPorts
       in:
         datatype: 'all'
+        required: true
       balance:
         datatype: 'int'
       reports:
@@ -20,6 +21,7 @@ class Reports extends noflo.Component
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'object'
+        required: true
       error:
         datatype: 'object'
 
@@ -27,8 +29,8 @@ class Reports extends noflo.Component
     @inPorts.in.on 'reports', (@reports) =>
 
     @inPorts.in.on 'data', (data) =>
-      reports = [] #@reports|[]
-      balance = 0 #@balance|0
+      reports = @reports||[]
+      balance = @balanc||0
       range = data.range
       incomes = data.incomes
       expenses = data.expenses
@@ -37,7 +39,7 @@ class Reports extends noflo.Component
 
       unless data.incomes? and data.expenses? and data.range?
         @outPorts.out.send
-          successful: false
+          success: false
         @outPorts.out.disconnect()
         return null
 
@@ -60,7 +62,7 @@ class Reports extends noflo.Component
           return 0
         else
           return items
-          .map (item) -> item.money.amount
+          .map (item) -> item.amount
           .reduce (a, b) -> a+b
 
       incomes = mapCreatedAt incomes
@@ -76,7 +78,7 @@ class Reports extends noflo.Component
             year, monthIncomes, monthExpenses, balance)
 
       @outPorts.out.send
-        successful: true
+        success: true
         data: reports
       @outPorts.out.disconnect()
 

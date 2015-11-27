@@ -1,45 +1,38 @@
 # Adding the app server
 '4011' -> PORT Server(xpress/Server)
-# Server APP -> APP Router(xpress/FilterRouter)
-
-Server APP -> APP Middle(finance/AuthMiddleware)
-# Was using FilterRouter
-Middle APP -> APP Router(xpress/Router)
+Server APP -> APP AuthMiddle(finance/AuthMiddleware)
+AuthMiddle APP -> APP JsonMiddleware(finance/JsonBodyParserMiddleware)
+JsonMiddleware APP -> APP Router(xpress/Router)
 
 # Routing
-'post /api/expenses/:currency/:amount/:tags/:created_at?/:description?/:id?' -> PATTERN[0] Router
-'get /api/expenses/retrieve/:id' -> PATTERN[1] Router
-'delete /api/expenses/delete/:id' -> PATTERN[2] Router
-'put /api/expenses/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[3] Router
-'get /api/expenses/list*' -> PATTERN[4] Router
-'get /api/reports/expenses/monthly/:month?/:year?' -> PATTERN[5] Router
+'post /api/expenses' -> PATTERN[0] Router
+'get /api/expenses/:id' -> PATTERN[1] Router
+'delete /api/expenses/:id' -> PATTERN[2] Router
+'put /api/expenses' -> PATTERN[3] Router
+'get /api/expenses*' -> PATTERN[4] Router
+'get /api/reports/expenses/monthly*' -> PATTERN[5] Router
 
-'post /api/incomes/:currency/:amount/:tags/:created_at?/:description?/:id?' -> PATTERN[6] Router
-'get /api/incomes/retrieve/:id' -> PATTERN[7] Router
-'delete /api/incomes/delete/:id' -> PATTERN[8] Router
-'put /api/incomes/update/:id/:currency/:amount/:tags/:created_at?/:description?' -> PATTERN[9] Router
-'get /api/incomes/list*' -> PATTERN[10] Router
-'get /api/reports/incomes/monthly/:month?/:year?' -> PATTERN[11] Router
+'post /api/incomes' -> PATTERN[6] Router
+'get /api/incomes/:id' -> PATTERN[7] Router
+'delete /api/incomes/:id' -> PATTERN[8] Router
+'put /api/incomes' -> PATTERN[9] Router
+'get /api/incomes*' -> PATTERN[10] Router
+'get /api/reports/incomes/monthly*' -> PATTERN[11] Router
 
-'get /api/reports/trend' -> PATTERN[12] Router
-'get /api/reports/trend/:startmonth?-:startyear?,:endmonth?-:endyear?' -> PATTERN[12] Router
+'get /api/reports/trend*' -> PATTERN[12] Router
+
 
 
 ############
 #
-# EXPENSES 
+# EXPENSES
 #
 ############
+
+#
+# CREATE/SAVE (Expense)
+#
 'expense' -> NAME Store(finance/Store)
-'expense' -> NAME Fetch(finance/Fetch)
-'expense' -> NAME Removed(finance/Removed)
-'expense' -> NAME StoreUpdate(finance/StoreUpdate)
-'expense' -> NAME FetchList(finance/FetchList)
-'expense' -> NAME WithMonthYear(finance/FetchWithMonthYear)
-
-#
-# CREATE/SAVE
-#
 Router REQ[0] -> REQ Create(finance/Create)
 Create RES -> RES CreateResponse(finance/Response)
 Create OUT -> IN CreateValidate(finance/Validate)
@@ -55,15 +48,15 @@ Retrieve OUT -> ID RetrieveValidate(finance/Validate)
 RetrieveValidate OUT -> IN Fetch(finance/Fetch)
 Fetch OUT -> RETRIEVED RetrieveResponse(finance/Response)
 
+
 #
-# REMOVE/DELETE 
+# REMOVE/DELETE
 #
 Router REQ[2] -> REQ Delete(finance/Delete)
 Delete RES -> RES DeleteResponse(finance/Response)
-Delete OUT -> IN Removed(finance/Removed)
+Delete OUT -> ID DeleteValidate(finance/Validate)
+DeleteValidate OUT -> IN Removed(finance/Removed)
 Removed OUT -> DELETED DeleteResponse(finance/Response)
-# DeleteResponse OUT -> ID DeleteValidate(finance/Validate)
-# DeleteValidate OUT -> IN Remove(finance/Remove)
 
 #
 # UPDATE
@@ -77,89 +70,88 @@ StoreUpdate OUT -> UPDATED UpdateResponse(finance/Response)
 #
 # LIST
 #
+'expense' -> NAME FetchList(finance/FetchList)
 Router REQ[4] -> REQ List(finance/List)
 List RES -> RES ListResponse(finance/Response)
 List OUT -> IN FetchList(finance/FetchList)
 FetchList OUT -> RETRIEVED ListResponse(finance/Response)
 
 
+
 ############
 #
-# INCOME 
+# INCOME
 #
 ############
 
 #
 # CREATE/SAVE
 #
-'income' -> NAME StoreIncome(finance/Store)
-Router REQ[6] -> REQ CreateIncome(finance/Create)
-CreateIncome RES -> RES CreateIncomeResponse(finance/Response)
-CreateIncome OUT -> IN CreateIncomeValidate(finance/Validate)
-CreateIncomeValidate OUT -> IN StoreIncome(finance/Store)
-StoreIncome OUT -> CREATED CreateIncomeResponse(finance/Response)
+'income' -> NAME IncomeStore(finance/Store)
+Router REQ[6] -> REQ IncomeCreate(finance/Create)
+IncomeCreate RES -> RES IncomeCreateResponse(finance/Response)
+IncomeCreate OUT -> IN IncomeCreateValidate(finance/Validate)
+IncomeCreateValidate OUT -> IN IncomeStore(finance/Store)
+IncomeStore OUT -> CREATED IncomeCreateResponse(finance/Response)
 
 #
-# RETRIEVE/FIND/GET
+# RETRIEVE/FIND/GET (could be merged since using uuid, but future queries)
 #
-'income' -> NAME FetchIncome(finance/Fetch)
-Router REQ[7] -> REQ RetrieveIncome(finance/Retrieve)
-RetrieveIncome RES -> RES RetrieveIncomeResponse(finance/Response)
-RetrieveIncome OUT -> ID RetrieveIncomeValidate(finance/Validate)
-RetrieveIncomeValidate OUT -> IN FetchIncome(finance/Fetch)
-FetchIncome OUT -> RETRIEVED RetrieveIncomeResponse(finance/Response)
+Router REQ[7] -> REQ IncomeRetrieve(finance/Retrieve)
+IncomeRetrieve RES -> RES IncomeRetrieveResponse(finance/Response)
+IncomeRetrieve OUT -> ID IncomeRetrieveValidate(finance/Validate)
+IncomeRetrieveValidate OUT -> IN IncomeFetch(finance/Fetch)
+IncomeFetch OUT -> RETRIEVED IncomeRetrieveResponse(finance/Response)
+
 
 #
-# REMOVE/DELETE 
+# REMOVE/DELETE
 #
-'income' -> NAME RemovedIncome(finance/Removed)
-Router REQ[8] -> REQ DeleteIncome(finance/Delete)
-DeleteIncome RES -> RES DeleteIncomeResponse(finance/Response)
-DeleteIncome OUT -> IN RemovedIncome(finance/Removed)
-RemovedIncome OUT -> DELETED DeleteIncomeResponse(finance/Response)
-# DeleteResponse OUT -> ID DeleteValidate(finance/Validate)
-# DeleteValidate OUT -> IN Remove(finance/Remove)
+Router REQ[8] -> REQ IncomeDelete(finance/Delete)
+IncomeDelete RES -> RES IncomeDeleteResponse(finance/Response)
+IncomeDelete OUT -> ID IncomeDeleteValidate(finance/Validate)
+IncomeDeleteValidate OUT -> IN IncomeRemoved(finance/Removed)
+IncomeRemoved OUT -> DELETED IncomeDeleteResponse(finance/Response)
 
 #
 # UPDATE
 #
-'income' -> NAME StoreIncomeUpdate(finance/StoreUpdate)
-Router REQ[9] -> REQ UpdateIncome(finance/Update)
-UpdateIncome RES -> RES UpdateIncomeResponse(finance/Response)
-UpdateIncome OUT -> UPDATE UpdateIncomeValidate(finance/Validate)
-UpdateIncomeValidate OUT -> IN StoreIncomeUpdate(finance/StoreUpdate)
-StoreIncomeUpdate OUT -> UPDATED UpdateIncomeResponse(finance/Response)
+Router REQ[9] -> REQ IncomeUpdate(finance/Update)
+IncomeUpdate RES -> RES IncomeUpdateResponse(finance/Response)
+IncomeUpdate OUT -> ID IncomeUpdateValidate(finance/Validate)
+IncomeUpdateValidate OUT -> IN IncomeStoreUpdate(finance/StoreUpdate)
+IncomeStoreUpdate OUT -> UPDATED IncomeUpdateResponse(finance/Response)
 
 #
 # LIST
 #
-'income' -> NAME FetchListIncome(finance/FetchList)
-Router REQ[10] -> REQ ListIncome(finance/List)
-ListIncome RES -> RES ListIncomeResponse(finance/Response)
-ListIncome OUT -> IN FetchListIncome(finance/FetchList)
-FetchListIncome OUT -> RETRIEVED ListIncomeResponse(finance/Response)
+'income' -> NAME IncomeFetchList(finance/FetchList)
+Router REQ[10] -> REQ IncomeList(finance/List)
+IncomeList RES -> RES IncomeListResponse(finance/Response)
+IncomeList OUT -> IN IncomeFetchList(finance/FetchList)
+IncomeFetchList OUT -> RETRIEVED IncomeListResponse(finance/Response)
+
 
 
 ######
 #
-# REPORTS/MONTHLY (expenses)
+# REPORTS/MONTHLY
 #
+'expense' -> NAME WithMonthYear(finance/FetchWithMonthYear)
 Router REQ[5] -> REQ Monthly(finance/Monthly)
 Monthly RES -> RES MonthlyResponse(finance/Response)
 Monthly OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
 WithMonthYear OUT -> MONTHLY MonthlyResponse(finance/Response)
 
-#
-# REPORTS/MONTHLY (income)
-#
-'expense' -> NAME IncomeWithMonthYear(finance/FetchWithMonthYear)
-Router REQ[11] -> REQ MonthlyIncome(finance/Monthly)
-MonthlyIncome RES -> RES MonthlyIncomeResponse(finance/Response)
-MonthlyIncome OUT -> IN IncomeWithMonthYear(finance/FetchWithMonthYear)
-IncomeWithMonthYear OUT -> MONTHLY MonthlyIncomeResponse(finance/Response)
-# Monthly OUT -> DATE MonthlyValidate(finance/Validate)
-# MonthlyValidate OUT -> IN WithMonthYear(finance/FetchWithMonthYear)
+'income' -> NAME IncomeWithMonthYear(finance/FetchWithMonthYear)
+Router REQ[11] -> REQ IncomeMonthly(finance/Monthly)
+IncomeMonthly RES -> RES IncomeMonthlyResponse(finance/Response)
+IncomeMonthly OUT -> IN IncomeWithMonthYear(finance/FetchWithMonthYear)
+IncomeWithMonthYear OUT -> MONTHLY IncomeMonthlyResponse(finance/Response)
 
+
+
+######
 #
 # REPORTS/BALANCE/TREND
 #
@@ -175,7 +167,6 @@ Trend WITHRANGE -> IN BalanceTrend(finance/BalanceTrend)
 
 BalanceTrend OUT -> IN Reports(finance/Reports)
 Reports OUT -> TREND TrendResponse(finance/Response)
-
 
 # Log with TestLogger
 Server ERROR -> IN Logger(xpress/TestLogger)

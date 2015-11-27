@@ -33,7 +33,7 @@ exports.getComponent = ->
           return cb err if err
           return cb null, false if !user
           return cb null, user
-      app.get '*', passport.authenticate('bearer', session: false),
+      app.all '*', passport.authenticate('bearer', session: false),
       (req, res, next) ->
         next()
 

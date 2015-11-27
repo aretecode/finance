@@ -11,22 +11,22 @@ class AlphaOmegaEntries extends noflo.Component
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'object'
+        required: true
       error:
         datatype: 'object'
 
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
       sortedBy = (sorted) ->
-        '(SELECT created_at FROM expense LIMIT 1)
-        UNION (SELECT created_at FROM income LIMIT 1)
+        '(SELECT created_at FROM "finance_op" LIMIT 1)
         ORDER BY created_at ' + sorted
-      earliestQ = sortedBy 'DESC'
-      latestQ = sortedBy 'ASC'
+      earliestQ = sortedBy 'ASC'
+      latestQ = sortedBy 'DESC'
       @pg.raw(earliestQ).then (earliest) ->
         _this.pg.raw(latestQ).then (latest) ->
           _this.outPorts.out.send
-            earliest: new Date(earliest.rows[0].created_at)
-            latest: new Date(latest.rows[0].created_at)
+            earliest: earliest.rows[0].created_at
+            latest: latest.rows[0].created_at
           _this.outPorts.out.disconnect()
 
 exports.getComponent = -> new AlphaOmegaEntries

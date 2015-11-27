@@ -11,34 +11,31 @@ class Fetch extends Database
     @pg = require('./../src/Persistence/connection.coffee').getPg()
 
     @inPorts.in.on 'data', (data) =>
-      {outPorts, table} = {@outPorts, @table}
-
       # 0. selecting all fields
       # 1. selecting all of the tags
       # 2. merging them into a comma separated list
       # 3. only where the id is the same as the one in data
       # 3a. (which has been validated)
       query = 'SELECT *,
-          array_to_string(array(
+          array(
             SELECT "tags".tag
             FROM "tags"
-            WHERE "tags".id = "'+table+'".id
-          ), \', \') AS tags
-        FROM "'+table+'"
-        WHERE "'+table+'".id = \'' + data.id + '\''
+            WHERE "tags".id = "finance_op".id
+          ) AS tags
+        FROM "finance_op"
+        WHERE "finance_op".id = \'' + data.id + "'"
 
       @pg.raw(query)
       .then (rows) ->
         if rows.rows.length is 0
-          outPorts.out.send
-            successful: false
+          _this.outPorts.out.send
+            success: false
             data: []
         else
-          result = Factory.hydrateMergedFrom table, rows.rows[0]
-          outPorts.out.send
-            successful: true
-            data: result
+          _this.outPorts.out.send
+            success: true
+            data: rows.rows[0]
 
-        outPorts.out.disconnect()
+        _this.outPorts.out.disconnect()
 
 exports.getComponent = -> new Fetch

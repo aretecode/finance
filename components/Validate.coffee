@@ -186,8 +186,7 @@ class Validate extends noflo.Component
         key: 'currency'
         error: 'currency `#{currency}` was not a valid currency.'
   amount: (amount) ->
-    amountIsAtLeastZero = parseInt(amount) >= 0
-    unless amountIsAtLeastZero
+    unless parseInt amount >= 0
       @error
         key: 'amount'
         error: 'amount `#{amount}`is not at least 0.'
@@ -195,8 +194,7 @@ class Validate extends noflo.Component
   descriptions: (descriptions) ->
   tags: (tags) ->
   idv: (id) ->
-    # if sent in as raw, or as params
-    unless validateId id or validateId id.id
+    unless validateId id or validateId id
       @error
         key: 'id'
         error: "id `#{id}` is not a valid id"

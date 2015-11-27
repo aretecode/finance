@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
-{Factory} = require './../src/Finance.coffee'
+util = require './../src/Finance.coffee'
 
 class BalanceTrend extends noflo.Component
   description: 'Balance trending by month'
@@ -20,18 +20,31 @@ class BalanceTrend extends noflo.Component
       error:
         datatype: 'object'
 
-    @inPorts.range.on 'connect', (range) =>
-      @range = range
+    @inPorts.range.on 'data', (@range) =>
 
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
 
-      if data.hasOwnProperty 'startMonth'
-        @range = data
- 
+      earliestFrom = (earliest) ->
+        e = earliest.getFullYear() + '-' +
+          (earliest.getMonth()+1) + '-' +
+          earliest.getDate()
+        return e
+      latestFrom = (latest) ->
+        l = latest.getFullYear() + '-' +
+          (latest.getMonth()+1) + '-' +
+          (latest.getDate()+1) + ' ' +
+          latest.getHours() + ':' + latest.getMinutes()
+        return l
+      earliest = util.dateFrom data.earliest
+      latest = util.dateFrom data.latest
+      e = earliestFrom(earliest)
+      l = latestFrom(latest)
+
+      if data? and data.range? and data.range.startMonth?
+        @range = data.range
+
       unless @range?
-        earliest = new Date(data.earliest)
-        latest = new Date(data.latest)
         @range =
           startMonth: earliest.getMonth()+1
           startYear: earliest.getFullYear()
@@ -41,19 +54,19 @@ class BalanceTrend extends noflo.Component
       {pg, range, outPorts} = {@pg, @range, @outPorts}
       # select only amount & currency
       findBetweenMonths = (table, cb) ->
-        query = pg(table).select()
-        .whereRaw("EXTRACT(YEAR FROM created_at) >= " + range.startYear)
-        .andWhereRaw("EXTRACT(YEAR FROM created_at) <= " + range.endYear)
-        .andWhereRaw("EXTRACT(MONTH FROM created_at) >= " + range.startMonth)
-        .andWhereRaw("EXTRACT(MONTH FROM created_at) <= " + range.endMonth)
+        query = pg('finance_op').select()
+        .whereRaw('"finance_op".created_at <= \'' +l+ '\'::DATE')
+        .andWhereRaw('"finance_op".created_at >= \'' +e+ '\'::DATE')
+        .andWhere('type', table)
         .toString()
 
         pg.raw(query).then (all) -> return all.rows
         .map (item) ->
           pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
-            Factory.hydrateFrom table, item, tagRow
+            item.tags = tagRow
+            return item
         .then (all) ->
-          cb _.flatten(all)
+          cb all
 
       findBetweenMonths 'income', (incomes) ->
         findBetweenMonths 'expense', (expenses) ->

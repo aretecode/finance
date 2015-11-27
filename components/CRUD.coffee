@@ -2,14 +2,13 @@ noflo = require 'noflo'
 {ExtendedComponent} = require './../src/Finance.coffee'
 
 class CRUD extends ExtendedComponent
+  sendParams: false
+  sendQuery: false
+  sendBody: true
   constructor: ->
     @pg = require('./../src/Persistence/connection.coffee').getPg()
 
     @inPorts = new noflo.InPorts
-      name:
-        datatype: 'string'
-        description: 'The name of the operation -
-        could just use this instead of individual components'
       req:
         datatype: 'object'
         required: true
@@ -17,15 +16,42 @@ class CRUD extends ExtendedComponent
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'all'
+        required: true
       error:
         datatype: 'object'
       res:
         datatype: 'object'
         description: 'Response object'
 
-    @inPorts.req.on 'data', (data) =>
-      @outPorts.res.send data.res
-      @outPorts.out.send data.params
+    # it could also send them depending what is in them
+    @inPorts.req.on 'data', (req) =>
+      @outPorts.res.send req.res
+
+      if @sendBody and @sendQuery isnt true
+        @outPorts.out.send req.body
+
+      else if @sendQuery and @sendBody isnt true
+        @outPorts.out.send req.query
+
+      else if @sendParams and @sendBody isnt true
+        @outPorts.out.send req.params
+
+      else if @sendBody and @sendQuery and @sendParams
+        @outPorts.out.send
+          body: req.body
+          params: req.params
+          query: req.query
+
+      else if @sendBody and @sendQuery
+        @outPorts.out.send
+          body: req.body
+          query: req.query
+
+      else if @sendBody and @sendParams
+        @outPorts.out.send
+          params: req.params
+          query: req.query
+
       @outPorts.res.disconnect()
       @outPorts.out.disconnect()
 

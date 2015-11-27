@@ -22,19 +22,25 @@ class Trend extends noflo.Component
         description: 'Response object'
 
     @inPorts.req.on 'data', (data) =>
-      if data.params.startMonth?
+      @outPorts.res.send data.res
+
+      if data.query? and data.query.start?
+        start = new Date(data.query.start)
+        end = new Date(data.query.end)
         range =
-          startMonth: data.params.startMonth
-          startYear: data.params.startYear
-          endMonth: data.params.endMonth
-          endYear: data.params.endYear
-        @outPorts.res.send data.res
-        @outPorts.withrange.send range
+          startMonth: start.getMonth()+1
+          startYear: start.getFullYear()
+          endMonth: end.getMonth()+1
+          endYear: end.getFullYear()
+        @outPorts.withrange.send
+          earliest: start
+          latest: end
+          range: range
+
         @outPorts.res.disconnect()
         @outPorts.withrange.disconnect()
       else
-        @outPorts.res.send data.res
-        @outPorts.withoutrange.send data.params
+        @outPorts.withoutrange.send data.query
         @outPorts.res.disconnect()
         @outPorts.withoutrange.disconnect()
 

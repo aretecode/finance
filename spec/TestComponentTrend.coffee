@@ -1,9 +1,9 @@
 chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
-c = require('./../components/Create.coffee').getComponent()
+c = require('./../components/Trend.coffee').getComponent()
 
-describe 'Test Create Component', ->
+describe 'Test Trend Component', ->
   t = new Tester c
 
   before (done) ->
@@ -27,35 +27,35 @@ describe 'Test Create Component', ->
     t.send
       req: d
 
-  it 'should send out params', (done) ->
+  it 'should send out (query) params (with range)', (done) ->
     d =
-      params:
-        startMonth: 1
-        startYear: 2000
-        endMonth: 12
-        endYear: 2050
+      query:
+        start: new Date('2000-1-1')
+        end: new Date()
+        # startMonth: 1
+        # startYear: 2000
+        # endMonth: 12
+        # endYear: 2050
       res:
         'res'
 
-    t.receive 'out', (data) ->
-      chai.expect(data).to.equal d.params
+
+    t.receive 'withrange', (data) ->
+      # chai.expect(data.range.startMonth).to.equal d.query.startMonth
+      # chai.expect(data.range.startYear).to.equal d.query.startYear
+      # chai.expect(data.range.endMonth).to.equal d.query.endMonth
+      # chai.expect(data.range.endYear).to.equal d.query.endYear
       done()
 
     t.send
       req: d
 
-  it 'should send out params', (done) ->
+  it 'should send out params (without range)', (done) ->
     d =
-      params:
-        startMonth: 1
-        startYear: 2000
-        endMonth: 12
-        endYear: 2050
       res:
         'res'
 
-    t.receive 'out', (data) ->
-      chai.expect(data).to.equal d.params
+    t.receive 'withoutrange', (data) ->
       done()
 
     t.send

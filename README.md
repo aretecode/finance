@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/aretecode/finance.svg)](https://travis-ci.org/aretecode/finance)
+
+
 # Wondering
 * [x] default wiring for Components connect & disconnect? (@see component/Validate)
 * [x] how to test components that do database transactions? (@see spec/)
@@ -7,12 +10,28 @@
 * [x] why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
 * [ ] how to send array to inPort.pattern in xpress/Router using FlowHub
 * [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
+* [ ] Where to do HTTP req, set up Routing Server in FlowHub?
+
+# New:
+* [x] rename FinanceOperation to FinanceOp
+* [x] put database init/cleanup functions called in beforeAll/afterAll
+* [x] merge Expense & Income entities (finance_op)
+* [x] rewrite main queries for finance_op
+* [x] change string id to uuid type (then to char(36))
+* [x] add (done()) to tests
+* [x] parse in JSON
+* [ ] parse JSON body only on certain routes
+* [x] simplify tests
+* [x] simplify entities
+* [x] move away from OOD & OOP (looking @ you src/)
+* [ ] write a better SUM query for balancetrend
+* [ ] make it work on FlowHub
 
 # @TODO:
 * [x] Validate
 * [x] Validate.update (optional params)
 * [x] use WirePattern
-* [ ] use WirePattern more in depth 
+* [x] use WirePattern more in depth
 * [x] use Group
 * [x] use FloHub
 * [ ] use FloHub more in depth
@@ -21,51 +40,58 @@
 * [x] update all properties
 * [x] PATCH to PUT unless I extend lib/BaseRouter
 * [x] fix PUT to POST
-* [x] .fbp into .json 
+* [x] .fbp into .json
 * [x] import .json into flowhub via github (using https://github.com/noflo/noflo-browser-app)
 * [x] add .json to github via flowhub
-* [ ] Test methods of the src/ (FinanceOperation, Tag)
+* [x] Test methods of the src/ (FinanceOperation, Tag)
 * [ ] improve code clarity in FetchWithMonthYear
 * [x] add Income
 * [x] add Balance Reports
 * [ ] download flowhub graphs and run them in noflo
 * [ ] convert raw queries to knexjs
-* [ ] change test order so it doesn't have to be run three times
+* [x] change test order so it doesn't have to be run three times
 
-# After 
+# After
 * [ ] pass in connection to an inPort (@see components/Database)
 * [x] Test with HTTP
 * [x] update tags
-* [ ] add Morgan as Middleware to log 
+* [ ] add Morgan as Middleware to log
 * [ ] send things after tags are all saved (@see components/Store)
 * [ ] improve query to save if not exists (use Raw) (@see components/Store)
 * [x] Filter null instead of returning in the map in FetchList
 * [ ] TODOS in non noflo `personal-finance-tracker`
 * [x] add Travis
-* [ ] use Travis
+* [x] use Travis
+* [x] Travis badge
 * [ ] use Groups to send the data to Response
 * [ ] Test using noflo-tester using .fbp
-* [ ] Test in FlowHub (http Component?) 
+* [ ] Test in FlowHub (http Component?)
 * [x] call Super insteadof childConstructor
 * [ ] rename CRUD component to better represent it as the router connection
 * [x] remove unnessecary port events
 
 # Future
-* [ ] Change update to use query insteadof params for updating individual parts
+* [x] Change update to use query insteadof params for updating individual parts (actually, body insteadof params&query)
 * [ ] add rollback & undo feature to the commit
 * [ ] filter XSS in the description
-* [ ] static (or something) optional Error port sender
+* [x] static (or something) optional Error port sender
 * [ ] Validate could be a filter insteadof a Component ***
 * [ ] transform Data before going to Validator? in Create or _
 * [ ] add chaining constructor to src/Factory
-* [ ] Test the AuthMiddleware & Delete 
+* [ ] Test the AuthMiddlewareComponent
+* [ ] Test the DeleteComponent
 * [ ] could change CRUD to take inPort of the action and not need named Components
-* [ ] work with BlueBird Promises
+* [x] work with BlueBird Promises
+* [ ] work with BlueBird more in depth
 * [ ] validate range in BalanceTrend
 * [ ] write documentation?
-* [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
 * [ ] port for each Validate param?
 * [ ] multiple responses in components/Response not just failure success(pass)
+
+# NoFlo extension
+* [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
+* [x] ^ did a microextension (addOn)
+* [ ] add SendThenDisconnect()
 
 # Other
 * [ ] rename `successful` to `success`

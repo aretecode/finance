@@ -2,7 +2,7 @@ chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
 c = require('./../components/Store.coffee').getComponent()
-moment = require 'moment'
+suite = require './testsuite'
 describe 'Test Store Component', ->
   t = new Tester c
 
@@ -18,12 +18,11 @@ describe 'Test Store Component', ->
       tags: 'component-store'
 
     t.receive 'out', (data) ->
-      chai.expect(data.successful).to.equal true
+      chai.expect(data.success).to.equal true
       chai.expect(data.data.currency).to.equal 'AUS'
       chai.expect(data.data.amount).to.equal 20
       chai.expect(data.data.description).to.equal undefined
-      createdAt = moment(data.data.created_at)
-      chai.expect(createdAt.isValid()).to.equal true
+      suite.expectValidDate(data.data.created_at)
       done()
 
     t.send

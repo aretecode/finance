@@ -15,7 +15,7 @@ describe 'Test Fetch Component', ->
       id: '3462fa39-37ea-4110-809f-fd82f74cff95'
 
     t.receive 'out', (data) ->
-      chai.expect(data.successful).to.equal false
+      chai.expect(data.success).to.equal false
       # chai.expect(data.data.id).to.equal d.id
       done()
 

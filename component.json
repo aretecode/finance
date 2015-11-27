@@ -1,7 +1,7 @@
 {
   "name": "finance",
   "repo": "arete/finance",
-  "version": "0.2.10",
+  "version": "0.2.90",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -20,7 +20,7 @@
   "scripts": [
     "index.js",
     "graphs/all.json",
-      
+
     "components/Database.coffee",
     "components/CRUD.coffee",
     "components/Retrieve.coffee",
@@ -67,6 +67,7 @@
 
       "Validate": "components/Validate.coffee",
       "Response": "components/Response.coffee",
-      "AuthMiddleware": "components/AuthMiddleware/coffee"
+      "AuthMiddleware": "components/AuthMiddleware.coffee",
+      "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee"
     }
   }

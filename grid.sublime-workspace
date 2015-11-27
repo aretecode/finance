@@ -1,0 +1,2836 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"asy",
+				"asyncCallback"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "{\n  \"name\": \"personal-finance-tracker-flo\",\n  \"version\": \"0.0.3\",\n  \"dependencies\": {\n    \"chai\": \"~3.4.1\",\n    \"coffee-script\": \"~1.9.1\",\n    \"coffeelint\": \"^1.13.1\",\n    \"express\": \"^4.13.3\",\n    \"knex\": \"~0.9.0\",\n    \"mocha\": \"~2.3.4\",\n    \"noflo\": \"^0.5.14\",\n    \"noflo-core\": \"^0.1.14\",\n    \"noflo-filesystem\": \"^1.0.6\",\n    \"noflo-math\": \"0.0.6\",\n    \"noflo-nodejs\": \"^0.5.2\",\n    \"noflo-runtime-websocket\": \"^0.5.2\",\n    \"noflo-tester\": \"0.0.2\",\n    \"noflo-xpress\": \"^0.2.0\",\n    \"pg\": \"~4.4.3\",\n    \"uuid\": \"^2.0.1\"\n  },\n  \"scripts\": {\n    \"start\": \"coffee node_modules/.bin/noflo-nodejs\",\n    \"pretest\": \"coffeelint -r spec\",\n    \"test\": \"mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 2000 spec/*.coffee\"\n  },\n  \"noflo\": {\n    \"icon\": \"globe\",\n    \"loader\": \"ComponentLoader.coffee\",\n    \"components\": {\n      \"ComboRouter\": \"components/ComboRouter.coffee\",\n      \"FilterRouter\": \"components/FilterRouter.coffee\",\n      \"PathRouter\": \"components/PathRouter.coffee\",\n      \"Router\": \"components/Router.coffee\",\n      \"Server\": \"components/Server.coffee\"\n    }\n  }\n\n}\n\n",
+			"settings":
+			{
+				"buffer_size": 1122,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Response.coffee",
+			"settings":
+			{
+				"buffer_size": 2022,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "chai = require 'chai'\nnoflo = require 'noflo'\nTester = require 'noflo-tester'\n\n# A simple component\nc = new noflo.Component\nc.description = 'Multiplies its inputs'\nc.inPorts = new noflo.InPorts\n  x:\n    datatype: 'int'\n  y:\n    datatype: 'int'\nc.outPorts.add 'xy', datatype: 'int'\nnoflo.helpers.WirePattern c,\n  in: ['x', 'y']\n  out: 'xy'\n  async: true\n  forwardGroups: true\n, (input, groups, out, done) ->\n  setTimeout ->\n    out.send input.x * input.y\n    done()\n  , 0\n\n\ndescribe 'Default tester playing with groups', ->\n  t = new Tester c\n\n  before (done) ->\n    t.start ->\n      done()\n\n  it 'should pass all data chunks, groups and counts on receive', (done) ->\n    x = [1, 2, 3]\n    y = [4, 5, 6]\n    expectedData = [4, 10, 18]\n    expectedGroups = ['foo', 'bar']\n\n    t.receive 'xy', (data, groups, dataCount, groupCount) ->\n      chai.expect(data).to.eql expectedData\n      chai.expect(groups).to.eql expectedGroups\n      chai.expect(dataCount).to.equal expectedData.length\n      chai.expect(groupCount).to.equal expectedGroups.length\n      done()\n\n    # Sending groups\n    t.ins.x.beginGroup 'foo'\n    t.ins.x.beginGroup 'bar'\n    t.ins.y.beginGroup 'foo'\n    t.ins.y.beginGroup 'bar'\n\n    for i in [0...3]\n      t.ins.x.send x[i]\n      t.ins.y.send y[i]\n\n    # endGroup affects groupCount\n    t.ins.x.endGroup()\n    t.ins.x.endGroup()\n    t.ins.y.endGroup()\n    t.ins.y.endGroup()\n\n    # receive is only triggered after disconnect\n    t.ins.x.disconnect()\n    t.ins.y.disconnect()",
+			"file": "spec/TestComponentGroup.coffee",
+			"file_size": 1490,
+			"file_write_time": 130925998953960310,
+			"settings":
+			{
+				"buffer_size": 1490,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Removed.coffee",
+			"settings":
+			{
+				"buffer_size": 849,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/FetchList.coffee",
+			"settings":
+			{
+				"buffer_size": 2582,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dev/FetchListWithQuery.coffee",
+			"settings":
+			{
+				"buffer_size": 1489,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Fetch.coffee",
+			"settings":
+			{
+				"buffer_size": 1256,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/StoreUpdate.coffee",
+			"settings":
+			{
+				"buffer_size": 1840,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 21 files for \"dateFromAny\"\n\n/home/master/Grid/components/FetchList.coffee:\n    3  {Database} = require './Database.coffee'\n    4  {Factory} = require './../src/Finance.coffee'\n    5: dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny\n    6  \n    7  class FetchList extends Database\n    .\n   38  \n   39        else if data.query? and data.query.date?\n   40:         date = dateFromAny data.query.date\n   41          month = date.getMonth()+1\n   42          year = date.getFullYear()\n\n/home/master/Grid/components/FetchWithMonthYear.coffee:\n    3  {Factory} = require './../src/Finance.coffee'\n    4  {Database} = require './Database.coffee'\n    5: dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny\n    6  \n    7  class FetchWithMonthYear extends Database\n\n/home/master/Grid/components/Store.coffee:\n    4  {Tag} = require './../src/Tag.coffee'\n    5  {Database} = require './Database.coffee'\n    6: dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny\n    7  \n    8  class Store extends Database\n    .\n   21  \n   22        store.id = if data.id? then data.id else uuid.v4()\n   23:       store.created_at = dateFromAny(data.created_at)\n   24:       unless store.created_at? # @TODO: CHANGE DATEFROMANY\n   25          store.created_at = new Date()\n   26  \n\n/home/master/Grid/components/StoreUpdate.coffee:\n    4  {Tag} = require './../src/Tag.coffee'\n    5  {Database} = require './Database.coffee'\n    6: dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny\n    7  \n    8  class StoreUpdate extends Database\n\n15 matches across 4 files\n",
+			"settings":
+			{
+				"buffer_size": 1616,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "src/Util/dateFromAny.coffee",
+			"settings":
+			{
+				"buffer_size": 478,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Persistence/connection.coffee",
+			"settings":
+			{
+				"buffer_size": 278,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Tag.coffee",
+			"settings":
+			{
+				"buffer_size": 903,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Store.coffee",
+			"settings":
+			{
+				"buffer_size": 1680,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/FinanceOperation.coffee",
+			"settings":
+			{
+				"buffer_size": 1284,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Factory.coffee",
+			"settings":
+			{
+				"buffer_size": 1868,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 3347,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "component.json",
+			"settings":
+			{
+				"buffer_size": 2112,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/fbp-noflo-flowhub-learning/README.md",
+			"settings":
+			{
+				"buffer_size": 1344,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ComponentLoader.coffee",
+			"settings":
+			{
+				"buffer_size": 349,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/BalanceTrend.coffee",
+			"settings":
+			{
+				"buffer_size": 2052,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Reports.coffee",
+			"settings":
+			{
+				"buffer_size": 2359,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentAOE.coffee",
+			"settings":
+			{
+				"buffer_size": 632,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentCreate.coffee",
+			"settings":
+			{
+				"buffer_size": 725,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentBalanceTrend.coffee",
+			"settings":
+			{
+				"buffer_size": 746,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentFetchWithMY.coffee",
+			"settings":
+			{
+				"buffer_size": 733,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentReports.coffee",
+			"settings":
+			{
+				"buffer_size": 434,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentList.coffee",
+			"settings":
+			{
+				"buffer_size": 492,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/TestComponentStore.coffee",
+			"settings":
+			{
+				"buffer_size": 864,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "moduleKeywords = ['extended', 'included']\n\nclass Module\n  @extend: (obj) ->\n    for key, value of obj when key not in moduleKeywords\n      @[key] = value\n\n    obj.extended?.apply(@)\n    this\n\n  @include: (obj) ->\n    for key, value of obj when key not in moduleKeywords\n      # Assign properties to the prototype\n      @::[key] = value\n\n    obj.included?.apply(@)\n    this\n\n\n\nclassProperties = \n  find: (id) ->\n  create: (attrs) ->\n\ninstanceProperties =\n  save: -> \n\nclass User extends Module\n  @extend classProperties\n  @include instanceProperties\n\n# Usage:\nuser = User.find(1)\n\nuser = new User\nuser.save()\n\n",
+			"file": "dev/mixins.coffee",
+			"file_size": 607,
+			"file_write_time": 130928772041245890,
+			"settings":
+			{
+				"buffer_size": 609,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/List.coffee",
+			"settings":
+			{
+				"buffer_size": 799,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".travis.yml",
+			"settings":
+			{
+				"buffer_size": 178,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Database.coffee",
+			"settings":
+			{
+				"buffer_size": 835,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/CRUD.coffee",
+			"settings":
+			{
+				"buffer_size": 869,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Monthly.coffee",
+			"settings":
+			{
+				"buffer_size": 164,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 2146,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Create.coffee",
+			"settings":
+			{
+				"buffer_size": 127,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Delete.coffee",
+			"settings":
+			{
+				"buffer_size": 127,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Finance.coffee",
+			"settings":
+			{
+				"buffer_size": 498,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/FetchWithMonthYear.coffee",
+			"settings":
+			{
+				"buffer_size": 1909,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Trend.coffee",
+			"settings":
+			{
+				"buffer_size": 1113,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/CRUD.coffee",
+			"settings":
+			{
+				"buffer_size": 9837,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/AuthMiddleware.coffee",
+			"settings":
+			{
+				"buffer_size": 1462,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dev/pass",
+			"settings":
+			{
+				"buffer_size": 581,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/restexpress/node-express-sample/bin/www",
+			"settings":
+			{
+				"buffer_size": 776,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/restexpress/node-express-sample/index.js",
+			"settings":
+			{
+				"buffer_size": 135,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/restexpress/node-express-sample/index.coffee",
+			"settings":
+			{
+				"buffer_size": 1316,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n	\"folders\":\n	[\n		{\n			\"path\": \".\"\n		},\n		{\n			\"path\": \"/home/master/fbp-noflo-flowhub-learning\"\n		},\n		{\n			\"path\": \"/home/master/restexpress\"\n		}\n	]\n}\n",
+			"file": "grid.sublime-project",
+			"file_size": 154,
+			"file_write_time": 130930512976445890,
+			"settings":
+			{
+				"buffer_size": 154,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 227,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dev/inPort.coffee",
+			"settings":
+			{
+				"buffer_size": 7920,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{EventEmitter} = require 'events'\n\nports = require './Ports'\n\nclass Component extends EventEmitter\n  description: ''\n  icon: null\n  started: false\n\n  constructor: (options) ->\n    options = {} unless options\n    options.inPorts = {} unless options.inPorts\n    if options.inPorts instanceof ports.InPorts\n      @inPorts = options.inPorts\n    else\n      @inPorts = new ports.InPorts options.inPorts\n\n    options.outPorts = {} unless options.outPorts\n    if options.outPorts instanceof ports.OutPorts\n      @outPorts = options.outPorts\n    else\n      @outPorts = new ports.OutPorts options.outPorts\n\n  getDescription: -> @description\n\n  isReady: -> true\n\n  isSubgraph: -> false\n\n  setIcon: (@icon) ->\n    @emit 'icon', @icon\n  getIcon: -> @icon\n\n  error: (e, groups = [], errorPort = 'error') =>\n    if @outPorts[errorPort] and (@outPorts[errorPort].isAttached() or not @outPorts[errorPort].isRequired())\n      @outPorts[errorPort].beginGroup group for group in groups\n      @outPorts[errorPort].send e\n      @outPorts[errorPort].endGroup() for group in groups\n      @outPorts[errorPort].disconnect()\n      return\n    throw e\n\n  shutdown: ->\n    @started = false\n\n  # The startup function performs initialization for the component.\n  start: ->\n    @started = true\n    @started\n\n  isStarted: -> @started\n\nexports.Component = Component\n\n\n\n\n\n\n\n# ////////////////////\n\n\n\n\n#     NoFlo - Flow-Based Programming for JavaScript\n#     (c) 2014 TheGrid (Rituwall Inc.)\n#     NoFlo may be freely distributed under the MIT license\n#\n# Base port type used for options normalization\n{EventEmitter} = require 'events'\n\nvalidTypes = [\n  'all'\n  'string'\n  'number'\n  'int'\n  'object'\n  'array'\n  'boolean'\n  'color'\n  'date'\n  'bang'\n  'function'\n  'buffer'\n]\n\nclass BasePort extends EventEmitter\n  constructor: (options) ->\n    @handleOptions options\n    @sockets = []\n    @node = null\n    @name = null\n\n  handleOptions: (options) ->\n    options = {} unless options\n    options.datatype = 'all' unless options.datatype\n    options.required = false if options.required is undefined\n\n    options.datatype = 'int' if options.datatype is 'integer'\n    if validTypes.indexOf(options.datatype) is -1\n      throw new Error \"Invalid port datatype '#{options.datatype}' specified, valid are #{validTypes.join(', ')}\"\n\n    if options.type and options.type.indexOf('/') is -1\n      throw new Error \"Invalid port type '#{options.type}' specified. Should be URL or MIME type\"\n\n    @options = options\n\n  getId: ->\n    unless @node and @name\n      return 'Port'\n    \"#{@node} #{@name.toUpperCase()}\"\n\n  getDataType: -> @options.datatype\n  getDescription: -> @options.description\n\n  attach: (socket, index = null) ->\n    if not @isAddressable() or index is null\n      index = @sockets.length\n    @sockets[index] = socket\n    @attachSocket socket, index\n    if @isAddressable()\n      @emit 'attach', socket, index\n      return\n    @emit 'attach', socket\n\n  attachSocket: ->\n\n  detach: (socket) ->\n    index = @sockets.indexOf socket\n    if index is -1\n      return\n    @sockets[index] = undefined\n    if @isAddressable()\n      @emit 'detach', socket, index\n      return\n    @emit 'detach', socket\n\n  isAddressable: ->\n    return true if @options.addressable\n    false\n\n  isBuffered: ->\n    return true if @options.buffered\n    false\n\n  isRequired: ->\n    return true if @options.required\n    false\n\n  isAttached: (socketId = null) ->\n    if @isAddressable() and socketId isnt null\n      return true if @sockets[socketId]\n      return false\n    return true if @sockets.length\n    false\n\n  listAttached: ->\n    attached = []\n    for socket, idx in @sockets\n      continue unless socket\n      attached.push idx\n    attached\n\n  isConnected: (socketId = null) ->\n    if @isAddressable()\n      throw new Error \"#{@getId()}: Socket ID required\" if socketId is null\n      throw new Error \"#{@getId()}: Socket #{socketId} not available\" unless @sockets[socketId]\n      return @sockets[socketId].isConnected()\n\n    connected = false\n    @sockets.forEach (socket) =>\n      return unless socket\n      if socket.isConnected()\n        connected = true\n    return connected\n\n  canAttach: -> true\n\nmodule.exports = BasePort",
+			"file": "dev/nofloComponent.coffee",
+			"file_size": 1330,
+			"file_write_time": 130928774473605890,
+			"settings":
+			{
+				"buffer_size": 4172,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/AlphaOmegaEntries.coffee",
+			"settings":
+			{
+				"buffer_size": 1008,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "",
+			"file": "spec/BalanceTrend.coffee",
+			"file_size": 3797,
+			"file_write_time": 130927940054028310,
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dev/BalanceTrendTest.coffee",
+			"settings":
+			{
+				"buffer_size": 3805,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/master/Downloads/BalanceTrend.js",
+			"settings":
+			{
+				"buffer_size": 6360,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "spec/Reports.coffee",
+			"settings":
+			{
+				"buffer_size": 1509,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dev/fetch.coffee",
+			"settings":
+			{
+				"buffer_size": 1172,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "noflo = require 'noflo'\n{_} = require 'underscore'\n{Factory} = require './../src/Boot.coffee'\n\n###\n  USE THIS FOR FETCH WITH MONTH YEAR\n  withMonthYear = (month, year, pg, table) ->\n  query = pg(table).select()\n  .whereRaw(\"EXTRACT(MONTH FROM created_at) = \" + data.month)\n  .andWhereRaw(\"EXTRACT(YEAR FROM created_at) = \" + data.year)\n  .toString()\n\n  pg.raw(query).then (all) -> return all.rows\n  .map (item) ->\n    pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->\n      return null if tagRow.length is 0\n      return Factory.hydrateFrom table, item, tagArrayToString(tagRow)\n  .then (all) ->\n    all = _.flatten(all)\n    tags = {}\n    # getting all the tags from all the items\n    for item in all\n      continue unless item?\n      tag = item.tags\n      if _.isArray tag\n        for nestedTag in tag\n          tags[nestedTag.name] = 0\n      else\n        tags[tag.name] = 0\n    # go through all tags\n    # and get items that correspond\n    for tag, value of tags\n      for item in all\n        unless item is null # add the income or expense to the tag\n          tags[tag] += item.money.amount if item.hasTag(tag)\n###\n###\n# SHIT, WHAT GOES *INTO* this one?\nclass AlphaOmegaEntries extends Database\n  description: 'Earliest date.'\n  icon: 'database'    \n\n  constructor: ->\n    @inPorts = new noflo.InPorts\n      in:\n        datatype: 'object'\n        description: 'Object being Stored'\n    @outPorts = new noflo.OutPorts\n      out:\n        datatype: 'object'\n      error:\n        datatype: 'object'\n        description: 'sent through the error port\n        if not valid. @TODO: add port for each param'\n\n    @inPorts.in.on 'data', (data) =>\n      @pg = require('./../src/Persistence/connection.coffee').getPg()\n     \n     {outPorts, table, pg} = {@outPorts, @table, @pg}\n      # @TODO: !!! WHERE NOT NULL\n      earliestQ = '(SELECT created_at FROM expense LIMIT 1) UNION (SELECT created_at FROM income LIMIT 1) ORDER BY created_at DESC)'\n      latestQ = '(SELECT created_at FROM expense LIMIT 1) UNION (SELECT created_at FROM income LIMIT 1) ORDER BY created_at ASC)'\n      @pg.raw(earliestQ).then(earliest) -> \n        @pg.raw(latestQ).then(latest) ->\n          outPorts.out.send \n            earliest: new Date(earliest[0])\n            latest: new Date(latest[0])\n          outPorts.out.disconnect()\n        .catch (e) ->\n          toError e\n\n    @inPorts.in.on 'connect', =>\n      @outPorts.out.connect()\n    @inPorts.in.on 'begingroup', (group) =>\n      @outPorts.out.beginGroup group\n    @inPorts.in.on 'endgroup', =>\n      @outPorts.out.endGroup()\n###\n\n### \n@@@@@@!!!\nPass their own Range in, or use the default range \n> so if dataIsSet -> go out one port\n> else, go out a diff port\n\n@@@@@@!!!\n###\n\nclass MonthYearRange \n  constructor: (@startMonth = 1, @startYear = 1900, @endMonth = 12, @endYear = 2015) ->\n  toString: -> JSON.stringify({startMonth: @startMonth; startYear: @startYear; endMonth: @endMonth; endYear: @endYear})\n\nclass Reporter\n  constructor: (@balance = 0, @reports = []) ->\n\n  ### \n  @param {MonthYearRange} range\n  @param {array} incomes\n  @param {array} expenses\n  ###\n  report: (range, incomes, expenses) ->\n    moment = require 'moment'\n   \n    createdAtToMoment = (item) -> \n      item.created_at = moment(item.created_at); return item\n    mapCreatedAtIfArray = (item) ->\n      if _.isArray(item)\n        item = incomes.map createdAtToMoment\n      return item\n    yearAndMonthFilter = (item) ->\n      if item.created_at.year() is year and item.created_at.month() is month\n        return true \n      return false\n    \n    ###\n    @TODO currency conversion & optimize with next if + chain\n    if there is something in them, we filter\n    otherwise, they are empty/worthless/0\n    ###\n    filterMapReduceToNumber = (items) ->      \n      # because if not found\n      if _.isArray(items)\n        items = items.filter yearAndMonthFilter\n      else\n        items = []\n\n      if items.length is 0\n        return 0\n      else\n        items = monthIncomes.map (item) -> item.money.amount\n        items = monthIncomes.reduce (a, b) -> a+b\n        return items\n\n    incomes = mapCreatedAtIfArray(incomes)\n    expenses = mapCreatedAtIfArray(expenses)\n    for year in [range.startYear .. range.endYear]\n      for month in [0 .. 12]\n        continue if year is range.startYear and month < range.startMonth\n        continue if year is range.endYear and month > range.endMonth\n        monthIncomes = filterMapReduceToNumber(incomes)\n        monthExpenses = filterMapReduceToNumber(expenses)\n        @balance += (monthIncomes - monthExpenses)\n        @reports.push new Report(month, year, monthIncomes, monthExpenses, @balance)\n\nearliestLatest = (pg, cb) ->\n  earliestQ = '(SELECT created_at FROM expense LIMIT 1) UNION (SELECT created_at FROM income LIMIT 1) ORDER BY created_at DESC)'\n  latestQ = '(SELECT created_at FROM expense LIMIT 1) UNION (SELECT created_at FROM income LIMIT 1) ORDER BY created_at ASC)'\n  pg.raw(earliestQ).then(earliest) -> \n    pg.raw(latestQ).then(latest) ->\n      cb\n        earliest: new Date(earliest[0])\n        latest: new Date(latest[0])\n\n###\n@param {MonthYearRange}\n###\nbalanceTrend = (pg, range, cb) ->\n  rep = new Reporter()\n  reportIncomeAndExpenseBetweenMonths(pg, range, rep, cb)\n\nreportIncomeAndExpenseBetweenMonths = (pg, range, rep, cb) ->\n  findBetweenMonths pg, 'income' range, (incomes) ->\n    findBetweenMonths pg, 'expense', range, (expenses) ->\n      rep.report range, incomes, expenses\n      cb rep\n\n# select only amount & currency\nfindBetweenMonths = (pg, table, range = new MonthYearRange(), cb) ->\n  query = pg(table).select()\n  .whereRaw(\"EXTRACT(YEAR FROM created_at) >= \" + range.startYear)\n  .andWhereRaw(\"EXTRACT(YEAR FROM created_at) <= \" + range.endYear)\n  .andWhereRaw(\"EXTRACT(MONTH FROM created_at) >= \" + range.startMonth)\n  .andWhereRaw(\"EXTRACT(MONTH FROM created_at) <= \" + range.endMonth)\n  .toString()\n\n  pg.raw(query).then (all) -> return all.rows\n  .map (item) ->\n    pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->\n      # because not all tags are in all tables\n      return null if tagRow.length is 0\n      return Factory.hydrateFrom table, item, tagArrayToString(tagRow)\n  .then (all) ->\n    cb _.flatten(all)\n\ndescribe 'balance trend', ->\n  it 'should try'\n    balanceTrend pg, new MonthYearRange(), (report) ->\n      console.log report\n",
+			"settings":
+			{
+				"buffer_size": 6360,
+				"line_ending": "Unix",
+				"name": "noflo = require 'noflo'"
+			}
+		},
+		{
+			"file": "node_modules/noflo-core/components/MakeFunction.coffee",
+			"settings":
+			{
+				"buffer_size": 1691,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/noflo-core/components/Callback.coffee",
+			"settings":
+			{
+				"buffer_size": 1363,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 54.0,
+		"last_filter": "white",
+		"selected_items":
+		[
+			[
+				"white",
+				"Whitespace: Remove Trailing Whitespace"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Channel"
+			],
+			[
+				"install",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"set coffe",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"whit",
+				"Whitespace: Remove Trailing Whitespace"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 509.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/master/Grid",
+		"/home/master/Grid/node_modules/express/lib",
+		"/home/master/Grid/node_modules/noflo",
+		"/home/master/Grid/node_modules/noflo/src/bin",
+		"/home/master/Grid/node_modules/noflo/src/components",
+		"/home/master/restexpress",
+		"/home/master/restexpress/node-express-sample",
+		"/home/master/restexpress/node-express-sample/bin"
+	],
+	"file_history":
+	[
+		"/home/master/grid.sublime-project",
+		"/home/master/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/master/Grid/Gruntfile.coffee",
+		"/home/master/Grid/.env.coffee",
+		"/home/master/Grid/spec/Database.coffee",
+		"/home/master/Grid/spec/tests.coffee",
+		"/home/master/Grid/dev/require-file-access-exists.coffee",
+		"/home/master/Grid/spec/TestComponentValidate.coffee",
+		"/home/master/Grid/spec/TestComponentTrend.coffee",
+		"/home/master/Grid/spec/TestComponentFetch.coffee",
+		"/home/master/Grid/dev/crud.COFFEE",
+		"/home/master/Grid/dev/code.todo.coffee",
+		"/home/master/Grid/components/Validate.coffee",
+		"/home/master/Grid/index.coffee",
+		"/home/master/Grid/components/Retrieve.coffee",
+		"/home/master/Grid/components/Update.coffee",
+		"/home/master/Grid/components/Delete.coffee",
+		"/home/master/Grid/src/ExtendedComponent.coffee",
+		"/home/master/Grid/spec/TestComponentStoreUpdate.coffee",
+		"/home/master/Grid/components/CRUD.coffee",
+		"/home/master/Grid/src/Tag.coffee",
+		"/home/master/Grid/src/Money.coffee",
+		"/home/master/Grid/spec/TestComponentStore.coffee",
+		"/home/master/Grid/spec/TestComponentReports.coffee",
+		"/home/master/Grid/spec/TestComponentList.coffee",
+		"/home/master/Grid/spec/TestComponentFetchWithMY.coffee",
+		"/home/master/Grid/spec/TestComponentBalanceTrend.coffee",
+		"/home/master/Grid/test_graphs/App.fbp",
+		"/home/master/Grid/components/AlphaOmegaEntries.coffee",
+		"/home/master/Grid/src/Persistence/connection.coffee",
+		"/home/master/Grid/components/FetchWithMonthYear.coffee",
+		"/home/master/Grid/dev/FetchListWithQuery.coffee",
+		"/home/master/Grid/spec/AlphaOmegaEntriesTest.coffee",
+		"/home/master/Grid/dev/BalanceTrend3.coffee",
+		"/home/master/Grid/dev/fetchwithmonthyear.coffee",
+		"/home/master/Grid/components/Fetch.coffee",
+		"/home/master/Grid/dev/fetch-queries.coffee",
+		"/home/master/Grid/dev/fetch.coffee",
+		"/home/master/Grid/spec/\nBalanceTrend.coffee",
+		"/home/master/Grid/dev/BalanceTrend.coffee",
+		"/home/master/Grid/dev/BalanceTrend2.coffee",
+		"/home/master/Grid/dev/FetchWithMonthYear2.coffee",
+		"/home/master/Grid/spec/Reports.coffee",
+		"/home/master/Grid/README.md",
+		"/home/master/Grid/component.json",
+		"/home/master/Grid/dev/FetchWithMonthYear.coffee",
+		"/home/master/Grid/.gitignore",
+		"/home/master/Grid/flowhub.json",
+		"/home/master/Grid/components/StoreUpdate.coffee",
+		"/home/master/Grid/spec/RealCreateExpense.coffee",
+		"/home/master/Grid/src/Factory.coffee",
+		"/home/master/Grid/package.json",
+		"/home/master/Grid/components/Store.coffee",
+		"/home/master/Grid/components/Removed.coffee",
+		"/home/master/Grid/graphs/main.json",
+		"/home/master/Grid/node_modules/noflo-xpress/node_modules/express/lib/application.js",
+		"/home/master/Grid/dev/middlewareThatLoaded.coffee",
+		"/home/master/Grid/test_components/TestMiddleware.coffee",
+		"/home/master/Grid/dev/AuthMiddleware.coffee",
+		"/home/master/Grid/node_modules/noflo-tester/package.json",
+		"/home/master/Grid/components/FetchList.coffee",
+		"/home/master/Grid/dev/resources.md",
+		"/home/master/Grid/graphs/original.json",
+		"/home/master/Grid/components/Database.coffee",
+		"/home/master/Grid/spec/TestComponentCreate.coffee",
+		"/home/master/Grid/spec/TestCreateExtendingCrud.coffee",
+		"/home/master/Grid/.travis.yml",
+		"/home/master/Grid/dev/use.me",
+		"/home/master/Grid/components/AuthMiddleware.coffee",
+		"/home/master/Grid/spec/CRUD.coffee",
+		"/home/master/Grid/components/Create.coffee",
+		"/home/master/Grid/components/List.coffee",
+		"/home/master/Grid/node_modules/noflo-xpress/lib/BaseRouter.coffee",
+		"/home/master/Grid/test_components/TestCreate.coffee",
+		"/home/master/Grid/test_components/TestOptionalParam.coffee",
+		"/home/master/Grid/backups/4 - optional params working/spec/CreateExpense.coffee",
+		"/home/master/Grid/test_graphs/CreateExpense.fbp",
+		"/home/master/Grid/ComponentLoader.coffee",
+		"/home/master/Grid/node_modules/noflo-xpress/components/FilterRouter.coffee",
+		"/home/master/Grid/test_components/TestFilter.coffee",
+		"/home/master/Grid/lib/Remove.coffee",
+		"/home/master/Grid/src/Util/dateFromAny.coffee",
+		"/home/master/Grid/test_graphs/BasicApp.fbp",
+		"/home/master/Grid/test_graphs/App2.fbp",
+		"/home/master/Grid/Procfile",
+		"/home/master/Grid/app.json",
+		"/home/master/Grid/spec/Basic.coffee",
+		"/home/master/Grid/spec/DefaultNoFloTester.coffee",
+		"/home/master/Grid/spec/CRUD-backup",
+		"/home/master/Grid/spec/Mine.coffee",
+		"/home/master/Grid/components/Sub/Store.coffee",
+		"/home/master/Grid/components/Response.coffee",
+		"/home/master/Grid/components/Mine.coffee",
+		"/home/master/Grid/lib/BaseRouter.coffee",
+		"/home/master/Grid/node_modules/noflo-tester/spec/SimpleComponent.coffee",
+		"/home/master/Grid/components/SaveTags.coffee",
+		"/home/master/Grid/components/Response1.coffee",
+		"/home/master/Grid/test_graphs/SubComponent.fbp",
+		"/home/master/Grid/spec/CreateExpense.coffee",
+		"/home/master/Grid/components/SubDirectoryComponent/SubComponent.coffee",
+		"/home/master/Grid/test_components/TestMineWorld.coffee",
+		"/home/master/Grid/src/\nBoot.coffee",
+		"/home/master/Grid/components/Find.coffee",
+		"/home/master/Grid/spec/SubDirectoryComponent.coffee",
+		"/home/master/Grid/components/Connection.coffee",
+		"/home/master/Grid/src",
+		"/home/master/Grid/test_components/TestMine.coffee",
+		"/home/master/Grid/pass",
+		"/home/master/Grid/components/CreateExpense.coffee",
+		"/home/master/Grid/test_components/TestCreate1.coffee",
+		"/home/master/Grid/test_graphs/RouterTest.fbp",
+		"/home/master/Grid/test_components/TestWorld.coffee",
+		"/home/master/Grid/test_graphs/Mine.fbp",
+		"/home/master/Downloads/main.json",
+		"/home/master/Grid/spec/Combo.coffee",
+		"/home/master/Grid/components/DeleteExpense.coffee",
+		"/home/master/Grid/components/Server.coffee",
+		"/home/master/Grid/components/ComboRouter.coffee",
+		"/home/master/Grid/test/Basic.coffee",
+		"/home/master/Grid/dev/package.json",
+		"/home/master/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/master/.config/sublime-text-3/Packages/User/Sodomized/Sodomized.tmLanguage",
+		"/home/master/.config/sublime-text-3/Packages/User/Sodomized/Sodomized.tmTheme",
+		"/home/master/Grid/id",
+		"/home/master/FBP.tmLanguage",
+		"/home/master/.config/sublime-text-3/Packages/User/XML.sublime-settings",
+		"/home/master/.config/sublime-text-3/Packages/User/JSON.sublime-settings"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+			"/home/master/Grid/components",
+			"/home/master/Grid/node_modules/knex/lib",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/components",
+			"/home/master/Grid/test_components",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/components",
+			"/home/master/Grid/node_modules/noflo-xpress/components",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/components",
+			"/home/master/Grid/node_modules/noflo-xpress",
+			"/home/master/Grid/components",
+			"/home/master/Grid/src",
+			"/home/master/Grid/components",
+			"/home/master/Grid/spec",
+			"/home/master/Grid",
+			"/home/master/Grid/components",
+			"/home/master/Grid/src",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/test_components",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/components",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/node_modules",
+			"/home/master/Grid/spec",
+			"/home/master/Grid/components",
+			"/home/master/Grid/node_modules/noflo-core/components"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"express",
+			"\"",
+			"tag",
+			"dateFromAny",
+			"updateData",
+			"extends Database",
+			"extend Database",
+			"extend Deleting",
+			"pg",
+			"dataOut",
+			"table",
+			"boot.coffee",
+			"      \n",
+			"add",
+			"Component",
+			"functionhelper",
+			"moment",
+			"Boot.coffee",
+			"getResult",
+			"tagArray",
+			"expectFinanceObject",
+			"console.log",
+			"table",
+			"_",
+			"Pass their own Range in, or use the default range",
+			"console.log",
+			"MonthYearRange",
+			"TrendResponse",
+			"Reports",
+			"pg",
+			"Reports",
+			"report balance trends",
+			"Reports should report balance trends",
+			"Reports should report balance trends:",
+			"FetchWithMonthYear",
+			"BalanceTrend",
+			"MonthYearRange",
+			"console.log",
+			"update",
+			"reports",
+			"outPorts",
+			"_",
+			"earliestLatest",
+			"tagArrayToString",
+			"JOIN",
+			"createdAtToMoment",
+			"income!!!!!!!!!!!!!!",
+			"retrieve",
+			"create",
+			"MonthYearRange",
+			"@pg",
+			"createdAtToMoment",
+			"reportIncomeAndExpenseBetweenMonths",
+			"balanceTrend",
+			"AlphaOmegaEntries",
+			"report",
+			"console.log ",
+			"hasTag",
+			"params after fetching data for Month & Year",
+			"tag",
+			"name",
+			"outPorts",
+			"tagArrayToString",
+			"year",
+			"console.log",
+			"childC",
+			"inPort",
+			"Store",
+			"_",
+			"#######################################",
+			"Private",
+			"getProcess",
+			".get",
+			"get",
+			"component",
+			".use",
+			"use",
+			"get",
+			"env",
+			"getProcess",
+			"net",
+			"******",
+			"tagArrayToString",
+			"Store",
+			"dateFromAny",
+			"dateFrom",
+			"dateFromAny",
+			"dateFrom",
+			"./../Util/dateFrom.coffee",
+			"999999999999999999999",
+			"&777777777777777777777777777777777",
+			"A basic Express server in NoFlo",
+			"''",
+			"111111111111111111111",
+			"11111",
+			"111111",
+			"22222",
+			"uuid",
+			"outPort",
+			"CreateResponse",
+			"res\\",
+			"res",
+			"could not save!",
+			"WirePattern",
+			"should work with req",
+			"Create (using noflo-tester) should work with req",
+			"payloa",
+			"send",
+			"dateFromAny",
+			"pg",
+			"SaveTags",
+			"status",
+			"on",
+			"Validate",
+			"\n",
+			"Validate",
+			"CreateExpense",
+			"error",
+			"CAD",
+			"Promise",
+			"TestCreate",
+			"3032",
+			"303",
+			"3031",
+			"Pass",
+			"3032",
+			"private",
+			"component"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			"update",
+			"Router",
+			"c",
+			"3039",
+			"c"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 46,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1122,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								452,
+								452
+							]
+						],
+						"settings":
+						{
+							"default_dir": "/home/master/Grid",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 57,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "components/Response.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2022,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								641,
+								641
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "spec/TestComponentGroup.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1490,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								472,
+								472
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 58,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "components/Removed.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 849,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								545,
+								545
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 33,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "components/FetchList.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2582,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								829,
+								829
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "dev/FetchListWithQuery.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1489,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								613,
+								613
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 11.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 51,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "components/Fetch.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1256,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								231,
+								231
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 38,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "components/StoreUpdate.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1840,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								710,
+								710
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 528.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 30,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1616,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										193,
+										204
+									],
+									[
+										230,
+										241
+									],
+									[
+										251,
+										262
+									],
+									[
+										401,
+										412
+									],
+									[
+										676,
+										687
+									],
+									[
+										713,
+										724
+									],
+									[
+										734,
+										745
+									],
+									[
+										947,
+										958
+									],
+									[
+										984,
+										995
+									],
+									[
+										1005,
+										1016
+									],
+									[
+										1171,
+										1182
+									],
+									[
+										1254,
+										1265
+									],
+									[
+										1469,
+										1480
+									],
+									[
+										1506,
+										1517
+									],
+									[
+										1527,
+										1538
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								1066,
+								1066
+							]
+						],
+						"settings":
+						{
+							"default_dir": "/home/master/Grid",
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 43,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Util/dateFromAny.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 478,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								366,
+								366
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 22,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/Persistence/connection.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								278,
+								278
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 21,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/Tag.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 903,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								635,
+								635
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 44,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "components/Store.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1680,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								682,
+								682
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 176.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 31,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "src/FinanceOperation.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1284,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								311,
+								311
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 42,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/Factory.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1868,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1053,
+								1053
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 50,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3347,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2,
+								2
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "component.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2112,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								372,
+								372
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "/home/master/fbp-noflo-flowhub-learning/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1344,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								426,
+								426
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 297.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "ComponentLoader.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 349,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								106,
+								106
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 45,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "components/BalanceTrend.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2052,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								230,
+								230
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 41,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "components/Reports.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2359,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2320,
+								2320
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 198.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 32,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "spec/TestComponentAOE.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 632,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								632,
+								632
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "spec/TestComponentCreate.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 725,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 27,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "spec/TestComponentBalanceTrend.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 746,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 28,
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "spec/TestComponentFetchWithMY.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 733,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								315,
+								315
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 26,
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "spec/TestComponentReports.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 434,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 24,
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"file": "spec/TestComponentList.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 492,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 25,
+					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"file": "spec/TestComponentStore.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 864,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 23,
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"file": "dev/mixins.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								609,
+								609
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 49,
+					"type": "text"
+				},
+				{
+					"buffer": 29,
+					"file": "components/List.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 799,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								631,
+								631
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 30,
+					"file": ".travis.yml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 178,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								93,
+								93
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				},
+				{
+					"buffer": 31,
+					"file": "components/Database.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 835,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								97,
+								97
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 34,
+					"type": "text"
+				},
+				{
+					"buffer": 32,
+					"file": "components/CRUD.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 869,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								80,
+								80
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 264.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 40,
+					"type": "text"
+				},
+				{
+					"buffer": 33,
+					"file": "components/Monthly.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								164,
+								164
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 36,
+					"type": "text"
+				},
+				{
+					"buffer": 34,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2146,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								43,
+								43
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 35,
+					"file": "components/Create.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 127,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 39,
+					"type": "text"
+				},
+				{
+					"buffer": 36,
+					"file": "components/Delete.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 127,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 35,
+					"type": "text"
+				},
+				{
+					"buffer": 37,
+					"file": "src/Finance.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 498,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								244,
+								244
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 46,
+					"type": "text"
+				},
+				{
+					"buffer": 38,
+					"file": "components/FetchWithMonthYear.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1909,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								374,
+								374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 37,
+					"type": "text"
+				},
+				{
+					"buffer": 39,
+					"file": "components/Trend.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1113,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								496,
+								496
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 396.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 29,
+					"type": "text"
+				},
+				{
+					"buffer": 40,
+					"file": "spec/CRUD.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9837,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6531,
+								6531
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 671.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 41,
+					"file": "components/AuthMiddleware.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1462,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1295,
+								1295
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 42,
+					"file": "dev/pass",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 581,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								521,
+								521
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 43,
+					"file": "/home/master/restexpress/node-express-sample/bin/www",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 776,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								267,
+								267
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 44,
+					"file": "/home/master/restexpress/node-express-sample/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								135,
+								135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 45,
+					"file": "/home/master/restexpress/node-express-sample/index.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								270,
+								270
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 46,
+					"file": "grid.sublime-project",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 154,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 47,
+					"file": "/home/master/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 227,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								227,
+								227
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 48,
+					"file": "dev/inPort.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7920,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7546,
+								7546
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3464.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 48,
+					"type": "text"
+				},
+				{
+					"buffer": 49,
+					"file": "dev/nofloComponent.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4172,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								245,
+								245
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 47,
+					"type": "text"
+				},
+				{
+					"buffer": 50,
+					"file": "components/AlphaOmegaEntries.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1008,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								478,
+								478
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 51,
+					"file": "spec/BalanceTrend.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 52,
+					"type": "text"
+				},
+				{
+					"buffer": 52,
+					"file": "dev/BalanceTrendTest.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3805,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3805,
+								3805
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1963.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 53,
+					"type": "text"
+				},
+				{
+					"buffer": 53,
+					"file": "/home/master/Downloads/BalanceTrend.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1130,
+								1130
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 396.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 54,
+					"type": "text"
+				},
+				{
+					"buffer": 54,
+					"file": "spec/Reports.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1509,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								118,
+								118
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 55,
+					"file": "dev/fetch.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1172,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								467,
+								467
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 56,
+					"type": "text"
+				},
+				{
+					"buffer": 56,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1354,
+								1354
+							]
+						],
+						"settings":
+						{
+							"auto_name": "noflo = require 'noflo'",
+							"default_dir": "/home/master/Grid",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 616.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 55,
+					"type": "text"
+				},
+				{
+					"buffer": 57,
+					"file": "node_modules/noflo-core/components/MakeFunction.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1691,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1487,
+								1487
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 58,
+					"file": "node_modules/noflo-core/components/Callback.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1363,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								472,
+								472
+							],
+							[
+								880,
+								880
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "grid.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 265.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

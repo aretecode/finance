@@ -13,7 +13,6 @@ describe 'Test List Component', ->
   it 'should send the results from the db', (done) ->
     t.receive 'out', (data) ->
       chai.expect(data).to.be.a 'object'
-      chai.expect(data.successful).to.equal true
       done()
 
     t.send

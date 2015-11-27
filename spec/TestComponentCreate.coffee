@@ -12,7 +12,7 @@ describe 'Test Create Component', ->
 
   it 'should send out res', (done) ->
     d =
-      params:
+      query:
         currency: 'CAD'
         amount: 10
       res:
@@ -25,16 +25,16 @@ describe 'Test Create Component', ->
     t.send
       req: d
 
-  it 'should send out params', (done) ->
+  it 'should send out (query) params', (done) ->
     d =
-      params:
+      body:
         currency: 'CAD'
         amount: 10
       res:
         'res'
 
     t.receive 'out', (data) ->
-      chai.expect(data).to.equal d.params
+      chai.expect(data).to.equal d.body
       done()
 
     t.send

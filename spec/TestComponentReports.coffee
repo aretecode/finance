@@ -12,7 +12,7 @@ describe 'Test Reports Component', ->
 
   it 'should send out false with no incomes and expenses', (done) ->
     t.receive 'out', (data) ->
-      chai.expect(data.successful).to.equal false
+      chai.expect(data.success).to.equal false
       done()
 
     t.send

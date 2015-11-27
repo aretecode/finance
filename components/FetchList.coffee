@@ -1,8 +1,7 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
 {Database} = require './Database.coffee'
-{Factory} = require './../src/Finance.coffee'
-dateFromAny = require('./../src/Util/dateFromAny.coffee').dateFromAny
+util = require('./../src/Finance.coffee')
 
 class FetchList extends Database
   description: 'Fetch the list of finance operations.'
@@ -13,64 +12,59 @@ class FetchList extends Database
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
       {pg, table, outPorts} = {@pg, @table, @outPorts}
-
       if data.query? and data.query.tag?
         query = '
         SELECT *,
-          array_to_string(array(
+          array(
             SELECT "tags".tag
             FROM "tags"
-            WHERE "tags".id = "'+table+'".id
-          ), \', \') AS tags
-          FROM "'+table+'"
-          INNER JOIN "tags" ON "tags".id = "'+table+'".id
-        WHERE "tags".tag = \'' + data.query.tag + "'"
+            WHERE "tags".id = "finance_op".id
+          ) AS tags
+          FROM "finance_op"
+          INNER JOIN "tags" ON "tags".id = "finance_op".id
+        WHERE "tags".tag = \'' +data.query.tag+ '\'
+        AND "finance_op".type = \''+table+'\''
 
         @pg.raw(query).then (rows) ->
-          row = rows.rows
-          result = unless row.length is 0 then true else false
-          item = Factory.hydrateAllMergedFrom table, row
           outPorts.out.send
-            successful: result
-            data: row
+            success: rows.rows.length isnt 0
+            data: rows.rows
           outPorts.out.disconnect()
         return
 
       else if data.query? and data.query.date?
-        date = dateFromAny data.query.date
+        date = util.dateFrom data.query.date
         month = date.getMonth()+1
         year = date.getFullYear()
-        query = @pg(@table).select()
-        .whereRaw("EXTRACT(MONTH FROM created_at) = " + month)
-        .andWhereRaw("EXTRACT(YEAR FROM created_at) = " + year)
+        query = @pg('finance_op').select()
+        .whereRaw('EXTRACT(MONTH FROM created_at) = ' + month)
+        .andWhereRaw('EXTRACT(YEAR FROM created_at) = ' + year)
+        .andWhere('type', table)
         .toString()
 
         @pg.raw(query)
-        .then (row) -> return row.rows
-        .map (item) ->
-          pg.select().from('tags').where(id: item.id).then (tag) -> return tag
-          .then (tags) ->
-            Factory.hydrateFrom table, item, tags
-        .then (row) ->
-          result = unless row.length is 0 then true else false
+        .then (rows) ->
+          rows.rows.map (item) ->
+            pg.select().from('tags').where(id: item.id).then (tags) ->
+              item.tags = tags
+
           outPorts.out.send
-            successful: result
-            data: row
+            success: rows.rows.length isnt 0
+            data: rows.rows
           outPorts.out.disconnect()
+
         return
         # message = table + ' listing not found for month: `' +
         # date.getMonth() + '` and year: `' + date.getFullYear() + '`'
 
-      @pg(table).select().then (row) -> return row
-      .map (item) ->
-        pg.select().from('tags').where(id: item.id).then (tags) ->
-          Factory.hydrateFrom table, item, tags
-      .then (row) ->
-        row = _.uniq row
-        result = unless row.length is 0 then true else false
+      @pg('finance_op').select().where('type', table).then (rows) ->
+        rows.map (item) ->
+          pg.select().from('tags').where(id: item.id).then (tags) ->
+            item.tags = tags
+
         outPorts.out.send
-          successful: result
-          data: row
+          success: rows.length isnt 0
+          data: rows
         outPorts.out.disconnect()
 
 exports.getComponent = -> new FetchList
