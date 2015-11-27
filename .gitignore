@@ -5,3 +5,4 @@ backups
 app.json
 dev
 flowhub.json
+*.sublime-workspace
