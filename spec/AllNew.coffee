@@ -47,6 +47,7 @@ describe 'App (AllNew)', ->
   after (done) ->
     net.stop()
     pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
+      pg.destroy()
       done()
 
   it 'should create using POST', (done) ->
