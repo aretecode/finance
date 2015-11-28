@@ -1,0 +1,102 @@
+{
+    "properties": {
+        "name": "ListExpense",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {
+        "req": {
+            "process": "aretecode_finance/List_7g63u",
+            "port": "req",
+            "metadata": {
+                "x": 190,
+                "y": 100,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "aretecode_finance/List_7g63u": {
+            "component": "aretecode_finance/List",
+            "metadata": {
+                "label": "aretecode_finance/List",
+                "x": 334,
+                "y": 100,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/FetchList_n2t1z": {
+            "component": "aretecode_finance/FetchList",
+            "metadata": {
+                "label": "aretecode_finance/FetchList",
+                "x": 684,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/Response_b9c4n": {
+            "component": "aretecode_finance/Response",
+            "metadata": {
+                "label": "aretecode_finance/Response",
+                "x": 864,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "aretecode_finance/List_7g63u",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Response_b9c4n",
+                "port": "res"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/List_7g63u",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FetchList_n2t1z",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/FetchList_n2t1z",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Response_b9c4n",
+                "port": "retrieved"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "aretecode_finance/FetchList_n2t1z",
+                "port": "name"
+            }
+        }
+    ]
+}
