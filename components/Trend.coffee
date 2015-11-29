@@ -2,7 +2,7 @@ noflo = require 'noflo'
 
 class Trend extends noflo.Component
   description: 'Trend'
-  icon: 'graph'
+  icon: 'line-chart'
 
   constructor: ->
     @pg = require('./../src/Persistence/connection.coffee').getPg()

@@ -178,7 +178,7 @@ currencies = JSON.parse('{
 
 class Validate extends noflo.Component
   description: 'Validate income from xpress params.'
-  icon: 'balance-scale'
+  icon: 'filter'
 
   currency: (currency) ->
     unless _.contains Object.keys(currencies), currency.toUpperCase()

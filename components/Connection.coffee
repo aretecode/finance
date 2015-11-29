@@ -3,8 +3,8 @@ noflo = require 'noflo'
 
 exports.getComponent = ->
   c = new ExtendedComponent
-  c.icon = "database"
-  c.description = "PostgreSQL Knexjs Connection"
+  c.icon = 'database'
+  c.description = 'PostgreSQL Knexjs Connection'
 
   c.inPorts.addOn 'any',
     datatype: 'object'

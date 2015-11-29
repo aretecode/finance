@@ -62,6 +62,7 @@ requ = (statusCode, options, cb) ->
 
 class FlowHubReq extends finance.ExtendedComponent
   description: 'HTTP requests with given data'
+  icon: 'send'
 
   constructor: ->
     @inPorts = new noflo.InPorts
@@ -85,7 +86,7 @@ class FlowHubReq extends finance.ExtendedComponent
         options = optionsFrom data.options.method, data.options.path
         requ data.statusCode, options, data.cb
 
-      # @sendThenDiscon data
+      # @sendIfConnectedThenDisconnect data
 
 exports.getComponent = -> new FlowHubReq
 exports.FlowHubReq = FlowHubReq

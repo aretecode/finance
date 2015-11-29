@@ -1,50 +1,53 @@
-uuid = require 'uuid'
 finance = require './../src/Finance.coffee'
 
+# @TODO
+# [ ] on *any* disconnect, outPorts.out.disconnect?
+# [x] change to allow for failures
+# [ ] change to detect failure again with statusCode
+# [ ] pass in a failure cb
+#     > could pass code back
+# [ ] pass in port (server) ~
+#       c.addInOnData 'name', (data) ->
+#       c.addInOnData 'port', (data) ->
+# [ ] add auth inPort to req
 exports.getComponent = ->
   c = new finance.ExtendedComponent
+  c.description 'an easy way into the app'
+  c.icon = 'dollar'
 
-  # @TODO
-  # [ ] on *any* disconnect, outPorts.out.disconnect?
-  # [x] change to allow for failures
-  # [ ] change to detect failure again with statusCode
-  # [ ] pass in a failure cb
-  #     > could pass code back
-  # [ ] pass in port
-  # [ ] add auth inPort to req
-  # [ ] add inPort f
-  # [ ] create these ports dynamically
   c.addInOnData 'create', (data) ->
-    c.outPorts.out.send
+    c.sendThenDisconnect 'create',
       body: data.body
       options:
         method: 'POST'
-        path: '/api/expenses'
+        path: '/api/' + data.type||'expenses'
       statusCode: 201
       cb: data.cb
 
-  c.addInOnData 'retrieve', (data) ->
-    c.sendThenDisconnect
-      options:
-        method: 'GET'
-        path: '/api/expenses/' + data.id
-      statusCode: 200
-      cb: data.cb
+  # different as an example
+  c.addInOn 'retrieve',
+    data: (data) ->
+      c.sendThenDisconnect 'retrieve',
+        options:
+          method: 'GET'
+          path: '/api/' + data.type||'expenses' + '/' + data.id
+        statusCode: 200
+        cb: data.cb
 
   c.addInOnData 'update', (data) ->
-    c.outPorts.out.send
+    c.sendThenDisconnect 'update',
       body: data.body
       options:
         method: 'PUT'
-        path: '/api/expenses'
+        path: '/api/' + data.type||'expenses'
       statusCode: 200
       cb: data.cb
 
   c.addInOnData 'delete', (data) ->
-    c.outPorts.out.send
+    c.sendThenDisconnect 'delete',
       options:
         method: 'DELETE'
-        path: '/api/expenses/' + data.id
+        path: '/api/'  + data.type||'expenses' + '/' + data.id
       statusCode: 200
       cb: data.cb
 
@@ -57,10 +60,10 @@ exports.getComponent = ->
     else if data.date?
       filter = '/date=' + data.date
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'list',
       options:
         method: 'GET'
-        path: '/api/expenses' + filter
+        path: '/api/' + data.type||'expenses' + filter
       statusCode: 200
       cb: data.cb
 
@@ -73,10 +76,10 @@ exports.getComponent = ->
     if data.year? and data.month?
       filter = '/year=' + data.year + '&month=' + data.month
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'monthly',
       options:
         method: 'GET'
-        path: '/api/expenses' + filter
+        path: '/api/' + data.type||'expenses' + filter
       statusCode: 302
       cb: data.cb
 
@@ -87,12 +90,19 @@ exports.getComponent = ->
     if data.start? and data.end?
       filter = '/start=' + data.start + '&end=' + data.end
 
-    c.sendThenDisconnect 'out',
+    c.sendThenDisconnect 'trend',
       options:
         method: 'GET'
-        path: '/api/expenses' + filter
+        path: '/api/' + data.type||'expenses' + filter
       statusCode: 200
       cb: data.cb
 
-  c.outPorts.add 'out'
+  c.outPorts.add 'create'
+  c.outPorts.add 'retrieve'
+  c.outPorts.add 'update'
+  c.outPorts.add 'delete'
+  c.outPorts.add 'list'
+  c.outPorts.add 'monthly'
+  c.outPorts.add 'trend'
+
   c

@@ -1,102 +1,59 @@
 uuid = require 'uuid'
 finance = require './../src/Finance.coffee'
+id = uuid.v4()
 
+# @TODO
+# [ ] create FlowHubRequests ports dynamically
+# [x] change FlowHubRequests ports to go into the facade instead
+# [ ] change to use a group?
+# [ ] add filters
 exports.getComponent = ->
   c = new finance.ExtendedComponent
+  c.description = 'send basic prebuilt test requests'
+  c.icon = 'street-view'
 
-  # @TODO
-  # [ ] on *any* disconnect, outPorts.out.disconnect?
-  # [x] change to allow for failures
-  # [ ] change to detect failure again with statusCode
-  # [ ] pass in a failure cb
-  #     > could pass code back
-  # [ ] pass in port
-  # [ ] add auth inPort to req
-  # [ ] add inPort f
-  # [ ] create these ports dynamically
-  # [ ] change these ports to go into the facade instead
-  # [ ] change to use a group?
   c.addInOnData 'create', (data) ->
     c.sendThenDisconnect 'create',
-      body: data.body
-      options:
-        method: 'POST'
-        path: '/api/expenses'
-      statusCode: 201
-      cb: data.cb
+      body:
+        currency: 'cad'
+        amount: 100
+        tags: ['canadian', 'eh', 'beginning']
+        created_at: Date('2004-10-01')
+        type: 'expense'
+        id: id
+      cb: (message, body) ->
 
-  # different as an example
-  c.addInOn 'retrieve',
-    data: (data) ->
-      c.sendThenDisconnect 'retrieve',
-        options:
-          method: 'GET'
-          path: '/api/expenses/' + data.id
-        statusCode: 200
-        cb: data.cb
+  c.addInOnData 'retrieve', (data) ->
+    c.sendThenDisconnect 'retrieve',
+      id: id
+      cb: (message, body) ->
 
   c.addInOnData 'update', (data) ->
     c.sendThenDisconnect 'update',
-      body: data.body
-      options:
-        method: 'PUT'
-        path: '/api/expenses'
-      statusCode: 200
-      cb: data.cb
+      body:
+        currency: 'eur'
+        amount: 50
+        tags: ['canadian', 'eh', 'updated', 'euro']
+        type: 'expense'
+        id: id
+      cb: (message, body) ->
 
   c.addInOnData 'delete', (data) ->
     c.sendThenDisconnect 'delete',
-      options:
-        method: 'DELETE'
-        path: '/api/expenses/' + data.id
-      statusCode: 200
-      cb: data.cb
+      id: id
+      cb: (message, body) ->
 
   c.addInOnData 'list', (data) ->
-    filter = null
-
-    # @TODO: (later) could do both, but not now
-    if data.tag?
-      filter = '/tag=' + data.tag
-    else if data.date?
-      filter = '/date=' + data.date
-
-    c.sendThenDisconnect 'list',
-      options:
-        method: 'GET'
-        path: '/api/expenses' + filter
-      statusCode: 200
-      cb: data.cb
+    c.sendThenDisconnect 'delete',
+      cb: (message, body) ->
 
   c.addInOnData 'monthly', (data) ->
-    filter = null
-
-    # @TODO: (later) could do .date & extract mm-yyyy, but now now
-    # if data.year? and !data.month? or versa, err
-    # could also change reports to filter more than just a month
-    if data.year? and data.month?
-      filter = '/year=' + data.year + '&month=' + data.month
-
     c.sendThenDisconnect 'monthly',
-      options:
-        method: 'GET'
-        path: '/api/expenses' + filter
-      statusCode: 302
-      cb: data.cb
+      cb: (message, body) ->
 
   c.addInOnData 'trend', (data) ->
-    filter = null
-
-    # @TODO: could transform it from an object into a str
-    if data.start? and data.end?
-      filter = '/start=' + data.start + '&end=' + data.end
-
     c.sendThenDisconnect 'trend',
-      options:
-        method: 'GET'
-        path: '/api/expenses' + filter
-      statusCode: 200
-      cb: data.cb
+      cb: (message, body) ->
 
   c.outPorts.add 'create'
   c.outPorts.add 'retrieve'

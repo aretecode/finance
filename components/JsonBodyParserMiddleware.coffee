@@ -4,6 +4,7 @@ bodyParser = require 'body-parser'
 exports.getComponent = ->
   c = new ExtendedComponent
   c.description = "Adds JSON body parsing"
+  c.icon = 'gears'
 
   c.addInOnData 'app',
     datatype: 'object'

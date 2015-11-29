@@ -26,8 +26,12 @@
 * [x] move away from OOD & OOP (looking @ you src/)
 * [ ] write a better SUM query for balancetrend
 * [x] make it work on FlowHub
-* [ ] recreate all FBP graphs as subgraphs in FlowHub
-* [ ] make it all work in FlowHub
+* [x] recreate FBP graphs as subgraphs in FlowHub
+* [ ] recreate *all* FBP graphs
+* [ ] example of all working in FlowHub
+* [x] make it work in FlowHub
+* [x] make it *all* work in FlowHub
+* [ ] rename `name` as `type`
 
 # @TODO:
 * [x] Validate

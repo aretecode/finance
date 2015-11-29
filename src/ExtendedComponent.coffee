@@ -40,6 +40,14 @@ class ExtendedComponent extends noflo.Component
 
     @ # chainable
 
+  sendIfConnected: (name, data)
+    if @outPorts[name].isConnected()
+      @outPorts[name].send data
+
+  sendIfConnectedThenDisconnect: (name, data)
+    if @outPorts[name].isConnected()
+      @sendThenDiscon name, data
+
   addInOn: (name, opts, process) ->
     @inPorts.addOn name, opts, process
     @ # chainable
