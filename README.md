@@ -25,7 +25,9 @@
 * [x] simplify entities
 * [x] move away from OOD & OOP (looking @ you src/)
 * [ ] write a better SUM query for balancetrend
-* [ ] make it work on FlowHub
+* [x] make it work on FlowHub
+* [ ] recreate all FBP graphs as subgraphs in FlowHub
+* [ ] make it all work in FlowHub
 
 # @TODO:
 * [x] Validate

@@ -57,11 +57,12 @@ class FetchList extends Database
         # message = table + ' listing not found for month: `' +
         # date.getMonth() + '` and year: `' + date.getFullYear() + '`'
 
-      @pg('finance_op').select().where('type', table).then (rows) ->
-        rows.map (item) ->
-          pg.select().from('tags').where(id: item.id).then (tags) ->
-            item.tags = tags
-
+      @pg('finance_op').select().where('type', table).then (row) -> row
+      .map (item) ->
+        pg.select().from('tags').where(id: item.id).then (tags) ->
+          item.tags = tags
+          item
+      .then (rows) ->
         outPorts.out.send
           success: rows.length isnt 0
           data: rows

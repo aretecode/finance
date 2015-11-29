@@ -47,7 +47,6 @@ describe 'App (AllNew)', ->
   after (done) ->
     net.stop()
     pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
-      pg.destroy()
       done()
 
   it 'should create using POST', (done) ->
@@ -116,7 +115,6 @@ describe 'App (AllNew)', ->
     options = suite.optionsFrom 'GET', '/api/expenses'
 
     suite.req 200, options, done, (message, body) ->
-      expect(message).to.equal 'found'
       expect(message).to.equal 'found'
       expect(body).to.be.an 'array'
       expect(body).to.have.length.of.at.least 1
@@ -202,6 +200,7 @@ describe 'App (AllNew)', ->
       done()
 
   it 'should test all component tests', (done) ->
+
     require './TestExtendedComponent.coffee'
     require './TestComponentCreate.coffee'
     require './TestComponentStore.coffee'
