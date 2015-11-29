@@ -16,6 +16,11 @@ class ExtendedComponent extends noflo.Component
   sendThenDisconnect: (name, data) ->
     @sendThenDiscon name, data
   sendThenDiscon: (name, data) ->
+    # if we only have 1 arg
+    unless data?
+      data = name
+      name = Object.keys(@outPorts)[0]
+
     @outPorts[name].send data
     @outPorts[name].disconnect()
 
@@ -36,11 +41,12 @@ class ExtendedComponent extends noflo.Component
         # we know its not a func
         else
           for opt in Object.keys opts
-            continue unless _.contains validEvents, opt and _.isFunction opt
+            # and _.isFunction opts[opt]
+            continue unless _.contains validEvents, opt
             # since it contains it, `opt` is the event we want to trigger on
             @add(name, opts, (event, data) ->
               return unless event is opt
-              process data
+              process data, event
             )
 
         @add(name, opts, (event, data) ->

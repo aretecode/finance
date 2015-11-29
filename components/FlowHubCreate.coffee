@@ -4,7 +4,8 @@ finance = require './../src/Finance.coffee'
 exports.getComponent = ->
   c = new finance.ExtendedComponent
 
-  c.inPorts.addOnData 'in', (dataIn) ->
+  c.inPorts.addOn 'in', {on: 'data'}, (payload) ->
+
     id = uuid.v4()
     body =
       currency: 'cad'
@@ -24,5 +25,7 @@ exports.getComponent = ->
       cb: (message, body) ->
         console.log body, message
 
-    c.sendThenDisconnect data
+    c.sendThenDisconnect 'out', data
+
+  c.outPorts.add 'out'
   c
