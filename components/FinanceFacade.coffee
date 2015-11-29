@@ -12,7 +12,7 @@ finance = require './../src/Finance.coffee'
 # [ ] add auth inPort to req
 exports.getComponent = ->
   c = new finance.ExtendedComponent
-  c.description 'an easy way into the app'
+  c.description = 'an easy way into the app'
   c.icon = 'dollar'
 
   c.addInOnData 'create', (data) ->

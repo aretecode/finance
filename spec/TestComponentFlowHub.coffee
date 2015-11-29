@@ -19,7 +19,7 @@ describe 'Test FinanceFacade Component', ->
       done()
 
   it 'should make sure it sends out 1', (done) ->
-    t.receive 'out', (data) ->
+    t.receive 'retrieve', (data) ->
       done()
 
     t.send
