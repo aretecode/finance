@@ -15,7 +15,7 @@ exports.getComponent = ->
   # [ ] add inPort f
   # [ ] create these ports dynamically
   c.inPorts.addOn 'create', {on: 'data'}, (data) ->
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       body: data.body
       options:
         method: 'POST'
@@ -24,7 +24,7 @@ exports.getComponent = ->
       cb: data.cb
 
   c.inPorts.addOn 'retrieve', {on: 'data'}, (data) ->
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       options:
         method: 'GET'
         path: '/api/expenses/' + data.id
@@ -32,7 +32,7 @@ exports.getComponent = ->
       cb: data.cb
 
   c.inPorts.addOn 'update', {on: 'data'}, (data) ->
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       body: data.body
       options:
         method: 'PUT'
@@ -43,8 +43,8 @@ exports.getComponent = ->
     options = suite.optionsFrom 'DELETE', '/api/expenses/' + id
     suite.req 200, options, done, (message, body) ->
 
-  c.inPorts.addOn 'retrieve', {on: 'data'}, (data) ->
-    c.sendThenDisconnect 'out',
+  c.inPorts.addOn 'delete', {on: 'data'}, (data) ->
+    c.outPorts.out.send
       options:
         method: 'DELETE'
         path: '/api/expenses/' + data.id
@@ -60,7 +60,7 @@ exports.getComponent = ->
     else if data.date?
       filter = '/date=' + data.date
 
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       options:
         method: 'GET'
         path: '/api/expenses' + filter
@@ -76,7 +76,7 @@ exports.getComponent = ->
     if data.year? and data.month?
       filter = '/year=' + data.year + '&month=' + data.month
 
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       options:
         method: 'GET'
         path: '/api/expenses' + filter
@@ -90,7 +90,7 @@ exports.getComponent = ->
     if data.start? and data.end?
       filter = '/start=' + data.start + '&end=' + data.end
 
-    c.sendThenDisconnect 'out',
+    c.outPorts.out.send
       options:
         method: 'GET'
         path: '/api/expenses' + filter

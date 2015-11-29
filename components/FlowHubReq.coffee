@@ -67,11 +67,13 @@ class FlowHubReq extends finance.ExtendedComponent
       in:
         datatype: 'all'
 
+    ###
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'all'
       error:
         datatype: 'object'
+    ###
 
     @inPorts.in.on 'data', (data) =>
       if data.body?
