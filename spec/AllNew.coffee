@@ -200,6 +200,7 @@ describe 'App (AllNew)', ->
 
   it 'should test all component tests', (done) ->
     require './TestComponentServerCreate.coffee'
+    require './TestComponentFlowHub.coffee'
 
     require './TestExtendedComponent.coffee'
     require './TestComponentCreate.coffee'

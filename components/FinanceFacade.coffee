@@ -14,7 +14,7 @@ exports.getComponent = ->
   # [ ] add auth inPort to req
   # [ ] add inPort f
   # [ ] create these ports dynamically
-  c.inPorts.addOn 'create', {on: 'data'}, (data) ->
+  c.addInOnData 'create', (data) ->
     c.outPorts.out.send
       body: data.body
       options:
@@ -23,15 +23,15 @@ exports.getComponent = ->
       statusCode: 201
       cb: data.cb
 
-  c.inPorts.addOn 'retrieve', {on: 'data'}, (data) ->
-    c.outPorts.out.send
+  c.addInOnData 'retrieve', (data) ->
+    c.sendThenDisconnect
       options:
         method: 'GET'
         path: '/api/expenses/' + data.id
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'update', {on: 'data'}, (data) ->
+  c.addInOnData 'update', (data) ->
     c.outPorts.out.send
       body: data.body
       options:
@@ -40,7 +40,7 @@ exports.getComponent = ->
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'delete', {on: 'data'}, (data) ->
+  c.addInOnData 'delete', (data) ->
     c.outPorts.out.send
       options:
         method: 'DELETE'
@@ -48,7 +48,7 @@ exports.getComponent = ->
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'list', {on: 'data'}, (data) ->
+  c.addInOnData 'list', (data) ->
     filter = null
 
     # @TODO: (later) could do both, but not now
@@ -64,7 +64,7 @@ exports.getComponent = ->
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'monthly', {on: 'data'}, (data) ->
+  c.addInOnData 'monthly', (data) ->
     filter = null
 
     # @TODO: (later) could do .date & extract mm-yyyy, but now now
@@ -80,14 +80,14 @@ exports.getComponent = ->
       statusCode: 302
       cb: data.cb
 
-  c.inPorts.addOn 'trend', {on: 'data'}, (data) ->
+  c.addInOnData 'trend', (data) ->
     filter = null
 
     # @TODO: could transform it from an object into a str
     if data.start? and data.end?
       filter = '/start=' + data.start + '&end=' + data.end
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'out',
       options:
         method: 'GET'
         path: '/api/expenses' + filter

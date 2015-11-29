@@ -10,6 +10,13 @@ validEvents = [
   'disconnect',
   'detach']
 
+invalidPorts = [
+  'ports',
+  'sendThenDisconnect',
+  'sendThenDiscon',
+  'addOn',
+  'addOnData']
+
 # could rename ComponentAdapter|ComponentDecorator
 # @TODO: string in/out constructor for defaults
 # akin to c.outPorts.add 'out'
@@ -20,18 +27,31 @@ class ExtendedComponent extends noflo.Component
     # if we only have 1 arg
     unless data?
       data = name
-      name = Object.keys(@outPorts)[0]
+
+      # filter out all built in ports
+      ports = Object.keys(@outPorts)
+      ports = _.filter ports, (port) ->
+        return true unless _.contains invalidPorts, port
+
+      name = ports[0]
 
     @outPorts[name].send data
     @outPorts[name].disconnect()
 
     @ # chainable
 
+  addInOn: (name, opts, process) ->
+    @inPorts.addOn name, opts, process
+    @ # chainable
+
+  addInOnData: (name, opts, process) ->
+    @inPorts.addOnData name, opts, process
+    @ # chainable
 
   constructor: (options) ->
     super options
 
-    classProperties =
+    inPortProperties =
       addOn: (name, opts, process) ->
         # meaning, only 2 params were sent in
         # insteadof an empty options
@@ -43,24 +63,29 @@ class ExtendedComponent extends noflo.Component
         else
           for opt in Object.keys opts
             # and _.isFunction opts[opt]
-            continue unless _.contains validEvents, opt
-            # since it contains it, `opt` is the event we want to trigger on
-            @add(name, opts, (event, data) ->
-              return unless event is opt
-              process data, event
-            )
+            # console.log opt
 
-        @add(name, opts, (event, data) ->
-          unless event is opts.on or (_.isArray opts.on and _.contains opts.on)
-            return
-          process data, event
-        )
+            continue unless _.contains validEvents, opt
+            addedHere = true
+            # since it contains it, `opt` is the event we want to trigger on
+            @add name, opts, (event, data) ->
+              return unless event is opt
+              opts[opt](data, event)
+
+        unless addedHere?
+          @add name, opts, (event, data) ->
+            unless event is opts.on or (_.isArray opts.on and _.contains opts.on)
+              return
+            process data, event
 
         @ # chainable
 
       addOnData: (name, opts, process) ->
+        unless process? # _.isFunction opts
+          process = opts
+          opts = {}
         opts.data = process
-        @addOn name, opts
+        @addOn name, opts, process
 
     outPortProperties =
       sendThenDisconnect: (name, data) ->
@@ -72,7 +97,6 @@ class ExtendedComponent extends noflo.Component
         @ # chainable
 
     _.extend @outPorts, outPortProperties
-    _.extend @outPorts, classProperties
-    _.extend @inPorts, classProperties
+    _.extend @inPorts, inPortProperties
 
 module.exports.ExtendedComponent = ExtendedComponent

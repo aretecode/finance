@@ -16,3 +16,5 @@ describe 'NoFlo extension', ->
       console.log data
     c.inPorts.addOn 'arrayinwoev', {on: ['data', 'connect']}, (data) ->
       console.log data
+    c.addInOn 'short', {on: 'data'}, (data) ->
+      console.log data

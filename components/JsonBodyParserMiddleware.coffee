@@ -5,10 +5,9 @@ exports.getComponent = ->
   c = new ExtendedComponent
   c.description = "Adds JSON body parsing"
 
-  c.inPorts.addOn 'app',
+  c.addInOnData 'app',
     datatype: 'object'
     description: 'Express Application'
-    on: 'data'
   , (app) ->
     try
       app.use bodyParser.json(type: 'application/json')

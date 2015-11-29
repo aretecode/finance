@@ -14,8 +14,10 @@ exports.getComponent = ->
   # [ ] add auth inPort to req
   # [ ] add inPort f
   # [ ] create these ports dynamically
-  c.inPorts.addOn 'create', {on: 'data'}, (data) ->
-    c.outPorts.out.send
+  # [ ] change these ports to go into the facade instead
+  # [ ] change to use a group?
+  c.addInOnData 'create', (data) ->
+    c.sendThenDisconnect 'create',
       body: data.body
       options:
         method: 'POST'
@@ -23,16 +25,18 @@ exports.getComponent = ->
       statusCode: 201
       cb: data.cb
 
-  c.inPorts.addOn 'retrieve', {on: 'data'}, (data) ->
-    c.outPorts.out.send
-      options:
-        method: 'GET'
-        path: '/api/expenses/' + data.id
-      statusCode: 200
-      cb: data.cb
+  # different as an example
+  c.addInOn 'retrieve',
+    data: (data) ->
+      c.sendThenDisconnect 'retrieve',
+        options:
+          method: 'GET'
+          path: '/api/expenses/' + data.id
+        statusCode: 200
+        cb: data.cb
 
-  c.inPorts.addOn 'update', {on: 'data'}, (data) ->
-    c.outPorts.out.send
+  c.addInOnData 'update', (data) ->
+    c.sendThenDisconnect 'update',
       body: data.body
       options:
         method: 'PUT'
@@ -40,15 +44,15 @@ exports.getComponent = ->
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'delete', {on: 'data'}, (data) ->
-    c.outPorts.out.send
+  c.addInOnData 'delete', (data) ->
+    c.sendThenDisconnect 'delete',
       options:
         method: 'DELETE'
         path: '/api/expenses/' + data.id
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'list', {on: 'data'}, (data) ->
+  c.addInOnData 'list', (data) ->
     filter = null
 
     # @TODO: (later) could do both, but not now
@@ -57,14 +61,14 @@ exports.getComponent = ->
     else if data.date?
       filter = '/date=' + data.date
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'list',
       options:
         method: 'GET'
         path: '/api/expenses' + filter
       statusCode: 200
       cb: data.cb
 
-  c.inPorts.addOn 'monthly', {on: 'data'}, (data) ->
+  c.addInOnData 'monthly', (data) ->
     filter = null
 
     # @TODO: (later) could do .date & extract mm-yyyy, but now now
@@ -73,26 +77,33 @@ exports.getComponent = ->
     if data.year? and data.month?
       filter = '/year=' + data.year + '&month=' + data.month
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'monthly',
       options:
         method: 'GET'
         path: '/api/expenses' + filter
       statusCode: 302
       cb: data.cb
 
-  c.inPorts.addOn 'trend', {on: 'data'}, (data) ->
+  c.addInOnData 'trend', (data) ->
     filter = null
 
     # @TODO: could transform it from an object into a str
     if data.start? and data.end?
       filter = '/start=' + data.start + '&end=' + data.end
 
-    c.outPorts.out.send
+    c.sendThenDisconnect 'trend',
       options:
         method: 'GET'
         path: '/api/expenses' + filter
       statusCode: 200
       cb: data.cb
 
-  c.outPorts.add 'out'
+  c.outPorts.add 'create'
+  c.outPorts.add 'retrieve'
+  c.outPorts.add 'update'
+  c.outPorts.add 'delete'
+  c.outPorts.add 'list'
+  c.outPorts.add 'monthly'
+  c.outPorts.add 'trend'
+
   c

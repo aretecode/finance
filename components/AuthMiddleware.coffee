@@ -7,10 +7,9 @@ exports.getComponent = ->
   c = new ExtendedComponent
   c.description = "Adds very basic auth"
 
-  c.inPorts.addOn 'app',
+  c.addInOnData 'app',
     datatype: 'object'
     description: 'Express Application'
-    on: 'data'
   , (app) ->
     try
       records = [

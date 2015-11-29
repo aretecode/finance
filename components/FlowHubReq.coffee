@@ -61,6 +61,7 @@ requ = (statusCode, options, cb) ->
     console.log e
 
 class FlowHubReq extends finance.ExtendedComponent
+  description: 'HTTP requests with given data'
 
   constructor: ->
     @inPorts = new noflo.InPorts
