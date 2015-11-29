@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.96",
+  "version": "0.2.97",
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -64,9 +64,9 @@
       "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee",
       "JsonBodyParserMiddleware": "components/JsonBodyParserMiddleware.coffee",
 
-      "FlowHubReq": "components/flowhub/FlowHubReq.coffee",
-      "CreateReq": "components/flowhub/CreateReq.coffee",
-      "ListReq": "components/flowhub/ListReq.coffee"
+      "FlowHubReq": "components/FlowHubReq.coffee",
+      "FlowHubCreate": "components/FlowHubCreate.coffee",
+      "FlowHubList": "components/FlowHubList.coffee"
     }
   }
 }
