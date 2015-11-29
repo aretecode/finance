@@ -10,6 +10,7 @@ validEvents = [
   'disconnect',
   'detach']
 
+# could rename ComponentAdapter|ComponentDecorator
 # @TODO: string in/out constructor for defaults
 # akin to c.outPorts.add 'out'
 class ExtendedComponent extends noflo.Component

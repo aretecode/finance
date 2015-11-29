@@ -41,8 +41,6 @@ jsonOptions = (method, path, body) ->
 jsonReq = (statusCode, options, string, cb) ->
   try
     req = http.request options, (res) ->
-      if res.statusCode isnt statusCode
-        return cb new Error "Invalid status code: #{res.statusCode}"
       getResultJSON res, (json) ->
         data = JSON.parse json
         cb data.message, data.body
