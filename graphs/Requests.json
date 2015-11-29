@@ -50,11 +50,21 @@
                 "height": 72
             }
         },
-        "aretecode_finance/Requests_45sb1": {
-            "component": "aretecode_finance/Requests",
+        "core/Output_ssa8n": {
+            "component": "core/Output",
             "metadata": {
-                "label": "aretecode_finance/Requests",
-                "x": 684,
+                "label": "core/Output",
+                "x": 756,
+                "y": 684,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "FlowHubRequests": {
+            "component": "aretecode_finance/FlowHubRequests",
+            "metadata": {
+                "label": "FlowHubRequests",
+                "x": 720,
                 "y": 432,
                 "width": 72,
                 "height": 72
@@ -71,7 +81,127 @@
                 "process": "FlowHubReq",
                 "port": "in"
             },
-            "metadata": {}
+            "metadata": {
+                "route": 10,
+                "secure": false
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_ngndb",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "FlowHubRequests",
+                "port": "facader"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_ngndb",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "core/Output_ssa8n",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "trend"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "trend"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "monthly"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "monthly"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "list"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "list"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "delete"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "delete"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "retrieve"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "retrieve"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "create"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "create"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "FlowHubRequests",
+                "port": "update"
+            },
+            "tgt": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "update"
+            },
+            "metadata": {
+                "route": 4
+            }
         }
     ]
 }

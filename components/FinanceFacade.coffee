@@ -40,9 +40,6 @@ exports.getComponent = ->
       statusCode: 200
       cb: data.cb
 
-    options = suite.optionsFrom 'DELETE', '/api/expenses/' + id
-    suite.req 200, options, done, (message, body) ->
-
   c.inPorts.addOn 'delete', {on: 'data'}, (data) ->
     c.outPorts.out.send
       options:
