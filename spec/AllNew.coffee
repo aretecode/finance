@@ -136,7 +136,6 @@ describe 'App (AllNew)', ->
 
   it 'should be able to list expenses with date (timestamp)', (done) ->
     options = suite.optionsFrom 'GET', '/api/expenses/?date=' + new Date().getTime()
-
     suite.req 200, options, done, (message, list) ->
       expect(message).to.equal 'found'
       expect(list).to.be.an 'array'
@@ -149,7 +148,7 @@ describe 'App (AllNew)', ->
     date = new Date()
     month = date.getMonth()+1
     year = date.getFullYear()
-    day = date.getDay()
+    day = date.getDate()
     dateString = year + '-' + month + '-' + day
     options = suite.optionsFrom 'GET', '/api/expenses/?date=' + dateString
 
@@ -200,6 +199,7 @@ describe 'App (AllNew)', ->
       done()
 
   it 'should test all component tests', (done) ->
+    require './TestComponentServerCreate.coffee'
 
     require './TestExtendedComponent.coffee'
     require './TestComponentCreate.coffee'
