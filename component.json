@@ -1,7 +1,7 @@
 {
-  "name": "finance",
-  "repo": "arete/finance",
-  "version": "0.2.95",
+  "name": "arete/finance",
+  "repo": "aretecode/finance",
+  "version": "0.2.96",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -19,25 +19,7 @@
   ],
   "scripts": [
     "index.js",
-    "graphs/all.json",
-
-    "components/Database.coffee",
-    "components/CRUD.coffee",
-    "components/Retrieve.coffee",
-    "components/Create.coffee",
-    "components/Delete.coffee",
-    "components/Update.coffee",
-    "components/List.coffee",
-    "components/Store.coffee",
-    "components/Removed.coffee",
-    "components/FetchList.coffee",
-    "components/StoreUpdate.coffee",
-    "components/Fetch.coffee",
-    "components/Validate.coffee",
-    "components/Response.coffee",
-    "components/AuthMiddleware.coffee",
-    "components/Monthly.coffee",
-    "components/FetchWithMonthYear.coffee"
+    "graphs/all.json"
   ],
   "json": [
     "graphs/all.json",
@@ -68,6 +50,10 @@
       "Validate": "components/Validate.coffee",
       "Response": "components/Response.coffee",
       "AuthMiddleware": "components/AuthMiddleware.coffee",
-      "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee"
+      "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee",
+      "
+      FlowHubReq": "components/flowhub/FlowHubReq.coffee",
+      "CreateReq": "components/flowhub/CreateReq.coffee",
+      "ListReq": "components/flowhub/ListReq.coffee"
     }
   }
