@@ -1,0 +1,77 @@
+{
+    "properties": {
+        "name": "Requests",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {
+        "in": {
+            "process": "core/Split_ngndb",
+            "port": "in",
+            "metadata": {
+                "x": 396,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "aretecode_finance/FinanceFacade_gg5hz": {
+            "component": "aretecode_finance/FinanceFacade",
+            "metadata": {
+                "label": "FinanceFacade",
+                "x": 900,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Split_ngndb": {
+            "component": "core/Split",
+            "metadata": {
+                "label": "core/Split",
+                "x": 540,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "FlowHubReq": {
+            "component": "aretecode_finance/FlowHubReq",
+            "metadata": {
+                "label": "FlowHubReq",
+                "x": 1116,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/Requests_45sb1": {
+            "component": "aretecode_finance/Requests",
+            "metadata": {
+                "label": "aretecode_finance/Requests",
+                "x": 684,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "aretecode_finance/FinanceFacade_gg5hz",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "FlowHubReq",
+                "port": "in"
+            },
+            "metadata": {}
+        }
+    ]
+}

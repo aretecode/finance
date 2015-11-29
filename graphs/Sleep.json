@@ -1,0 +1,74 @@
+{
+    "properties": {
+        "name": "Sleep",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "aretecode_finance/TestingMain_t0yp9": {
+            "component": "aretecode_finance/TestingMain",
+            "metadata": {
+                "label": "aretecode_finance/TestingMain",
+                "x": 288,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_mwjih": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 108,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/Requests_hvxhl": {
+            "component": "aretecode_finance/Requests",
+            "metadata": {
+                "label": "aretecode_finance/Requests",
+                "x": 540,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "core/Repeat_mwjih",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/TestingMain_t0yp9",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/TestingMain_t0yp9",
+                "port": "after"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Requests_hvxhl",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "start",
+            "tgt": {
+                "process": "core/Repeat_mwjih",
+                "port": "in"
+            }
+        }
+    ]
+}

@@ -7,11 +7,11 @@
     },
     "inports": {
         "req": {
-            "process": "aretecode_finance/Create_aosqp",
+            "process": "finance/Create_9bo02",
             "port": "req",
             "metadata": {
-                "x": 108,
-                "y": 324,
+                "x": 144,
+                "y": 648,
                 "width": 72,
                 "height": 72
             }
@@ -20,42 +20,32 @@
     "outports": {},
     "groups": [],
     "processes": {
-        "aretecode_finance/Create_aosqp": {
-            "component": "aretecode_finance/Create",
+        "finance/Create_9bo02": {
+            "component": "finance/Create",
             "metadata": {
-                "label": "aretecode_finance/Create",
-                "x": 252,
-                "y": 324,
+                "label": "finance/Create",
+                "x": 288,
+                "y": 648,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Validate_qwbz": {
-            "component": "aretecode_finance/Validate",
+        "finance/Store_zh8nr": {
+            "component": "finance/Store",
             "metadata": {
-                "label": "aretecode_finance/Validate",
-                "x": 612,
-                "y": 180,
+                "label": "finance/Store",
+                "x": 468,
+                "y": 576,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Response_rxvjx": {
-            "component": "aretecode_finance/Response",
+        "finance/Response_m2pl6": {
+            "component": "finance/Response",
             "metadata": {
-                "label": "aretecode_finance/Response",
-                "x": 1080,
-                "y": 468,
-                "width": 72,
-                "height": 72
-            }
-        },
-        "aretecode_finance/Store_gh4cm": {
-            "component": "aretecode_finance/Store",
-            "metadata": {
-                "label": "aretecode_finance/Store",
-                "x": 864,
-                "y": 216,
+                "label": "finance/Response",
+                "x": 576,
+                "y": 720,
                 "width": 72,
                 "height": 72
             }
@@ -64,60 +54,41 @@
     "connections": [
         {
             "src": {
-                "process": "aretecode_finance/Create_aosqp",
+                "process": "finance/Create_9bo02",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Store_zh8nr",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "finance/Create_9bo02",
                 "port": "res"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_rxvjx",
+                "process": "finance/Response_m2pl6",
                 "port": "res"
             },
-            "metadata": {
-                "route": 9
-            }
+            "metadata": {}
         },
         {
             "src": {
-                "process": "aretecode_finance/Create_aosqp",
+                "process": "finance/Store_zh8nr",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Validate_qwbz",
-                "port": "in"
-            },
-            "metadata": {
-                "route": 7
-            }
-        },
-        {
-            "src": {
-                "process": "aretecode_finance/Validate_qwbz",
-                "port": "out"
-            },
-            "tgt": {
-                "process": "aretecode_finance/Store_gh4cm",
-                "port": "in"
-            },
-            "metadata": {
-                "route": 7
-            }
-        },
-        {
-            "src": {
-                "process": "aretecode_finance/Store_gh4cm",
-                "port": "out"
-            },
-            "tgt": {
-                "process": "aretecode_finance/Response_rxvjx",
+                "process": "finance/Response_m2pl6",
                 "port": "created"
             },
-            "metadata": {
-                "route": 6
-            }
+            "metadata": {}
         },
         {
             "data": "expense",
             "tgt": {
-                "process": "aretecode_finance/Store_gh4cm",
+                "process": "finance/Store_zh8nr",
                 "port": "name"
             }
         }

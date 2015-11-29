@@ -11,9 +11,7 @@
             "port": "req",
             "metadata": {
                 "x": 190,
-                "y": 100,
-                "width": 72,
-                "height": 72
+                "y": 100
             }
         }
     },

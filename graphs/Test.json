@@ -1,0 +1,134 @@
+{
+    "properties": {
+        "name": "Test",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "xpress/Server_8rhdj": {
+            "component": "xpress/Server",
+            "metadata": {
+                "label": "xpress/Server",
+                "x": 367.1896340128664,
+                "y": 82.5412692116208,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "xpress/Router_nga7x": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "xpress/Router",
+                "x": 540,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_54nnv": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "core/Output",
+                "x": 684,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/ServerKick_jaya7": {
+            "component": "aretecode_finance/ServerKick",
+            "metadata": {
+                "label": "aretecode_finance/ServerKick",
+                "x": 216,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_ut3ms": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 36,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "xpress/Server_8rhdj",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "xpress/Router_nga7x",
+                "port": "app"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "xpress/Server_8rhdj",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_54nnv",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "xpress/Router_nga7x",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_54nnv",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/ServerKick_jaya7",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "xpress/Server_8rhdj",
+                "port": "port"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "core/Repeat_ut3ms",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/ServerKick_jaya7",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "post /api/expenses",
+            "tgt": {
+                "process": "xpress/Router_nga7x",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "start",
+            "tgt": {
+                "process": "core/Repeat_ut3ms",
+                "port": "in"
+            }
+        }
+    ]
+}

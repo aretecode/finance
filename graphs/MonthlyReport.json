@@ -1,0 +1,103 @@
+{
+    "properties": {
+        "name": "MonthlyReport",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "icon": ""
+    },
+    "inports": {
+        "req": {
+            "process": "Monthly",
+            "port": "req",
+            "metadata": {
+                "x": 144,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "FetchW/MonthYear": {
+            "component": "aretecode_finance/FetchWithMonthYear",
+            "metadata": {
+                "label": "FetchW/MonthYear",
+                "x": 504,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Monthly": {
+            "component": "aretecode_finance/Monthly",
+            "metadata": {
+                "label": "Monthly",
+                "x": 288,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Response": {
+            "component": "aretecode_finance/Response",
+            "metadata": {
+                "label": "Response",
+                "x": 720,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "FetchW/MonthYear",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 10
+            }
+        },
+        {
+            "src": {
+                "process": "FetchW/MonthYear",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "monthly"
+            },
+            "metadata": {
+                "route": 10
+            }
+        },
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "res"
+            },
+            "metadata": {
+                "route": 5
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "FetchW/MonthYear",
+                "port": "name"
+            }
+        }
+    ]
+}

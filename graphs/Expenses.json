@@ -1,0 +1,354 @@
+{
+    "properties": {
+        "name": "Expenses",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {
+        "app": {
+            "process": "core/Split_te146",
+            "port": "in",
+            "metadata": {
+                "x": 36,
+                "y": -252,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "Create": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Create",
+                "x": 360,
+                "y": -432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Split_te146": {
+            "component": "core/Split",
+            "metadata": {
+                "label": "core/Split",
+                "x": 180,
+                "y": -252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "List": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "List",
+                "x": 360,
+                "y": -72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Retrieve": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Retrieve",
+                "x": 360,
+                "y": -252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Update": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Update",
+                "x": 360,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "UpdateExpense": {
+            "component": "aretecode_finance/UpdateExpense",
+            "metadata": {
+                "label": "UpdateExpense",
+                "x": 576,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Delete": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Delete",
+                "x": 360,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Monthly": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Monthly",
+                "x": 360,
+                "y": -684,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/CreateExpense_lffux": {
+            "component": "aretecode_finance/CreateExpense",
+            "metadata": {
+                "label": "aretecode_finance/CreateExpense",
+                "x": 612,
+                "y": -432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/DeleteExpense_58gbs": {
+            "component": "aretecode_finance/DeleteExpense",
+            "metadata": {
+                "label": "aretecode_finance/DeleteExpense",
+                "x": 576,
+                "y": 324,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/MonthlyReport_yae7w": {
+            "component": "aretecode_finance/MonthlyReport",
+            "metadata": {
+                "label": "aretecode_finance/MonthlyReport",
+                "x": 612,
+                "y": -684,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/RetrieveExpense_6rtkp": {
+            "component": "aretecode_finance/RetrieveExpense",
+            "metadata": {
+                "label": "aretecode_finance/RetrieveExpense",
+                "x": 612,
+                "y": -252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/ListExpense_yrdax": {
+            "component": "aretecode_finance/ListExpense",
+            "metadata": {
+                "label": "aretecode_finance/ListExpense",
+                "x": 612,
+                "y": -72,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Create",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "Update",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "UpdateExpense",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Retrieve",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "List",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Update",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Delete",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_te146",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Monthly",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "Delete",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "aretecode_finance/DeleteExpense_58gbs",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "aretecode_finance/MonthlyReport_yae7w",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "aretecode_finance/RetrieveExpense_6rtkp",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "aretecode_finance/ListExpense_yrdax",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "aretecode_finance/CreateExpense_lffux",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "data": "post /api/expenses",
+            "tgt": {
+                "process": "Create",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/expenses/:id",
+            "tgt": {
+                "process": "Retrieve",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/expenses*",
+            "tgt": {
+                "process": "List",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "put /api/expenses",
+            "tgt": {
+                "process": "Update",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "delete /api/expenses/:id",
+            "tgt": {
+                "process": "Delete",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/reports/expenses/monthly*",
+            "tgt": {
+                "process": "Monthly",
+                "port": "pattern"
+            }
+        }
+    ]
+}

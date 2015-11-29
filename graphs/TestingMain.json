@@ -1,0 +1,160 @@
+{
+    "properties": {
+        "name": "TestingMain",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {
+        "in": {
+            "process": "core/Repeat_jmgwb",
+            "port": "in",
+            "metadata": {
+                "x": 144,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {
+        "after": {
+            "process": "aretecode_finance/NewServerCreateKick_akupk",
+            "port": "after",
+            "metadata": {
+                "x": 396,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "groups": [],
+    "processes": {
+        "core/Repeat_jmgwb": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 288,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "xpress/Server_uv5op": {
+            "component": "xpress/Server",
+            "metadata": {
+                "label": "xpress/Server",
+                "x": 612,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "JsonBodyParserMiddleware": {
+            "component": "aretecode_finance/JsonBodyParserMiddleware",
+            "metadata": {
+                "label": "JsonBodyParserMiddleware",
+                "x": 972,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/AuthMiddleware_ds16e": {
+            "component": "finance/AuthMiddleware",
+            "metadata": {
+                "label": "finance/AuthMiddleware",
+                "x": 792,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Expenses": {
+            "component": "aretecode_finance/Expenses",
+            "metadata": {
+                "label": "Expenses",
+                "x": 1260,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/NewServerCreateKick_akupk": {
+            "component": "aretecode_finance/NewServerCreateKick",
+            "metadata": {
+                "label": "aretecode_finance/NewServerCreateKick",
+                "x": 396,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "xpress/Server_uv5op",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "finance/AuthMiddleware_ds16e",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "finance/AuthMiddleware_ds16e",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "Expenses",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_jmgwb",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/NewServerCreateKick_akupk",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/NewServerCreateKick_akupk",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "xpress/Server_uv5op",
+                "port": "port"
+            },
+            "metadata": {}
+        }
+    ]
+}
