@@ -6,22 +6,22 @@
         }
     },
     "inports": {
-        "req1": {
-            "process": "Create",
-            "port": "req",
-            "metadata": {
-                "x": 144,
-                "y": 828,
-                "width": 72,
-                "height": 72
-            }
-        },
         "type": {
             "process": "Store",
             "port": "name",
             "metadata": {
                 "x": 144,
                 "y": 684,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "req": {
+            "process": "Create",
+            "port": "req",
+            "metadata": {
+                "x": 144,
+                "y": 828,
                 "width": 72,
                 "height": 72
             }
