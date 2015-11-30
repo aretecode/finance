@@ -1,9 +1,10 @@
 {
     "properties": {
-        "name": "ListExpense",
+        "name": "ListFinanceOp",
         "environment": {
             "type": "noflo-nodejs"
-        }
+        },
+        "icon": "list"
     },
     "inports": {
         "req": {

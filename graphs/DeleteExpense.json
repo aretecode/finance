@@ -1,10 +1,10 @@
 {
     "properties": {
-        "name": "DeleteExpense",
+        "name": "DeleteFinanceOp",
         "environment": {
             "type": "noflo-nodejs"
         },
-        "icon": ""
+        "icon": "trash"
     },
     "inports": {
         "req": {
@@ -17,7 +17,7 @@
                 "height": 72
             }
         },
-        "name": {
+        "type": {
             "process": "Removed",
             "port": "name",
             "metadata": {
@@ -87,6 +87,16 @@
                 "label": "DeletedError",
                 "x": 396,
                 "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ResponseError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "ResponseError",
+                "x": 1116,
+                "y": 468,
                 "width": 72,
                 "height": 72
             }
@@ -165,6 +175,19 @@
             },
             "tgt": {
                 "process": "DeletedError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Response",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ResponseError",
                 "port": "in"
             },
             "metadata": {

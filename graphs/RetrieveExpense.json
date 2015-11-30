@@ -1,9 +1,10 @@
 {
     "properties": {
-        "name": "RetrieveExpense",
+        "name": "RetrieveFinanceOp",
         "environment": {
             "type": "noflo-nodejs"
-        }
+        },
+        "icon": "search"
     },
     "inports": {
         "req": {
@@ -69,6 +70,26 @@
                 "width": 72,
                 "height": 72
             }
+        },
+        "RetrieveError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "RetrieveError",
+                "x": 540,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ResponseError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "ResponseError",
+                "x": 1008,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
         }
     },
     "connections": [
@@ -118,6 +139,32 @@
             },
             "tgt": {
                 "process": "FetchError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Response",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ResponseError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "RetrieveError",
                 "port": "in"
             },
             "metadata": {

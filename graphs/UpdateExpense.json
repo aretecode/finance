@@ -1,17 +1,28 @@
 {
     "properties": {
-        "name": "UpdateExpense",
+        "name": "UpdateFinanceOp",
         "environment": {
             "type": "noflo-nodejs"
-        }
+        },
+        "icon": "save"
     },
     "inports": {
         "requ": {
-            "process": "aretecode_finance/Update_kgioi",
+            "process": "Update",
             "port": "req",
             "metadata": {
                 "x": 72,
                 "y": 324,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "type": {
+            "process": "StoreUpdate",
+            "port": "name",
+            "metadata": {
+                "x": 72,
+                "y": 72,
                 "width": 72,
                 "height": 72
             }
@@ -20,42 +31,72 @@
     "outports": {},
     "groups": [],
     "processes": {
-        "aretecode_finance/Update_kgioi": {
+        "Update": {
             "component": "aretecode_finance/Update",
             "metadata": {
-                "label": "aretecode_finance/Update",
+                "label": "Update",
                 "x": 216,
                 "y": 324,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/StoreUpdate_k5kx3": {
+        "StoreUpdate": {
             "component": "aretecode_finance/StoreUpdate",
             "metadata": {
-                "label": "aretecode_finance/StoreUpdate",
+                "label": "StoreUpdate",
                 "x": 612,
                 "y": 180,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Validate_icelf": {
+        "ValidateUpdate": {
             "component": "aretecode_finance/Validate",
             "metadata": {
-                "label": "aretecode_finance/Validate",
+                "label": "ValidateUpdate",
                 "x": 360,
                 "y": 180,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Response_xboyo": {
+        "Response": {
             "component": "aretecode_finance/Response",
             "metadata": {
-                "label": "aretecode_finance/Response",
+                "label": "Response",
                 "x": 864,
                 "y": 468,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "UpdateError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "UpdateError",
+                "x": 396,
+                "y": 432,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "StoreUpdateError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "StoreUpdateError",
+                "x": 792,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ResponseError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "ResponseError",
+                "x": 1080,
+                "y": 504,
                 "width": 72,
                 "height": 72
             }
@@ -64,11 +105,11 @@
     "connections": [
         {
             "src": {
-                "process": "aretecode_finance/Update_kgioi",
+                "process": "Update",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Validate_icelf",
+                "process": "ValidateUpdate",
                 "port": "update"
             },
             "metadata": {
@@ -77,11 +118,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Validate_icelf",
+                "process": "ValidateUpdate",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/StoreUpdate_k5kx3",
+                "process": "StoreUpdate",
                 "port": "in"
             },
             "metadata": {
@@ -90,11 +131,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Update_kgioi",
+                "process": "Update",
                 "port": "res"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_xboyo",
+                "process": "Response",
                 "port": "res"
             },
             "metadata": {
@@ -103,11 +144,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/StoreUpdate_k5kx3",
+                "process": "StoreUpdate",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_xboyo",
+                "process": "Response",
                 "port": "updated"
             },
             "metadata": {
@@ -115,10 +156,42 @@
             }
         },
         {
-            "data": "expense",
+            "src": {
+                "process": "Update",
+                "port": "error"
+            },
             "tgt": {
-                "process": "aretecode_finance/StoreUpdate_k5kx3",
-                "port": "name"
+                "process": "UpdateError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "StoreUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "StoreUpdateError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Response",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ResponseError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
             }
         }
     ]

@@ -46,7 +46,7 @@
             "metadata": {
                 "label": "Monthly",
                 "x": 288,
-                "y": 108,
+                "y": 36,
                 "width": 72,
                 "height": 72
             }
@@ -57,6 +57,26 @@
                 "label": "Response",
                 "x": 720,
                 "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "MonthYearError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "MonthYearError",
+                "x": 684,
+                "y": 252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "MonthlyError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "MonthlyError",
+                "x": 396,
+                "y": -72,
                 "width": 72,
                 "height": 72
             }
@@ -100,6 +120,32 @@
             },
             "metadata": {
                 "route": 5
+            }
+        },
+        {
+            "src": {
+                "process": "FetchW/MonthYear",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MonthYearError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MonthlyError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
             }
         }
     ]
