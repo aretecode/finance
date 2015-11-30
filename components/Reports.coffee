@@ -1,4 +1,5 @@
 noflo = require 'noflo'
+moment = require 'moment'
 {_} = require 'underscore'
 
 class Report
@@ -34,8 +35,8 @@ class Reports extends noflo.Component
       range = data.range
       incomes = data.incomes
       expenses = data.expenses
-      moment = require 'moment'
       outPorts = @outPorts
+
 
       unless data.incomes? and data.expenses? and data.range?
         @outPorts.out.send
@@ -43,36 +44,28 @@ class Reports extends noflo.Component
         @outPorts.out.disconnect()
         return null
 
-      mapCreatedAt = (items) ->
-        if _.isArray items
-          items = items.map (item) ->
-            item.created_at = moment(item.created_at); return item
-        return items
-      yearAndMonthFilter = (item) ->
-        if item.created_at.year() is year and item.created_at.month() is month
-          return true
+      yearAndMonthFilter = (item, month) ->
+        item.created_at = moment(item.created_at)
+        m = (item.created_at.month()+1)
+        y = item.created_at.year()
+        return true if y is year and m is month
         return false
-      toNumber = (items) ->
-        if _.isArray(items)
-          items = items.filter yearAndMonthFilter
-        else
-          items = []
+      toNumber = (items, month) ->
+        items = items.filter (item) ->
+          yearAndMonthFilter(item, month)
 
-        if items.length is 0
-          return 0
-        else
-          return items
-          .map (item) -> item.amount
-          .reduce (a, b) -> a+b
+        return 0 if items.length is 0
 
-      incomes = mapCreatedAt incomes
-      expenses = mapCreatedAt expenses
+        return items
+        .map (item) -> item.amount
+        .reduce (a, b) -> a+b
+
       for year in [range.startYear .. range.endYear]
         for month in [0 .. 12]
           continue if year is range.startYear and month < range.startMonth
           continue if year is range.endYear and month > range.endMonth
-          monthIncomes = toNumber incomes
-          monthExpenses = toNumber expenses
+          monthIncomes = toNumber incomes, month
+          monthExpenses = toNumber expenses, month
           balance += (monthIncomes - monthExpenses)
           reports.push new Report(month,
             year, monthIncomes, monthExpenses, balance)

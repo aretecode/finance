@@ -1,4 +1,5 @@
 noflo = require 'noflo'
+moment = require 'moment'
 
 class AlphaOmegaEntries extends noflo.Component
   description: 'Earliest & latest dates'
@@ -17,6 +18,7 @@ class AlphaOmegaEntries extends noflo.Component
 
     @inPorts.in.on 'data', (data) =>
       @pg = require('./../src/Persistence/connection.coffee').getPg()
+
       sortedBy = (sorted) ->
         '(SELECT created_at FROM "finance_op" LIMIT 1)
         ORDER BY created_at ' + sorted

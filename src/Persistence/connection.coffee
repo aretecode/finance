@@ -4,6 +4,13 @@ conn =
   password: process.env.DATABASE_PASSWORD
   database: process.env.DATABASE_NAME
   charset: 'utf8'
+  port: 5432
 
-pg = require('knex')(client: 'pg', connection: conn, debug: true)
+pool =
+  min: 2
+  max: 20
+
+pg = require('knex')(client: 'pg', connection: conn, pool, debug: false)
 module.exports.getPg = -> return pg
+
+

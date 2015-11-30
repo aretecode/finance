@@ -18,7 +18,6 @@ class Trend extends noflo.Component
         description: 'Response object'
 
     @inPorts.req.on 'data', (data) =>
-      @pg = require('./../src/Persistence/connection.coffee').getPg()
       @outPorts.res.send data.res
 
       if data.query? and data.query.start?

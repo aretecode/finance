@@ -31,6 +31,23 @@ expectFinanceObject = (data) ->
   # expect(data).to.have.property 'description'
   # expect(data.tag).to.be.a 'string' # or an array, or object...
 
+expectFinanceObjects = (list) ->
+  expect(list).to.be.an 'array'
+  expect(list).to.have.length.of.at.least 1
+  for financeOp in list
+    expectFinanceObject financeOp
+
+expectReports = (reports) ->
+  expect(reports).to.be.an 'array'
+  expect(reports).to.have.length.of.at.least 1
+  for report in reports
+    suite.expectAllProperties(
+      report, ['income', 'expense', 'balance', 'month', 'year'])
+    expect(report.balance).to.be.at.least 0
+    expect(report.income).to.be.at.least 0
+    expect(report.expense).to.be.at.least 0
+
+
 # @TODO: any, or all (param)
 expectAllProperties = (data, properties) ->
   (chai.expect(data).to.have.property property) for property in properties
@@ -92,3 +109,6 @@ module.exports.expectAllProperties = expectAllProperties
 module.exports.getResultJSON = getResultJSON
 module.exports.expectValidDate = expectValidDate
 module.exports.expectFinanceObject = expectFinanceObject
+
+module.exports.expectReports = expectReports
+module.exports.expectFinanceObjects = expectFinanceObjects

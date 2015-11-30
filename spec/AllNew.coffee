@@ -1,11 +1,12 @@
-noflo = require 'noflo'
 chai = require 'chai'
 http = require 'http'
 uuid = require 'uuid'
+noflo = require 'noflo'
+moment = require 'moment'
 express = require 'express'
+Promise = require 'bluebird'
 suite = require './testsuite'
 expect = chai.expect
-Promise = require 'bluebird'
 
 try require './../.env.coffee' catch e
 
@@ -46,15 +47,17 @@ describe 'App (AllNew)', ->
 
   after (done) ->
     net.stop()
-    pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
-      done()
+    done()
 
-  it 'should create using POST', (done) ->
+    #pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
+    #done()
+
+  it 'should create using POST (with an old date)', (done) ->
     body =
       currency: 'cad'
       amount: 100
       tags: ['canadian', 'eh', 'beginning']
-      created_at: Date('2004-10-01')
+      created_at: moment('2004-10-01').format()
       type: 'expense'
     string = JSON.stringify body
     options = suite.jsonOptions 'POST', '/api/expenses', body
@@ -111,93 +114,6 @@ describe 'App (AllNew)', ->
       expect(body.id).to.equal id
       done()
 
-  it 'should list using GET', (done) ->
-    options = suite.optionsFrom 'GET', '/api/expenses'
-
-    suite.req 200, options, done, (message, body) ->
-      expect(message).to.equal 'found'
-      expect(body).to.be.an 'array'
-      expect(body).to.have.length.of.at.least 1
-
-      for financeOp in body
-        suite.expectFinanceObject financeOp
-      # expect(updated.tags).to.equal 'new-tag,old-tag'
-      done()
-
-  it 'should be able to list expenses with tag', (done) ->
-    options = suite.optionsFrom 'GET', '/api/expenses/?tag=eh' #component-store
-    suite.req 200, options, done, (message, list) ->
-      expect(message).to.equal 'found'
-      expect(list).to.be.an 'array'
-      expect(list).to.have.length.of.at.least 1
-      suite.expectFinanceObject list[0]
-      done()
-      #302
-
-  it 'should be able to list expenses with date (timestamp)', (done) ->
-    options = suite.optionsFrom 'GET', '/api/expenses/?date=' + new Date().getTime()
-    suite.req 200, options, done, (message, list) ->
-      expect(message).to.equal 'found'
-      expect(list).to.be.an 'array'
-      expect(list).to.have.length.of.at.least 1
-      suite.expectFinanceObject list[0]
-      done()
-      #302
-
-  it 'should be able to list expenses with date (y-m-d)', (done) ->
-    date = new Date()
-    month = date.getMonth()+1
-    year = date.getFullYear()
-    day = date.getDate()
-    dateString = year + '-' + month + '-' + day
-    options = suite.optionsFrom 'GET', '/api/expenses/?date=' + dateString
-
-    suite.req 200, options, done, (message, list) ->
-      expect(message).to.equal 'found'
-      expect(list).to.be.an 'array'
-      expect(list).to.have.length.of.at.least 1
-      suite.expectFinanceObject list[0]
-      done()
-      #302
-
-  it 'should give monthly report for expenses', (done) ->
-    options = suite.optionsFrom 'GET', '/api/reports/expenses/monthly'
-    suite.req 302, options, done, (message, report) ->
-      expect(message).to.equal 'found'
-      expect(report).to.be.an 'object'
-      done()
-
-  it 'should give monthly report for expenses (with month filter)', (done) ->
-    options = suite.optionsFrom 'GET', '/api/reports/expenses/monthly/?year=2009&month=10'
-    suite.req 302, options, done, (message, report) ->
-      expect(message).to.equal 'found'
-      expect(report).to.be.an 'object'
-      done()
-
-  it 'should report balance trends', (done) ->
-    options = suite.optionsFrom 'GET', '/api/reports/trend'
-
-    suite.req 200, options, done, (message, reports) ->
-      expect(reports).to.be.an 'array'
-      expect(reports).to.have.length.of.at.least 1
-      for report in reports
-        suite.expectAllProperties(
-          report, ['income', 'expense', 'balance', 'month', 'year'])
-
-      done()
-
-  it 'should report balance trends (specified date)', (done) ->
-    options = suite.optionsFrom 'GET', '/api/reports/trend/?start=2004-01-01&end=2015-12-30'
-
-    suite.req 200, options, done, (message, reports) ->
-      expect(reports).to.be.an 'array'
-      expect(reports).to.have.length.of.at.least 1
-      for report in reports
-        suite.expectAllProperties(
-          report, ['income', 'expense', 'balance', 'month', 'year'])
-
-      done()
-
   it 'should test all component tests', (done) ->
     require './TestComponentServerPrepare.coffee'
     require './TestExtendedComponent.coffee'
@@ -213,6 +129,94 @@ describe 'App (AllNew)', ->
     require './TestComponentList.coffee'
     require './TestComponentReports.coffee'
     done()
+
+  it 'should list using GET', (done) ->
+    options = suite.optionsFrom 'GET', '/api/expenses'
+
+    suite.req 200, options, done, (message, list) ->
+      expect(message).to.equal 'found'
+      suite.expectFinanceObjects list
+      # expect(updated.tags).to.equal 'new-tag,old-tag'
+      done()
+
+  it 'should be able to list expenses with tag', (done) ->
+    options = suite.optionsFrom 'GET', '/api/expenses/?tag=eh' #component-store
+    suite.req 200, options, done, (message, list) ->
+      expect(message).to.equal 'found'
+      suite.expectFinanceObjects list
+      done()
+      #302
+
+  it 'should be able to list expenses with date (timestamp)', (done) ->
+    options = suite.optionsFrom 'GET', '/api/expenses/?date=' + new Date().getTime()
+    suite.req 200, options, done, (message, list) ->
+      expect(message).to.equal 'found'
+      suite.expectFinanceObjects list
+      done()
+      #302
+
+  it 'should be able to list expenses with date (y-m-d)', (done) ->
+    date = new Date()
+    month = date.getMonth()+1
+    year = date.getFullYear()
+    day = date.getDate()
+    dateString = year + '-' + month + '-' + day
+
+    options = suite.optionsFrom 'GET', '/api/expenses/?date=' + dateString
+    suite.req 200, options, done, (message, list) ->
+      expect(message).to.equal 'found'
+      suite.expectFinanceObjects list
+      done()
+      #302
+
+  it 'should give monthly report for expenses', (done) ->
+    options = suite.optionsFrom 'GET', '/api/reports/expenses/monthly'
+    suite.req 302, options, done, (message, report) ->
+      expect(message).to.equal 'found'
+      expect(report).to.be.an 'object'
+
+      eh = parseInt report['eh']
+      expect(eh).to.be.a.at.least 0
+      done()
+
+  it 'should give monthly report for expenses (with month filter)', (done) ->
+    options = suite.optionsFrom 'GET', '/api/reports/expenses/monthly/?year=2004&month=10'
+    suite.req 302, options, done, (message, report) ->
+      expect(message).to.equal 'found'
+      expect(report).to.be.an 'object'
+
+      eh = parseInt report['eh']
+      expect(eh).to.be.a.at.least 0
+      done()
+
+  it 'should report balance trends', (done) ->
+    options = suite.optionsFrom 'GET', '/api/reports/trend'
+
+    suite.req 200, options, done, (message, reports) ->
+      expect(reports).to.be.an 'array'
+      expect(reports).to.have.length.of.at.least 1
+      for report in reports
+        suite.expectAllProperties(
+          report, ['income', 'expense', 'balance', 'month', 'year'])
+        expect(report.balance).to.be.a 'number'
+        expect(report.income).to.be.at.least 0
+        expect(report.expense).to.be.at.least 0
+      done()
+
+  it 'should report balance trends (specified date)', (done) ->
+    options = suite.optionsFrom 'GET', '/api/reports/trend/?start=2004-01-01&end=2015-12-30'
+
+    suite.req 200, options, done, (message, reports) ->
+      expect(reports).to.be.an 'array'
+      expect(reports).to.have.length.of.at.least 1
+      for report in reports
+        suite.expectAllProperties(
+          report, ['income', 'expense', 'balance', 'month', 'year'])
+        expect(report.balance).to.be.a 'number'
+        expect(report.income).to.be.at.least 0
+        expect(report.expense).to.be.at.least 0
+
+      done()
 
   it 'should not allow unauthorized access', (done) ->
     options = suite.optionsFrom 'GET', '/api/expenses/' + id

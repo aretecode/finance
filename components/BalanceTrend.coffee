@@ -1,6 +1,7 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
 util = require './../src/Finance.coffee'
+moment = require 'moment'
 
 class BalanceTrend extends noflo.Component
   description: 'Balance trending by month'
@@ -23,26 +24,22 @@ class BalanceTrend extends noflo.Component
     @inPorts.range.on 'data', (@range) =>
 
     @inPorts.in.on 'data', (data) =>
-      @pg = require('./../src/Persistence/connection.coffee').getPg()
+      conn =
+        host: process.env.DATABASE_HOST
+        user: process.env.DATABASE_USER
+        password: process.env.DATABASE_PASSWORD
+        database: process.env.DATABASE_NAME
+        charset: 'utf8'
+        port: 5432
+      pool =
+        min: 2
+        max: 20
+      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
 
-      earliestFrom = (earliest) ->
-        e = earliest.getFullYear() + '-' +
-          (earliest.getMonth()+1) + '-' +
-          earliest.getDate() + ' '
-          '0' + latest.getHours() + ':' + latest.getMinutes()
-        return e
-
-      latestFrom = (latest) ->
-        l = latest.getFullYear() + '-' +
-          (latest.getMonth()+1) + '-' +
-          (latest.getDate()) + ' ' +
-          '0' + latest.getHours() + ':' + latest.getMinutes()
-        return l
-
-      earliest = util.dateFrom data.earliest
-      latest = util.dateFrom data.latest
-      e = earliestFrom(earliest)
-      l = latestFrom(latest)
+      earliest = util.dateFrom(data.earliest)
+      latest = util.dateFrom(data.latest)
+      e = moment(earliest).format()
+      l = moment(latest).format()
 
       if data? and data.range? and data.range.startMonth?
         @range = data.range
@@ -58,8 +55,8 @@ class BalanceTrend extends noflo.Component
       # select only amount & currency
       findBetweenMonths = (table, cb) ->
         query = pg('finance_op').select()
-        .whereRaw('"finance_op".created_at <= \'' +l+ '\'::DATE')
-        .andWhereRaw('"finance_op".created_at >= \'' +e+ '\'::DATE')
+        .whereRaw('"finance_op".created_at::DATE <= \'' +l+ '\'::DATE')
+        .andWhereRaw('"finance_op".created_at::DATE >= \'' +e+ '\'::DATE')
         .andWhere('type', table)
         .toString()
 

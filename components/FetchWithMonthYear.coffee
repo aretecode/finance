@@ -20,15 +20,16 @@ class FetchWithMonthYear extends Database
       .andWhere('type', @table)
       .toString()
 
+      console.log query
+
       @pg.raw(query).then (all) -> return all.rows
       .map (item) ->
         _this.pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
-          item.tags = tagRow
+          item.tags = tagRow.map (tag) -> tag.tag
           return item
       .then (items) ->
         # getting all the tags from all the items
         for item in items
-          item.tags = item.tags.map (tag) -> return tag.tag
           for tag in item.tags
             tags[tag] = 0
 
