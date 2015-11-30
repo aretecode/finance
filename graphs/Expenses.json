@@ -21,7 +21,7 @@
             "process": "core/Split_g2wpc",
             "port": "in",
             "metadata": {
-                "x": 180,
+                "x": 36,
                 "y": -144,
                 "width": 72,
                 "height": 72
@@ -338,7 +338,48 @@
                 "process": "MonthlyReport",
                 "port": "type"
             },
-            "metadata": {}
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_g2wpc",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "CreateExpense",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_g2wpc",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "RetrieveExpense",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "core/Split_g2wpc",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ListExpense",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 6
+            }
         },
         {
             "data": "post /api/expenses",

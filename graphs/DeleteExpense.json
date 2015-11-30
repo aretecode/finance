@@ -8,11 +8,21 @@
     },
     "inports": {
         "req": {
-            "process": "aretecode_finance/Delete_z22u6",
+            "process": "Deleted",
             "port": "req",
             "metadata": {
                 "x": 108,
                 "y": 252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "name": {
+            "process": "Removed",
+            "port": "name",
+            "metadata": {
+                "x": 108,
+                "y": 0,
                 "width": 72,
                 "height": 72
             }
@@ -21,42 +31,62 @@
     "outports": {},
     "groups": [],
     "processes": {
-        "aretecode_finance/Delete_z22u6": {
+        "Deleted": {
             "component": "aretecode_finance/Delete",
             "metadata": {
-                "label": "aretecode_finance/Delete",
+                "label": "Deleted",
                 "x": 252,
                 "y": 252,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Response_ev0kw": {
+        "Response": {
             "component": "aretecode_finance/Response",
             "metadata": {
-                "label": "aretecode_finance/Response",
+                "label": "Response",
                 "x": 936,
                 "y": 432,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Validate_subgu": {
+        "ValidateDeletionId": {
             "component": "aretecode_finance/Validate",
             "metadata": {
-                "label": "aretecode_finance/Validate",
+                "label": "ValidateDeletionId",
                 "x": 504,
                 "y": 108,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Removed_xdo18": {
+        "Removed": {
             "component": "aretecode_finance/Removed",
             "metadata": {
-                "label": "aretecode_finance/Removed",
+                "label": "Removed",
                 "x": 720,
                 "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "RemovedError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "RemovedError",
+                "x": 864,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "DeletedError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "DeletedError",
+                "x": 396,
+                "y": 432,
                 "width": 72,
                 "height": 72
             }
@@ -65,11 +95,11 @@
     "connections": [
         {
             "src": {
-                "process": "aretecode_finance/Delete_z22u6",
+                "process": "Deleted",
                 "port": "res"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_ev0kw",
+                "process": "Response",
                 "port": "res"
             },
             "metadata": {
@@ -78,11 +108,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Validate_subgu",
+                "process": "ValidateDeletionId",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Removed_xdo18",
+                "process": "Removed",
                 "port": "in"
             },
             "metadata": {
@@ -91,11 +121,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Removed_xdo18",
+                "process": "Removed",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_ev0kw",
+                "process": "Response",
                 "port": "deleted"
             },
             "metadata": {
@@ -104,11 +134,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Delete_z22u6",
+                "process": "Deleted",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Validate_subgu",
+                "process": "ValidateDeletionId",
                 "port": "id"
             },
             "metadata": {
@@ -116,10 +146,29 @@
             }
         },
         {
-            "data": "expense",
+            "src": {
+                "process": "Removed",
+                "port": "error"
+            },
             "tgt": {
-                "process": "aretecode_finance/Removed_xdo18",
-                "port": "name"
+                "process": "RemovedError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Deleted",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "DeletedError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
             }
         }
     ]
