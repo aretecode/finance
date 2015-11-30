@@ -199,9 +199,7 @@ describe 'App (AllNew)', ->
       done()
 
   it 'should test all component tests', (done) ->
-    require './TestComponentServerCreate.coffee'
-    require './TestComponentFlowHub.coffee'
-
+    require './TestComponentServerPrepare.coffee'
     require './TestExtendedComponent.coffee'
     require './TestComponentCreate.coffee'
     require './TestComponentStore.coffee'

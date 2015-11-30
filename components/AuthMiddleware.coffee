@@ -6,6 +6,7 @@ Strategy = require('passport-http-bearer').Strategy
 exports.getComponent = ->
   c = new ExtendedComponent
   c.description = 'Adds very basic auth'
+  c.icon = 'lock'
 
   c.inPorts.addOn 'app',
     datatype: 'object'

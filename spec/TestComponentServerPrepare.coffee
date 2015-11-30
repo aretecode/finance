@@ -1,9 +1,9 @@
 chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
-c = require('./../components/FlowHubServerCreate.coffee').getComponent()
+c = require('./../components/PrepareServer.coffee').getComponent()
 
-describe 'Test FlowHubServerCreate Component', ->
+describe 'Test FlowHubServerPrepare Component', ->
   t = new Tester c
 
   before (done) ->

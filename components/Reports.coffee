@@ -30,7 +30,7 @@ class Reports extends noflo.Component
 
     @inPorts.in.on 'data', (data) =>
       reports = @reports||[]
-      balance = @balanc||0
+      balance = @balance||0
       range = data.range
       incomes = data.incomes
       expenses = data.expenses

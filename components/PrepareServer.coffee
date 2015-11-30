@@ -5,7 +5,7 @@ finance = require './../src/Finance.coffee'
 exports.getComponent = ->
   c = new finance.ExtendedComponent
   c.description = 'start the server, then trigger after'
-  c.icon = 'server'
+  c.icon = 'cloud'
 
   c.addInOnData 'in', (payload) ->
     c.outPorts.out.send '5023'

@@ -28,14 +28,20 @@ class BalanceTrend extends noflo.Component
       earliestFrom = (earliest) ->
         e = earliest.getFullYear() + '-' +
           (earliest.getMonth()+1) + '-' +
-          earliest.getDate()
+          earliest.getDate() + ' '
+          '0' + latest.getHours() + ':' + latest.getMinutes()
         return e
+
+      # '0' + latest.getHours() + ':' + latest.getMinutes() +
+      # ':' + latest.getSeconds()
+      # (latest.getDate()+1) + ' ' +
       latestFrom = (latest) ->
         l = latest.getFullYear() + '-' +
           (latest.getMonth()+1) + '-' +
-          (latest.getDate()+1) + ' ' +
-          latest.getHours() + ':' + latest.getMinutes()
+          (latest.getDate()) + ' ' +
+          '0' + latest.getHours() + ':' + latest.getMinutes()
         return l
+
       earliest = util.dateFrom data.earliest
       latest = util.dateFrom data.latest
       e = earliestFrom(earliest)
