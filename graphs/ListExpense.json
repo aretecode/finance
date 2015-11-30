@@ -7,7 +7,7 @@
     },
     "inports": {
         "req": {
-            "process": "aretecode_finance/List_7g63u",
+            "process": "List",
             "port": "req",
             "metadata": {
                 "x": 190,
@@ -16,44 +16,56 @@
                 "height": 72
             }
         },
-        "name": {
-            "process": "aretecode_finance/FetchList_n2t1z",
+        "type": {
+            "process": "FetchList",
             "port": "name",
             "metadata": {
-                "x": 432,
-                "y": 396
+                "x": 180,
+                "y": 396,
+                "width": 72,
+                "height": 72
             }
         }
     },
     "outports": {},
     "groups": [],
     "processes": {
-        "aretecode_finance/List_7g63u": {
+        "List": {
             "component": "aretecode_finance/List",
             "metadata": {
-                "label": "aretecode_finance/List",
+                "label": "List",
                 "x": 334,
                 "y": 100,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/FetchList_n2t1z": {
+        "FetchList": {
             "component": "aretecode_finance/FetchList",
             "metadata": {
-                "label": "aretecode_finance/FetchList",
+                "label": "FetchList",
                 "x": 576,
                 "y": 396,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Response_b9c4n": {
+        "Response": {
             "component": "aretecode_finance/Response",
             "metadata": {
-                "label": "aretecode_finance/Response",
+                "label": "Response",
                 "x": 864,
                 "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "FetchListError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "FetchListError",
+                "x": 792,
+                "y": 468,
                 "width": 72,
                 "height": 72
             }
@@ -62,11 +74,11 @@
     "connections": [
         {
             "src": {
-                "process": "aretecode_finance/List_7g63u",
+                "process": "List",
                 "port": "res"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_b9c4n",
+                "process": "Response",
                 "port": "res"
             },
             "metadata": {
@@ -75,11 +87,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/List_7g63u",
+                "process": "List",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/FetchList_n2t1z",
+                "process": "FetchList",
                 "port": "in"
             },
             "metadata": {
@@ -88,11 +100,11 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/FetchList_n2t1z",
+                "process": "FetchList",
                 "port": "out"
             },
             "tgt": {
-                "process": "aretecode_finance/Response_b9c4n",
+                "process": "Response",
                 "port": "retrieved"
             },
             "metadata": {
@@ -100,10 +112,16 @@
             }
         },
         {
-            "data": "expense",
+            "src": {
+                "process": "FetchList",
+                "port": "error"
+            },
             "tgt": {
-                "process": "aretecode_finance/FetchList_n2t1z",
-                "port": "name"
+                "process": "FetchListError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
             }
         }
     ]

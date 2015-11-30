@@ -1,13 +1,14 @@
 {
     "properties": {
-        "name": "TestingMain",
+        "name": "Routes",
         "environment": {
             "type": "noflo-nodejs"
-        }
+        },
+        "icon": "globe"
     },
     "inports": {
         "in": {
-            "process": "core/Repeat_jmgwb",
+            "process": "Port",
             "port": "in",
             "metadata": {
                 "x": 144,
@@ -17,34 +18,23 @@
             }
         }
     },
-    "outports": {
-        "after": {
-            "process": "aretecode_finance/NewServerCreateKick_akupk",
-            "port": "after",
-            "metadata": {
-                "x": 396,
-                "y": 288,
-                "width": 72,
-                "height": 72
-            }
-        }
-    },
+    "outports": {},
     "groups": [],
     "processes": {
-        "core/Repeat_jmgwb": {
+        "Port": {
             "component": "core/Repeat",
             "metadata": {
-                "label": "core/Repeat",
+                "label": "Port",
                 "x": 288,
                 "y": 72,
                 "width": 72,
                 "height": 72
             }
         },
-        "xpress/Server_uv5op": {
+        "Server": {
             "component": "xpress/Server",
             "metadata": {
-                "label": "xpress/Server",
+                "label": "Server",
                 "x": 612,
                 "y": 108,
                 "width": 72,
@@ -61,31 +51,51 @@
                 "height": 72
             }
         },
-        "finance/AuthMiddleware_ds16e": {
-            "component": "finance/AuthMiddleware",
+        "aretecode_finance/Trends_r0rdi": {
+            "component": "aretecode_finance/Trends",
             "metadata": {
-                "label": "finance/AuthMiddleware",
-                "x": 792,
+                "label": "aretecode_finance/Trends",
+                "x": 1260,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "AuthMiddleware_75f2x": {
+            "component": "aretecode_finance/AuthMiddleware",
+            "metadata": {
+                "label": "AuthMiddleware",
+                "x": 756,
                 "y": 180,
                 "width": 72,
                 "height": 72
             }
         },
-        "Expenses": {
-            "component": "aretecode_finance/Expenses",
+        "MiddlewareErrors": {
+            "component": "core/Output",
             "metadata": {
-                "label": "Expenses",
-                "x": 1260,
-                "y": 144,
+                "label": "MiddlewareErrors",
+                "x": 1116,
+                "y": 396,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/NewServerCreateKick_akupk": {
-            "component": "aretecode_finance/NewServerCreateKick",
+        "SetupErrors": {
+            "component": "core/Output",
             "metadata": {
-                "label": "aretecode_finance/NewServerCreateKick",
-                "x": 396,
+                "label": "SetupErrors",
+                "x": 720,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "PrepareServer": {
+            "component": "aretecode_finance/PrepareServer",
+            "metadata": {
+                "label": "PrepareServer",
+                "x": 432,
                 "y": 108,
                 "width": 72,
                 "height": 72
@@ -95,37 +105,11 @@
     "connections": [
         {
             "src": {
-                "process": "xpress/Server_uv5op",
-                "port": "app"
-            },
-            "tgt": {
-                "process": "finance/AuthMiddleware_ds16e",
-                "port": "app"
-            },
-            "metadata": {
-                "route": 2
-            }
-        },
-        {
-            "src": {
-                "process": "finance/AuthMiddleware_ds16e",
-                "port": "app"
-            },
-            "tgt": {
-                "process": "JsonBodyParserMiddleware",
-                "port": "app"
-            },
-            "metadata": {
-                "route": 2
-            }
-        },
-        {
-            "src": {
                 "process": "JsonBodyParserMiddleware",
                 "port": "app"
             },
             "tgt": {
-                "process": "Expenses",
+                "process": "aretecode_finance/Trends_r0rdi",
                 "port": "app"
             },
             "metadata": {
@@ -134,11 +118,37 @@
         },
         {
             "src": {
-                "process": "core/Repeat_jmgwb",
-                "port": "out"
+                "process": "Server",
+                "port": "app"
             },
             "tgt": {
-                "process": "aretecode_finance/NewServerCreateKick_akupk",
+                "process": "AuthMiddleware_75f2x",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "AuthMiddleware_75f2x",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MiddlewareErrors",
                 "port": "in"
             },
             "metadata": {
@@ -147,14 +157,64 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/NewServerCreateKick_akupk",
+                "process": "AuthMiddleware_75f2x",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MiddlewareErrors",
+                "port": "options"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Server",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "SetupErrors",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Port",
                 "port": "out"
             },
             "tgt": {
-                "process": "xpress/Server_uv5op",
+                "process": "PrepareServer",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "PrepareServer",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Server",
                 "port": "port"
             },
             "metadata": {}
+        },
+        {
+            "src": {
+                "process": "PrepareServer",
+                "port": "after"
+            },
+            "tgt": {
+                "process": "SetupErrors",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
         }
     ]
 }

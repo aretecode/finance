@@ -6,7 +6,7 @@
         }
     },
     "inports": {
-        "req": {
+        "requ": {
             "process": "aretecode_finance/Update_kgioi",
             "port": "req",
             "metadata": {

@@ -78,19 +78,6 @@
         },
         {
             "src": {
-                "process": "aretecode_finance/Delete_z22u6",
-                "port": "out"
-            },
-            "tgt": {
-                "process": "aretecode_finance/Validate_subgu",
-                "port": "in"
-            },
-            "metadata": {
-                "route": 7
-            }
-        },
-        {
-            "src": {
                 "process": "aretecode_finance/Validate_subgu",
                 "port": "out"
             },
@@ -113,6 +100,19 @@
             },
             "metadata": {
                 "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/Delete_z22u6",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Validate_subgu",
+                "port": "id"
+            },
+            "metadata": {
+                "route": 7
             }
         },
         {

@@ -16,6 +16,16 @@
                 "width": 72,
                 "height": 72
             }
+        },
+        "type": {
+            "process": "FetchW/MonthYear",
+            "port": "name",
+            "metadata": {
+                "x": 144,
+                "y": 252,
+                "width": 72,
+                "height": 72
+            }
         }
     },
     "outports": {},
@@ -26,7 +36,7 @@
             "metadata": {
                 "label": "FetchW/MonthYear",
                 "x": 504,
-                "y": 144,
+                "y": 216,
                 "width": 72,
                 "height": 72
             }
@@ -90,13 +100,6 @@
             },
             "metadata": {
                 "route": 5
-            }
-        },
-        {
-            "data": "expense",
-            "tgt": {
-                "process": "FetchW/MonthYear",
-                "port": "name"
             }
         }
     ]

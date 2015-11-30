@@ -1,0 +1,253 @@
+{
+    "properties": {
+        "name": "Trends",
+        "environment": {
+            "type": "noflo-nodejs"
+        }
+    },
+    "inports": {
+        "app": {
+            "process": "xpress/Router_huj3o",
+            "port": "app",
+            "metadata": {
+                "x": -144,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "Trend": {
+            "component": "aretecode_finance/Trend",
+            "metadata": {
+                "label": "Trend",
+                "x": 216,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "BalanceTrend": {
+            "component": "aretecode_finance/BalanceTrend",
+            "metadata": {
+                "label": "BalanceTrend",
+                "x": 684,
+                "y": -108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Response": {
+            "component": "aretecode_finance/Response",
+            "metadata": {
+                "label": "Response",
+                "x": 936,
+                "y": 252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "AlphaOmegaEntries": {
+            "component": "aretecode_finance/AlphaOmegaEntries",
+            "metadata": {
+                "label": "AlphaOmegaEntries",
+                "x": 540,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "xpress/Router_huj3o": {
+            "component": "xpress/Router",
+            "metadata": {
+                "label": "Retrieve",
+                "x": 0,
+                "y": 180,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "TrendRouteError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "TrendRouteError",
+                "x": 108,
+                "y": 324,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "AlphaOmegaError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "AlphaOmegaError",
+                "x": 756,
+                "y": 324,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "BalanceTrendError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "BalanceTrendError",
+                "x": 828,
+                "y": -180,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "RetrieveOutput": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "RetrieveOutput",
+                "x": 144,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withrange"
+            },
+            "tgt": {
+                "process": "BalanceTrend",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "trend"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withoutrange"
+            },
+            "tgt": {
+                "process": "AlphaOmegaEntries",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "AlphaOmegaEntries",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "BalanceTrend",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "xpress/Router_huj3o",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Trend",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "xpress/Router_huj3o",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "TrendRouteError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "res"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "AlphaOmegaEntries",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "AlphaOmegaError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "BalanceTrendError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "xpress/Router_huj3o",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "RetrieveOutput",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "data": "get /api/reports/trend*",
+            "tgt": {
+                "process": "xpress/Router_huj3o",
+                "port": "pattern"
+            }
+        }
+    ]
+}
