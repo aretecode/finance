@@ -28,5 +28,7 @@ class AlphaOmegaEntries extends noflo.Component
             earliest: earliest.rows[0].created_at
             latest: latest.rows[0].created_at
           _this.outPorts.out.disconnect()
+      .catch (e) ->
+        _this.error e
 
 exports.getComponent = -> new AlphaOmegaEntries

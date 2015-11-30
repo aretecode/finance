@@ -15,8 +15,6 @@ class Trend extends noflo.Component
         datatype: 'all'
       withoutrange:
         datatype: 'all'
-      error:
-        datatype: 'object'
       res:
         datatype: 'object'
         description: 'Response object'

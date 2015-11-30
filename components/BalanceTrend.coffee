@@ -32,9 +32,6 @@ class BalanceTrend extends noflo.Component
           '0' + latest.getHours() + ':' + latest.getMinutes()
         return e
 
-      # '0' + latest.getHours() + ':' + latest.getMinutes() +
-      # ':' + latest.getSeconds()
-      # (latest.getDate()+1) + ' ' +
       latestFrom = (latest) ->
         l = latest.getFullYear() + '-' +
           (latest.getMonth()+1) + '-' +
@@ -73,6 +70,8 @@ class BalanceTrend extends noflo.Component
             return item
         .then (all) ->
           cb all
+        .catch (e) ->
+          _this.error e
 
       findBetweenMonths 'income', (incomes) ->
         findBetweenMonths 'expense', (expenses) ->

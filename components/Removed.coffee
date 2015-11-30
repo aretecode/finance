@@ -18,9 +18,8 @@ class Removed extends Database
             data: result, tagResult
           _this.outPorts.out.disconnect()
       .catch (e) ->
-        _this.outPorts.out.send
-          success: false
+        _this.error
           data: data
-        _this.outPorts.out.disconnect()
+          error: e
 
 exports.getComponent = -> new Removed

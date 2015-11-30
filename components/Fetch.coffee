@@ -37,5 +37,7 @@ class Fetch extends Database
             data: rows.rows[0]
 
         _this.outPorts.out.disconnect()
+      .catch (e) ->
+        _this.error e
 
 exports.getComponent = -> new Fetch

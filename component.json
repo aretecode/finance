@@ -1,7 +1,7 @@
 {
   "name": "arete/finance",
   "repo": "aretecode/finance",
-  "version": "0.2.103",
+  "version": "0.2.104",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -52,9 +52,6 @@
       "AuthMiddleware": "components/AuthMiddleware.coffee",
       "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee",
 
-      "FlowHubServerCreate": "components/FlowHubServerCreate.coffee",
-      "FlowHubRequests": "components/FlowHubRequests.coffee",
-      "FlowHubReq": "components/FlowHubCreate.coffee",
-      "FinanceFacade": "components/FinanceFacade.coffee"
+      "PrepareServer": "components/PrepareServer.coffee"
     }
   }

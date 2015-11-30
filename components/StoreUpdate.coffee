@@ -61,9 +61,9 @@ class StoreUpdate extends Database
                 id: update.id
               , cb||null
       .catch (e) ->
-        console.log e
         _this.error
           message: 'could not update!'
           error: e
+          data: data
 
 exports.getComponent = -> new StoreUpdate

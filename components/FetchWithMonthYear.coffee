@@ -41,10 +41,11 @@ class FetchWithMonthYear extends Database
           success: tags?
           data: tags
         _this.outPorts.out.disconnect()
-        # error
-        # table + ' reporting not found for month: `' + date.getMonth() + '`
-        # and year: `' + date.getFullYear() + '`'
-      #.catch (e)
-        #_this.error e
+
+      .catch (e) ->
+        _this.error
+          message: _this.table + ' reporting not found for month: `' +
+            date.getMonth() + '` and year: `' + date.getFullYear() + '`'
+          error: e
 
 exports.getComponent = -> new FetchWithMonthYear

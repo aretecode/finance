@@ -64,10 +64,7 @@
       "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee",
       "JsonBodyParserMiddleware": "components/JsonBodyParserMiddleware.coffee",
 
-      "FlowHubServerCreate": "components/FlowHubServerCreate.coffee",
-      "FlowHubRequests": "components/FlowHubRequests.coffee",
-      "FlowHubReq": "components/FlowHubCreate.coffee",
-      "FinanceFacade": "components/FinanceFacade.coffee"
+      "PrepareServer": "components/PrepareServer.coffee"
     }
   }
 }

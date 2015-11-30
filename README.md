@@ -32,6 +32,8 @@
 * [x] make it work in FlowHub
 * [x] make it *all* work in FlowHub
 * [ ] rename `name` as `type`
+* [ ] could pass all down one pipeline, no res port
+* [ ] Response could be one in port, pass in data about which
 
 # @TODO:
 * [x] Validate
