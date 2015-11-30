@@ -6,8 +6,6 @@ class CRUD extends ExtendedComponent
   sendQuery: false
   sendBody: true
   constructor: ->
-    @pg = require('./../src/Persistence/connection.coffee').getPg()
-
     @inPorts = new noflo.InPorts
       req:
         datatype: 'object'
