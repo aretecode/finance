@@ -44,7 +44,7 @@
             "component": "aretecode_finance/Response",
             "metadata": {
                 "label": "Response",
-                "x": 936,
+                "x": 1116,
                 "y": 252,
                 "width": 72,
                 "height": 72
@@ -109,6 +109,16 @@
                 "width": 72,
                 "height": 72
             }
+        },
+        "aretecode_finance/Reports_csbek": {
+            "component": "aretecode_finance/Reports",
+            "metadata": {
+                "label": "aretecode_finance/Reports",
+                "x": 900,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
         }
     },
     "connections": [
@@ -123,19 +133,6 @@
             },
             "metadata": {
                 "route": 7
-            }
-        },
-        {
-            "src": {
-                "process": "BalanceTrend",
-                "port": "out"
-            },
-            "tgt": {
-                "process": "Response",
-                "port": "trend"
-            },
-            "metadata": {
-                "route": 6
             }
         },
         {
@@ -240,6 +237,32 @@
             },
             "metadata": {
                 "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Reports_csbek",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "aretecode_finance/Reports_csbek",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "trend"
+            },
+            "metadata": {
+                "route": 5
             }
         },
         {

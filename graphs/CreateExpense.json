@@ -1,9 +1,10 @@
 {
     "properties": {
-        "name": "CreateExpense",
+        "name": "CreateFinanceOp",
         "environment": {
             "type": "noflo-nodejs"
-        }
+        },
+        "icon": "gavel"
     },
     "inports": {
         "type": {

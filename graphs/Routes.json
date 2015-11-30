@@ -12,7 +12,7 @@
             "port": "in",
             "metadata": {
                 "x": 144,
-                "y": 72,
+                "y": 108,
                 "width": 72,
                 "height": 72
             }
@@ -26,7 +26,7 @@
             "metadata": {
                 "label": "Port",
                 "x": 288,
-                "y": 72,
+                "y": 108,
                 "width": 72,
                 "height": 72
             }
@@ -45,18 +45,18 @@
             "component": "aretecode_finance/JsonBodyParserMiddleware",
             "metadata": {
                 "label": "JsonBodyParserMiddleware",
-                "x": 972,
-                "y": 216,
+                "x": 1008,
+                "y": 108,
                 "width": 72,
                 "height": 72
             }
         },
-        "aretecode_finance/Trends_r0rdi": {
+        "Trends": {
             "component": "aretecode_finance/Trends",
             "metadata": {
-                "label": "aretecode_finance/Trends",
-                "x": 1260,
-                "y": 288,
+                "label": "Trends",
+                "x": 1224,
+                "y": 0,
                 "width": 72,
                 "height": 72
             }
@@ -65,8 +65,8 @@
             "component": "aretecode_finance/AuthMiddleware",
             "metadata": {
                 "label": "AuthMiddleware",
-                "x": 756,
-                "y": 180,
+                "x": 792,
+                "y": 108,
                 "width": 72,
                 "height": 72
             }
@@ -100,6 +100,16 @@
                 "width": 72,
                 "height": 72
             }
+        },
+        "Expenses": {
+            "component": "aretecode_finance/Expenses",
+            "metadata": {
+                "label": "Expenses",
+                "x": 1224,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
         }
     },
     "connections": [
@@ -109,7 +119,7 @@
                 "port": "app"
             },
             "tgt": {
-                "process": "aretecode_finance/Trends_r0rdi",
+                "process": "Trends",
                 "port": "app"
             },
             "metadata": {
@@ -126,7 +136,7 @@
                 "port": "app"
             },
             "metadata": {
-                "route": 2
+                "route": 3
             }
         },
         {
@@ -139,7 +149,7 @@
                 "port": "app"
             },
             "metadata": {
-                "route": 2
+                "route": 3
             }
         },
         {
@@ -190,7 +200,9 @@
                 "process": "PrepareServer",
                 "port": "in"
             },
-            "metadata": {}
+            "metadata": {
+                "route": 2
+            }
         },
         {
             "src": {
@@ -201,7 +213,9 @@
                 "process": "Server",
                 "port": "port"
             },
-            "metadata": {}
+            "metadata": {
+                "route": 2
+            }
         },
         {
             "src": {
@@ -214,6 +228,26 @@
             },
             "metadata": {
                 "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "Expenses",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "Expenses",
+                "port": "type"
             }
         }
     ]

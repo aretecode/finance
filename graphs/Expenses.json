@@ -1,6 +1,6 @@
 {
     "properties": {
-        "name": "FinanceOp",
+        "name": "Expenses",
         "environment": {
             "type": "noflo-nodejs"
         },
@@ -8,7 +8,7 @@
     },
     "inports": {
         "app": {
-            "process": "core/Split_te146",
+            "process": "SplitRequest",
             "port": "in",
             "metadata": {
                 "x": 36,
@@ -18,7 +18,7 @@
             }
         },
         "type": {
-            "process": "core/Split_g2wpc",
+            "process": "SplitExpense",
             "port": "in",
             "metadata": {
                 "x": 36,
@@ -41,10 +41,10 @@
                 "height": 72
             }
         },
-        "core/Split_te146": {
+        "SplitRequest": {
             "component": "core/Split",
             "metadata": {
-                "label": "core/Split",
+                "label": "SplitRequest",
                 "x": 144,
                 "y": 36,
                 "width": 72,
@@ -101,72 +101,72 @@
                 "height": 72
             }
         },
-        "CreateExpense": {
-            "component": "aretecode_finance/CreateExpense",
-            "metadata": {
-                "label": "CreateExpense",
-                "x": 648,
-                "y": 180,
-                "width": 72,
-                "height": 72
-            }
-        },
-        "DeleteExpense": {
-            "component": "aretecode_finance/DeleteExpense",
-            "metadata": {
-                "label": "DeleteExpense",
-                "x": 648,
-                "y": 612,
-                "width": 72,
-                "height": 72
-            }
-        },
         "MonthlyReport": {
             "component": "aretecode_finance/MonthlyReport",
             "metadata": {
                 "label": "MonthlyReport",
-                "x": 648,
+                "x": 828,
                 "y": 36,
                 "width": 72,
                 "height": 72
             }
         },
-        "RetrieveExpense": {
-            "component": "aretecode_finance/RetrieveExpense",
+        "SplitExpense": {
+            "component": "core/Split",
             "metadata": {
-                "label": "RetrieveExpense",
-                "x": 648,
-                "y": 324,
+                "label": "SplitExpense",
+                "x": 540,
+                "y": -144,
                 "width": 72,
                 "height": 72
             }
         },
-        "ListExpense": {
-            "component": "aretecode_finance/ListExpense",
+        "CreateExpense_ozo3a": {
+            "component": "aretecode_finance/CreateFinanceOp",
             "metadata": {
-                "label": "ListExpense",
-                "x": 648,
-                "y": 468,
+                "label": "CreateExpense",
+                "x": 828,
+                "y": 180,
                 "width": 72,
                 "height": 72
             }
         },
-        "UpdateExpense": {
-            "component": "aretecode_finance/UpdateExpense",
+        "DeleteExpense_scha2": {
+            "component": "aretecode_finance/DeleteFinanceOp",
+            "metadata": {
+                "label": "DeleteExpense",
+                "x": 828,
+                "y": 612,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "UpdateExpense_5690p": {
+            "component": "aretecode_finance/UpdateFinanceOp",
             "metadata": {
                 "label": "UpdateExpense",
-                "x": 648,
+                "x": 828,
                 "y": 756,
                 "width": 72,
                 "height": 72
             }
         },
-        "core/Split_g2wpc": {
-            "component": "core/Split",
+        "ListExpenses": {
+            "component": "aretecode_finance/ListFinanceOp",
             "metadata": {
-                "label": "core/Split",
-                "x": 432,
-                "y": -108,
+                "label": "ListExpenses",
+                "x": 828,
+                "y": 468,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "RetrieveExpense_no1kx": {
+            "component": "aretecode_finance/RetrieveFinanceOp",
+            "metadata": {
+                "label": "RetrieveExpense",
+                "x": 828,
+                "y": 324,
                 "width": 72,
                 "height": 72
             }
@@ -175,7 +175,7 @@
     "connections": [
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -188,7 +188,7 @@
         },
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -201,7 +201,7 @@
         },
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -214,7 +214,7 @@
         },
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -227,7 +227,7 @@
         },
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -240,7 +240,7 @@
         },
         {
             "src": {
-                "process": "core/Split_te146",
+                "process": "SplitRequest",
                 "port": "out"
             },
             "tgt": {
@@ -249,19 +249,6 @@
             },
             "metadata": {
                 "route": 3
-            }
-        },
-        {
-            "src": {
-                "process": "Delete",
-                "port": "req"
-            },
-            "tgt": {
-                "process": "DeleteExpense",
-                "port": "req"
-            },
-            "metadata": {
-                "route": 9
             }
         },
         {
@@ -279,28 +266,15 @@
         },
         {
             "src": {
-                "process": "Retrieve",
-                "port": "req"
+                "process": "SplitExpense",
+                "port": "out"
             },
             "tgt": {
-                "process": "RetrieveExpense",
-                "port": "req"
+                "process": "MonthlyReport",
+                "port": "type"
             },
             "metadata": {
-                "route": 9
-            }
-        },
-        {
-            "src": {
-                "process": "List",
-                "port": "req"
-            },
-            "tgt": {
-                "process": "ListExpense",
-                "port": "req"
-            },
-            "metadata": {
-                "route": 9
+                "route": 6
             }
         },
         {
@@ -309,7 +283,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "CreateExpense",
+                "process": "CreateExpense_ozo3a",
                 "port": "req"
             },
             "metadata": {
@@ -322,7 +296,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "UpdateExpense",
+                "process": "UpdateExpense_5690p",
                 "port": "requ"
             },
             "metadata": {
@@ -331,11 +305,50 @@
         },
         {
             "src": {
-                "process": "core/Split_g2wpc",
+                "process": "Delete",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "DeleteExpense_scha2",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "ListExpenses",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "RetrieveExpense_no1kx",
+                "port": "req"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "SplitExpense",
                 "port": "out"
             },
             "tgt": {
-                "process": "MonthlyReport",
+                "process": "CreateExpense_ozo3a",
                 "port": "type"
             },
             "metadata": {
@@ -344,11 +357,11 @@
         },
         {
             "src": {
-                "process": "core/Split_g2wpc",
+                "process": "SplitExpense",
                 "port": "out"
             },
             "tgt": {
-                "process": "CreateExpense",
+                "process": "RetrieveExpense_no1kx",
                 "port": "type"
             },
             "metadata": {
@@ -357,11 +370,11 @@
         },
         {
             "src": {
-                "process": "core/Split_g2wpc",
+                "process": "SplitExpense",
                 "port": "out"
             },
             "tgt": {
-                "process": "RetrieveExpense",
+                "process": "ListExpenses",
                 "port": "type"
             },
             "metadata": {
@@ -370,11 +383,24 @@
         },
         {
             "src": {
-                "process": "core/Split_g2wpc",
+                "process": "SplitExpense",
                 "port": "out"
             },
             "tgt": {
-                "process": "ListExpense",
+                "process": "DeleteExpense_scha2",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "SplitExpense",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "UpdateExpense_5690p",
                 "port": "type"
             },
             "metadata": {
