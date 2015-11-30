@@ -11,7 +11,17 @@ class Store extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      @pg = require('./../src/Persistence/connection.coffee').getPg()
+      conn =
+        host: process.env.DATABASE_HOST
+        user: process.env.DATABASE_USER
+        password: process.env.DATABASE_PASSWORD
+        database: process.env.DATABASE_NAME
+        charset: 'utf8'
+        port: 5432
+      pool =
+        min: 2
+        max: 20
+      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
 
       store =
         currency: data.currency
@@ -19,10 +29,6 @@ class Store extends Database
         description: data.description
         type: @table
       store.id = if data.id? then data.id else uuid.v4()
-
-      console.log data.created_at
-      # console.log moment(data.created_at).format()
-      console.log util.dateFrom data.created_at
 
       store.created_at = util.dateFrom data.created_at
       tags = util.uniqArrFrom data.tags
@@ -42,10 +48,16 @@ class Store extends Database
           data: store
         _this.outPorts.out.disconnect()
       .catch (e) ->
-        _this.error
-          message: 'could not save!'
-          error: e
-          component: 'Store'
+        if e.code is 23505
+          _this.outPorts.out.send
+            success: 'duplicate'
+            data: 'already exists (@TODO: add http code 409)'
+          _this.outPorts.out.disconnect()
+        else
+          _this.error
+            message: 'could not save!'
+            error: e
+            component: 'Store'
 
       saveTag = (tag, cb) ->
         _this.pg

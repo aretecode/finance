@@ -12,11 +12,12 @@ describe 'Test FlowHubServerPrepare Component', ->
 
   it 'should make sure it sends out & after port', (done) ->
 
+    # expect string|int if needed
     t.receive 'out', (data) ->
-      console.log data
+      # console.log data
 
     t.receive 'after', (data) ->
-      console.log data
+      # console.log data
       done()
 
     t.send

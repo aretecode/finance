@@ -20,8 +20,6 @@ class FetchWithMonthYear extends Database
       .andWhere('type', @table)
       .toString()
 
-      console.log query
-
       @pg.raw(query).then (all) -> return all.rows
       .map (item) ->
         _this.pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->

@@ -1,5 +1,6 @@
 noflo = require 'noflo'
 {Database} = require './Database.coffee'
+pg = require('./../src/Persistence/connection.coffee').getPg()
 
 class Removed extends Database
   description: 'Find a finance operation.'
@@ -7,11 +8,10 @@ class Removed extends Database
 
   constructor: ->
     super()
-    @pg = require('./../src/Persistence/connection.coffee').getPg()
     @inPorts.in.on 'data', (data) =>
       hasId = id: data.id
-      @pg('finance_op').where(hasId).del().then (result) ->
-        _this.pg('tags').where(hasId).del()
+      pg('finance_op').where(hasId).del().then (result) ->
+        pg('tags').where(hasId).del()
         .then (tagResult) ->
           _this.outPorts.out.send
             success: result is 1

@@ -44,6 +44,20 @@ class Response extends noflo.Component
       catch e
         console.log e
 
+    wiredResponses = (res, data, responses) ->
+      for r in responses
+        if r.passCond? and data.success is r.passCond
+          return res.status(r.passCode).json JSON.stringify
+            message: r.passMsg
+            body: data.data
+        else if r.failCond? and data.success is r.failCond
+          return res.status(r.failCode).json JSON.stringify
+            message: r.failMsg
+            body: data.data
+      return res.status(500).json JSON.stringify
+        message: 'unknown error, unhandled'
+        body: data.data
+
     wirePatternFor = (context, name, cb) ->
       noflo.helpers.WirePattern context,
         in: ['res', name]
@@ -61,7 +75,25 @@ class Response extends noflo.Component
       wirePatternFor context, name, (res, data) ->
         wiredResponse res, data, passCode, passMsg, failCode, failMsg
 
-    wirePatternResFor @, 'created', 201, 'created', 500, 'could not create'
+    wirePatternsResFor = (context, name, responses) ->
+      wirePatternFor context, name, (res, data) ->
+        wiredResponses res, data, responses
+
+    wirePatternsResFor(@, 'created', [
+      {
+        passCond: 'duplicate'
+        passCode: 409
+        passMsg: 'already exists with that key'
+      }
+      {
+        passCond: true
+        passCode: 201
+        passMsg: 'created'
+        failCond: false
+        failCode: 500
+        failMessage: 'couldNotCreate'
+      }])
+
     wirePatternResFor @, 'retrieved', 200, 'found', 404, 'not found'
     wirePatternResFor @, 'deleted', 200, 'deleted', 500, 'not able to delete'
     wirePatternResFor @, 'updated', 200, 'updated', 500, 'not updated'
