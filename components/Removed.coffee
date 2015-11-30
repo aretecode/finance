@@ -21,5 +21,6 @@ class Removed extends Database
         _this.error
           data: data
           error: e
+          component: 'Removed'
 
 exports.getComponent = -> new Removed

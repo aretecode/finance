@@ -35,6 +35,7 @@ class Store extends Database
         _this.error
           message: 'could not save!'
           error: e
+          component: 'Store'
 
       saveTag = (tag, cb) ->
         _this.pg

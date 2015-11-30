@@ -71,7 +71,9 @@ class BalanceTrend extends noflo.Component
         .then (all) ->
           cb all
         .catch (e) ->
-          _this.error e
+          _this.error
+            error: e
+            component: 'BalanceTrend'
 
       findBetweenMonths 'income', (incomes) ->
         findBetweenMonths 'expense', (expenses) ->

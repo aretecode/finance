@@ -65,5 +65,6 @@ class StoreUpdate extends Database
           message: 'could not update!'
           error: e
           data: data
+          component: 'StoreUpdate'
 
 exports.getComponent = -> new StoreUpdate
