@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "Update": {
-            "component": "finance/Update",
+            "component": "aretecode_finance/Update",
             "metadata": {
                 "label": "Update",
                 "x": 216,
@@ -42,7 +42,7 @@
             }
         },
         "StoreUpdate": {
-            "component": "finance/StoreUpdate",
+            "component": "aretecode_finance/StoreUpdate",
             "metadata": {
                 "label": "StoreUpdate",
                 "x": 612,
@@ -52,7 +52,7 @@
             }
         },
         "ValidateUpdate": {
-            "component": "finance/Validate",
+            "component": "aretecode_finance/Validate",
             "metadata": {
                 "label": "ValidateUpdate",
                 "x": 360,
@@ -62,7 +62,7 @@
             }
         },
         "Response": {
-            "component": "finance/Response",
+            "component": "aretecode_finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 864,

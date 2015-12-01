@@ -102,7 +102,7 @@
             }
         },
         "MonthlyReport": {
-            "component": "finance/MonthlyReport",
+            "component": "aretecode_finance/MonthlyReport",
             "metadata": {
                 "label": "MonthlyReport",
                 "x": 828,
@@ -122,7 +122,7 @@
             }
         },
         "CreateExpense_ozo3a": {
-            "component": "finance/CreateFinanceOp",
+            "component": "aretecode_finance/CreateFinanceOp",
             "metadata": {
                 "label": "CreateExpense",
                 "x": 828,
@@ -132,7 +132,7 @@
             }
         },
         "DeleteExpense_scha2": {
-            "component": "finance/DeleteFinanceOp",
+            "component": "aretecode_finance/DeleteFinanceOp",
             "metadata": {
                 "label": "DeleteExpense",
                 "x": 828,
@@ -142,7 +142,7 @@
             }
         },
         "UpdateExpense_5690p": {
-            "component": "finance/UpdateFinanceOp",
+            "component": "aretecode_finance/UpdateFinanceOp",
             "metadata": {
                 "label": "UpdateExpense",
                 "x": 828,
@@ -152,7 +152,7 @@
             }
         },
         "ListExpenses": {
-            "component": "finance/ListFinanceOp",
+            "component": "aretecode_finance/ListFinanceOp",
             "metadata": {
                 "label": "ListExpenses",
                 "x": 828,
@@ -162,7 +162,7 @@
             }
         },
         "RetrieveExpense_no1kx": {
-            "component": "finance/RetrieveFinanceOp",
+            "component": "aretecode_finance/RetrieveFinanceOp",
             "metadata": {
                 "label": "RetrieveExpense",
                 "x": 828,

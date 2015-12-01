@@ -21,7 +21,7 @@
     "groups": [],
     "processes": {
         "Trend": {
-            "component": "finance/Trend",
+            "component": "aretecode_finance/Trend",
             "metadata": {
                 "label": "Trend",
                 "x": 216,
@@ -31,7 +31,7 @@
             }
         },
         "BalanceTrend": {
-            "component": "finance/BalanceTrend",
+            "component": "aretecode_finance/BalanceTrend",
             "metadata": {
                 "label": "BalanceTrend",
                 "x": 684,
@@ -41,7 +41,7 @@
             }
         },
         "Response": {
-            "component": "finance/Response",
+            "component": "aretecode_finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 1116,
@@ -51,7 +51,7 @@
             }
         },
         "AlphaOmegaEntries": {
-            "component": "finance/AlphaOmegaEntries",
+            "component": "aretecode_finance/AlphaOmegaEntries",
             "metadata": {
                 "label": "AlphaOmegaEntries",
                 "x": 540,
@@ -110,10 +110,10 @@
                 "height": 72
             }
         },
-        "finance/Reports_csbek": {
-            "component": "finance/Reports",
+        "aretecode_finance/Reports_csbek": {
+            "component": "aretecode_finance/Reports",
             "metadata": {
-                "label": "finance/Reports",
+                "label": "aretecode_finance/Reports",
                 "x": 900,
                 "y": 0,
                 "width": 72,
@@ -245,7 +245,7 @@
                 "port": "out"
             },
             "tgt": {
-                "process": "finance/Reports_csbek",
+                "process": "aretecode_finance/Reports_csbek",
                 "port": "in"
             },
             "metadata": {
@@ -254,7 +254,7 @@
         },
         {
             "src": {
-                "process": "finance/Reports_csbek",
+                "process": "aretecode_finance/Reports_csbek",
                 "port": "out"
             },
             "tgt": {

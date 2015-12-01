@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "Retrieve": {
-            "component": "finance/Retrieve",
+            "component": "aretecode_finance/Retrieve",
             "metadata": {
                 "label": "Retrieve",
                 "x": 334,
@@ -42,7 +42,7 @@
             }
         },
         "Fetch": {
-            "component": "finance/Fetch",
+            "component": "aretecode_finance/Fetch",
             "metadata": {
                 "label": "Fetch",
                 "x": 684,
@@ -52,7 +52,7 @@
             }
         },
         "Response": {
-            "component": "finance/Response",
+            "component": "aretecode_finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 864,
