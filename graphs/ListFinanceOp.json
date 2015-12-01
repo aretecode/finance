@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "List": {
-            "component": "aretecode_finance/List",
+            "component": "finance/List",
             "metadata": {
                 "label": "List",
                 "x": 334,
@@ -42,7 +42,7 @@
             }
         },
         "FetchList": {
-            "component": "aretecode_finance/FetchList",
+            "component": "finance/FetchList",
             "metadata": {
                 "label": "FetchList",
                 "x": 576,
@@ -52,7 +52,7 @@
             }
         },
         "Response": {
-            "component": "aretecode_finance/Response",
+            "component": "finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 864,

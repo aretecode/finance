@@ -102,7 +102,7 @@
             }
         },
         "MonthlyReport": {
-            "component": "aretecode_finance/MonthlyReport",
+            "component": "finance/MonthlyReport",
             "metadata": {
                 "label": "MonthlyReport",
                 "x": 828,
@@ -122,7 +122,7 @@
             }
         },
         "CreateIncome_ozo3a": {
-            "component": "aretecode_finance/CreateFinanceOp",
+            "component": "finance/CreateFinanceOp",
             "metadata": {
                 "label": "CreateIncome",
                 "x": 828,
@@ -132,7 +132,7 @@
             }
         },
         "DeleteIncome_scha2": {
-            "component": "aretecode_finance/DeleteFinanceOp",
+            "component": "finance/DeleteFinanceOp",
             "metadata": {
                 "label": "DeleteIncome",
                 "x": 828,
@@ -142,7 +142,7 @@
             }
         },
         "UpdateIncome_5690p": {
-            "component": "aretecode_finance/UpdateFinanceOp",
+            "component": "finance/UpdateFinanceOp",
             "metadata": {
                 "label": "UpdateIncome",
                 "x": 828,
@@ -152,7 +152,7 @@
             }
         },
         "ListIncomes": {
-            "component": "aretecode_finance/ListFinanceOp",
+            "component": "finance/ListFinanceOp",
             "metadata": {
                 "label": "ListIncomes",
                 "x": 828,
@@ -162,7 +162,7 @@
             }
         },
         "RetrieveIncome_no1kx": {
-            "component": "aretecode_finance/RetrieveFinanceOp",
+            "component": "finance/RetrieveFinanceOp",
             "metadata": {
                 "label": "RetrieveIncome",
                 "x": 828,

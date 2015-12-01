@@ -1,0 +1,56 @@
+{
+    "properties": {
+        "name": "TestSimple",
+        "project": "finance",
+        "id": "finance/TestSimple",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "core/Repeat_flpdb": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 334,
+                "y": 100,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_xadxu": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "core/Output",
+                "x": 504,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "core/Repeat_flpdb",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "core/Output_xadxu",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "go go gadget go!",
+            "tgt": {
+                "process": "core/Repeat_flpdb",
+                "port": "in"
+            }
+        }
+    ]
+}
