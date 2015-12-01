@@ -10,17 +10,7 @@ class FetchList extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 20
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+      @setPg()
 
       {pg, table, outPorts} = {@pg, @table, @outPorts}
       if data.query? and data.query.tag?
@@ -74,6 +64,7 @@ class FetchList extends Database
           item.tags = tags
           item
       .then (rows) ->
+        _this.pg.destroy()
         outPorts.out.send
           success: rows.length isnt 0
           data: rows

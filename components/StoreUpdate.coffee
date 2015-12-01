@@ -66,6 +66,7 @@ class StoreUpdate extends Database
                     success: rows is 1
                     data: update
                   _this.outPorts.out.disconnect()
+                  _this.pg.destroy()
               saveTag
                 tag: tag.name
                 id: update.id
@@ -76,5 +77,6 @@ class StoreUpdate extends Database
           error: e
           data: data
           component: 'StoreUpdate'
+        _this.pg.destroy()
 
 exports.getComponent = -> new StoreUpdate

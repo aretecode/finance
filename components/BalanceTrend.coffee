@@ -78,6 +78,8 @@ class BalanceTrend extends noflo.Component
             range: range
             incomes: incomes
             expenses: expenses
+
+          _this.pg.destroy()
           outPorts.out.disconnect()
 
 exports.getComponent = -> new BalanceTrend

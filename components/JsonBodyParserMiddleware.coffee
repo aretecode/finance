@@ -24,4 +24,4 @@ exports.getComponent = ->
     description: 'Express Application that Parses JSON'
   c.outPorts.add 'error', datatype: 'object'
 
-  return c
+  c

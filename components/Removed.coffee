@@ -28,6 +28,7 @@ class Removed extends Database
             success: result is 1
             data: result, tagResult
           _this.outPorts.out.disconnect()
+          _this.pg.destroy()
       .catch (e) ->
         _this.error
           data: data

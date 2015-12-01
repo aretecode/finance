@@ -47,10 +47,10 @@ describe 'App (AllNew)', ->
 
   after (done) ->
     net.stop()
-    done()
-
-    #pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
-    #done()
+    # done()
+    pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
+      done()
+    # pg.destroy()
 
   it 'should create using POST (with an old date)', (done) ->
     body =
@@ -85,14 +85,6 @@ describe 'App (AllNew)', ->
     suite.req 200, options, done, (message, body) ->
       suite.expectFinanceObject body
       done()
-      ###
-      expect(data.message).to.equal 'found'
-      expect(data.body.successful).to.equal true
-      expect(found.money.currency).to.equal 'cad'
-      expect(found.money.amount).to.equal 100
-      expect(found.description).to.equal 'example-description'
-      expect(found.id).to.equal id
-      ###
 
   it 'should update using PUT', (done) ->
     body =

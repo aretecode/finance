@@ -1,7 +1,7 @@
 {
   "name": "arete/finance",
   "repo": "aretecode/finance",
-  "version": "0.2.105",
+  "version": "0.2.107",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -19,15 +19,16 @@
   ],
   "scripts": [
     "index.js",
-    "graphs/all.json"
+    "components/DoSomething.coffee",
+    "graphs/main.json"
   ],
   "json": [
-    "graphs/all.json",
+    "graphs/main.json",
     "component.json"
   ],
   "noflo": {
     "graphs": {
-      "all": "graphs/all.json"
+      "main": "graphs/main.json"
     },
     "components": {
       "Database": "components/Database.coffee",

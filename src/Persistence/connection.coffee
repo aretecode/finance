@@ -7,7 +7,7 @@ conn =
   port: 5432
 pool =
   min: 2
-  max: 20
+  max: 10
 pg = require('knex')(client: 'pg', connection: conn, pool, debug: false)
 module.exports.getPg = -> return pg
 

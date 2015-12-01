@@ -32,13 +32,11 @@ class Response extends noflo.Component
     wiredResponse = (res, data, passCode, passMsg, failCode, failMsg) ->
       try
         if data.success is true
-          res.status(passCode).json JSON.stringify
-           #  success: data.data.success
+          res.status(passCode).json
             message: passMsg
             body: data.data
         else
-          res.status(failCode).json JSON.stringify
-            # success: data.data.success
+          res.status(failCode).json
             message: failMsg
             body: data.data
       catch e
@@ -47,14 +45,14 @@ class Response extends noflo.Component
     wiredResponses = (res, data, responses) ->
       for r in responses
         if r.passCond? and data.success is r.passCond
-          return res.status(r.passCode).json JSON.stringify
+          return res.status(r.passCode).json
             message: r.passMsg
             body: data.data
         else if r.failCond? and data.success is r.failCond
-          return res.status(r.failCode).json JSON.stringify
+          return res.status(r.failCode).json
             message: r.failMsg
             body: data.data
-      return res.status(500).json JSON.stringify
+      return res.status(500).json
         message: 'unknown error, unhandled'
         body: data.data
 

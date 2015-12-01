@@ -8,17 +8,7 @@ class Fetch extends Database
 
   constructor: ->
     super()
-    conn =
-      host: process.env.DATABASE_HOST
-      user: process.env.DATABASE_USER
-      password: process.env.DATABASE_PASSWORD
-      database: process.env.DATABASE_NAME
-      charset: 'utf8'
-      port: 5432
-    pool =
-      min: 2
-      max: 20
-    @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+    @setPg()
 
     @inPorts.in.on 'data', (data) =>
       # 0. selecting all fields
@@ -46,8 +36,10 @@ class Fetch extends Database
             success: true
             data: rows.rows[0]
 
+        # _this.pg.destroy()
         _this.outPorts.out.disconnect()
       .catch (e) ->
         _this.error e
+        # _this.pg.destroy()
 
 exports.getComponent = -> new Fetch

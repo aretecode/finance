@@ -9,8 +9,10 @@ getResultJSON = (res, callback) ->
     data += chunk
   res.on 'end', ->
     try
-      json = JSON.parse data
-      callback json
+      json = JSON.parse(JSON.stringify(data))
+      j = JSON.parse(json)
+      callback j
+
     catch e
       throw new Error e.message + '. Body:' + data
 
@@ -83,7 +85,7 @@ jsonReq = (statusCode, options, string, done, cb) ->
       if res.statusCode isnt statusCode
         return done new Error "Invalid status code: #{res.statusCode}"
       getResultJSON res, (json) ->
-        data = JSON.parse json
+        data = json
         cb data.message, data.body, done
     req.end string
   catch e
@@ -95,7 +97,7 @@ req = (statusCode, options, done, cb) ->
       if res.statusCode isnt statusCode
         return done new Error "Invalid status code: #{res.statusCode}"
       getResultJSON res, (json) ->
-        data = JSON.parse json
+        data = json
         cb data.message, data.body, done
     request.end()
   catch e

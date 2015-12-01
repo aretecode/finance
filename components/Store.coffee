@@ -20,7 +20,7 @@ class Store extends Database
         port: 5432
       pool =
         min: 2
-        max: 20
+        max: 100
       @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
 
       store =

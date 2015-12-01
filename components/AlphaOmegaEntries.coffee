@@ -39,6 +39,8 @@ class AlphaOmegaEntries extends noflo.Component
           _this.outPorts.out.send
             earliest: earliest.rows[0].created_at
             latest: latest.rows[0].created_at
+
+          _this.pg.destroy()
           _this.outPorts.out.disconnect()
       .catch (e) ->
         _this.error
