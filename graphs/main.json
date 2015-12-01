@@ -1,0 +1,301 @@
+{
+    "properties": {
+        "name": "main",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "icon": "globe"
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "Port": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "Port",
+                "x": 288,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Server": {
+            "component": "xpress/Server",
+            "metadata": {
+                "label": "Server",
+                "x": 612,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "JsonBodyParserMiddleware": {
+            "component": "finance/JsonBodyParserMiddleware",
+            "metadata": {
+                "label": "JsonBodyParserMiddleware",
+                "x": 1008,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Trends": {
+            "component": "finance/Trends",
+            "metadata": {
+                "label": "Trends",
+                "x": 1224,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "AuthMiddleware_75f2x": {
+            "component": "finance/AuthMiddleware",
+            "metadata": {
+                "label": "AuthMiddleware",
+                "x": 792,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "MiddlewareErrors": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "MiddlewareErrors",
+                "x": 1116,
+                "y": 396,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "SetupErrors": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "SetupErrors",
+                "x": 720,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "PrepareServer": {
+            "component": "finance/PrepareServer",
+            "metadata": {
+                "label": "PrepareServer",
+                "x": 432,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Expenses": {
+            "component": "finance/Expenses",
+            "metadata": {
+                "label": "Expenses",
+                "x": 1224,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Incomes_tkiz2": {
+            "component": "finance/Incomes",
+            "metadata": {
+                "label": "finance/Incomes",
+                "x": 1224,
+                "y": 252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_bykm1": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "KickStart",
+                "x": 144,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "Trends",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "Server",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "AuthMiddleware_75f2x",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "AuthMiddleware_75f2x",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MiddlewareErrors",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "AuthMiddleware_75f2x",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MiddlewareErrors",
+                "port": "options"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Server",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "SetupErrors",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Port",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "PrepareServer",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "PrepareServer",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Server",
+                "port": "port"
+            },
+            "metadata": {
+                "route": 2
+            }
+        },
+        {
+            "src": {
+                "process": "PrepareServer",
+                "port": "after"
+            },
+            "tgt": {
+                "process": "SetupErrors",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "Expenses",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "finance/Incomes_tkiz2",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_bykm1",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Port",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "Expenses",
+                "port": "type"
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "finance/Incomes_tkiz2",
+                "port": "app"
+            }
+        },
+        {
+            "data": "start",
+            "tgt": {
+                "process": "core/Repeat_bykm1",
+                "port": "in"
+            }
+        }
+    ]
+}
