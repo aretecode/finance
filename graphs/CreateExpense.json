@@ -45,8 +45,8 @@
             "component": "aretecode_finance/Store",
             "metadata": {
                 "label": "Store",
-                "x": 432,
-                "y": 720,
+                "x": 396,
+                "y": 684,
                 "width": 72,
                 "height": 72
             }
@@ -65,8 +65,28 @@
             "component": "core/Output",
             "metadata": {
                 "label": "StoreError",
-                "x": 576,
-                "y": 864,
+                "x": 504,
+                "y": 576,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "CreateResponseError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "CreateResponseError",
+                "x": 720,
+                "y": 756,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "CreateError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "CreateError",
+                "x": 468,
+                "y": 900,
                 "width": 72,
                 "height": 72
             }
@@ -106,6 +126,45 @@
             },
             "tgt": {
                 "process": "StoreError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Response",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "CreateResponseError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "Response",
+                "port": "res"
+            },
+            "metadata": {
+                "route": 9
+            }
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "CreateError",
                 "port": "in"
             },
             "metadata": {

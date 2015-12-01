@@ -1,23 +1,12 @@
 {
     "properties": {
-        "name": "Routes",
+        "name": "main",
         "environment": {
             "type": "noflo-nodejs"
         },
         "icon": "globe"
     },
-    "inports": {
-        "in": {
-            "process": "Port",
-            "port": "in",
-            "metadata": {
-                "x": 144,
-                "y": 108,
-                "width": 72,
-                "height": 72
-            }
-        }
-    },
+    "inports": {},
     "outports": {},
     "groups": [],
     "processes": {
@@ -106,6 +95,26 @@
             "metadata": {
                 "label": "Expenses",
                 "x": 1224,
+                "y": 108,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "aretecode_finance/Incomes_tkiz2": {
+            "component": "aretecode_finance/Incomes",
+            "metadata": {
+                "label": "aretecode_finance/Incomes",
+                "x": 1224,
+                "y": 252,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_bykm1": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "KickStart",
+                "x": 144,
                 "y": 108,
                 "width": 72,
                 "height": 72
@@ -244,10 +253,48 @@
             }
         },
         {
+            "src": {
+                "process": "JsonBodyParserMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "aretecode_finance/Incomes_tkiz2",
+                "port": "app"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_bykm1",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Port",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
             "data": "expense",
             "tgt": {
                 "process": "Expenses",
                 "port": "type"
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "aretecode_finance/Incomes_tkiz2",
+                "port": "app"
+            }
+        },
+        {
+            "data": "start",
+            "tgt": {
+                "process": "core/Repeat_bykm1",
+                "port": "in"
             }
         }
     ]

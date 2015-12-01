@@ -65,8 +65,28 @@
             "component": "core/Output",
             "metadata": {
                 "label": "FetchListError",
-                "x": 792,
-                "y": 468,
+                "x": 720,
+                "y": 504,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ResponseListError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "ResponseListError",
+                "x": 1044,
+                "y": 324,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ListError": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "ListError",
+                "x": 468,
+                "y": -36,
                 "width": 72,
                 "height": 72
             }
@@ -119,6 +139,32 @@
             },
             "tgt": {
                 "process": "FetchListError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Response",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ResponseListError",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ListError",
                 "port": "in"
             },
             "metadata": {
