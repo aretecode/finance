@@ -10,7 +10,18 @@ class FetchList extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      @pg = require('./../src/Persistence/connection.coffee').getPg()
+      conn =
+        host: process.env.DATABASE_HOST
+        user: process.env.DATABASE_USER
+        password: process.env.DATABASE_PASSWORD
+        database: process.env.DATABASE_NAME
+        charset: 'utf8'
+        port: 5432
+      pool =
+        min: 2
+        max: 20
+      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+
       {pg, table, outPorts} = {@pg, @table, @outPorts}
       if data.query? and data.query.tag?
         query = '

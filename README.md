@@ -11,6 +11,8 @@
 * [ ] how to send array to inPort.pattern in xpress/Router using FlowHub
 * [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
 * [ ] Where to do HTTP req, set up Routing Server in FlowHub?
+* [ ] Why the pool gets destroyed when including the connection now?
+* [ ] How to pass data on with no inPort?
 
 # New:
 * [x] rename FinanceOperation to FinanceOp

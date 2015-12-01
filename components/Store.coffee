@@ -48,6 +48,7 @@ class Store extends Database
           data: store
         _this.outPorts.out.disconnect()
       .catch (e) ->
+        console.log e.code
         if e.code is 23505
           _this.outPorts.out.send
             success: 'duplicate'

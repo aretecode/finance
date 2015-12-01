@@ -17,7 +17,17 @@ class AlphaOmegaEntries extends noflo.Component
         datatype: 'object'
 
     @inPorts.in.on 'data', (data) =>
-      @pg = require('./../src/Persistence/connection.coffee').getPg()
+      conn =
+        host: process.env.DATABASE_HOST
+        user: process.env.DATABASE_USER
+        password: process.env.DATABASE_PASSWORD
+        database: process.env.DATABASE_NAME
+        charset: 'utf8'
+        port: 5432
+      pool =
+        min: 2
+        max: 20
+      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
 
       sortedBy = (sorted) ->
         '(SELECT created_at FROM "finance_op" LIMIT 1)

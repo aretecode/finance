@@ -37,7 +37,6 @@ class Reports extends noflo.Component
       expenses = data.expenses
       outPorts = @outPorts
 
-
       unless data.incomes? and data.expenses? and data.range?
         @outPorts.out.send
           success: false

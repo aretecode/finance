@@ -8,8 +8,19 @@ class FetchWithMonthYear extends Database
 
   constructor: ->
     super()
-    @pg = require('./../src/Persistence/connection.coffee').getPg()
     @inPorts.in.on 'data', (data) =>
+      conn =
+        host: process.env.DATABASE_HOST
+        user: process.env.DATABASE_USER
+        password: process.env.DATABASE_PASSWORD
+        database: process.env.DATABASE_NAME
+        charset: 'utf8'
+        port: 5432
+      pool =
+        min: 2
+        max: 20
+      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+
       data.year = new Date().getFullYear() unless data.year?
       data.month = new Date().getMonth()+1 unless data.month?
       tags = {}
