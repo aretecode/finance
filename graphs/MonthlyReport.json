@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "FetchW/MonthYear": {
-            "component": "aretecode_finance/FetchWithMonthYear",
+            "component": "finance/FetchWithMonthYear",
             "metadata": {
                 "label": "FetchW/MonthYear",
                 "x": 504,
@@ -42,7 +42,7 @@
             }
         },
         "Monthly": {
-            "component": "aretecode_finance/Monthly",
+            "component": "finance/Monthly",
             "metadata": {
                 "label": "Monthly",
                 "x": 288,
@@ -52,7 +52,7 @@
             }
         },
         "Response": {
-            "component": "aretecode_finance/Response",
+            "component": "finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 720,

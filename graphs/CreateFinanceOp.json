@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "Create": {
-            "component": "aretecode_finance/Create",
+            "component": "finance/Create",
             "metadata": {
                 "label": "Create",
                 "x": 288,
@@ -42,7 +42,7 @@
             }
         },
         "Store": {
-            "component": "aretecode_finance/Store",
+            "component": "finance/Store",
             "metadata": {
                 "label": "Store",
                 "x": 396,
@@ -52,7 +52,7 @@
             }
         },
         "Response": {
-            "component": "aretecode_finance/Response",
+            "component": "finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 576,

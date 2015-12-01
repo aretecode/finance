@@ -31,7 +31,7 @@
             }
         },
         "JsonBodyParserMiddleware": {
-            "component": "aretecode_finance/JsonBodyParserMiddleware",
+            "component": "finance/JsonBodyParserMiddleware",
             "metadata": {
                 "label": "JsonBodyParserMiddleware",
                 "x": 1008,
@@ -41,7 +41,7 @@
             }
         },
         "Trends": {
-            "component": "aretecode_finance/Trends",
+            "component": "finance/Trends",
             "metadata": {
                 "label": "Trends",
                 "x": 1224,
@@ -51,7 +51,7 @@
             }
         },
         "AuthMiddleware_75f2x": {
-            "component": "aretecode_finance/AuthMiddleware",
+            "component": "finance/AuthMiddleware",
             "metadata": {
                 "label": "AuthMiddleware",
                 "x": 792,
@@ -81,7 +81,7 @@
             }
         },
         "PrepareServer": {
-            "component": "aretecode_finance/PrepareServer",
+            "component": "finance/PrepareServer",
             "metadata": {
                 "label": "PrepareServer",
                 "x": 432,
@@ -91,7 +91,7 @@
             }
         },
         "Expenses": {
-            "component": "aretecode_finance/Expenses",
+            "component": "finance/Expenses",
             "metadata": {
                 "label": "Expenses",
                 "x": 1224,
@@ -100,10 +100,10 @@
                 "height": 72
             }
         },
-        "aretecode_finance/Incomes_tkiz2": {
-            "component": "aretecode_finance/Incomes",
+        "finance/Incomes_tkiz2": {
+            "component": "finance/Incomes",
             "metadata": {
-                "label": "aretecode_finance/Incomes",
+                "label": "finance/Incomes",
                 "x": 1224,
                 "y": 252,
                 "width": 72,
@@ -258,7 +258,7 @@
                 "port": "app"
             },
             "tgt": {
-                "process": "aretecode_finance/Incomes_tkiz2",
+                "process": "finance/Incomes_tkiz2",
                 "port": "app"
             },
             "metadata": {
@@ -286,7 +286,7 @@
         {
             "data": "income",
             "tgt": {
-                "process": "aretecode_finance/Incomes_tkiz2",
+                "process": "finance/Incomes_tkiz2",
                 "port": "app"
             }
         },

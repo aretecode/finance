@@ -19,7 +19,6 @@
 * [ ] Is # @runtime noflo-nodejs still useful...
 
 
-
 # New:
 * [x] rename FinanceOperation to FinanceOp
 * [x] put database init/cleanup functions called in beforeAll/afterAll
@@ -109,9 +108,11 @@
 # NoFlo extension
 * [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
 * [x] ^ did a microextension (addOn)
-* [ ] add SendThenDisconnect()
+* [x] add SendThenDisconnect()
 
 # Other
-* [ ] rename `successful` to `success`
+* [x] rename `successful` to `success`
 
 * A lot was learned & used from https://github.com/noflo/noflo-xpress
+
+* Wow... if you add a repo from github to FlowHub, the first one is named `name` the second one is named `username_name`

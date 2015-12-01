@@ -32,7 +32,7 @@
     "groups": [],
     "processes": {
         "Deleted": {
-            "component": "aretecode_finance/Delete",
+            "component": "finance/Delete",
             "metadata": {
                 "label": "Deleted",
                 "x": 252,
@@ -42,7 +42,7 @@
             }
         },
         "Response": {
-            "component": "aretecode_finance/Response",
+            "component": "finance/Response",
             "metadata": {
                 "label": "Response",
                 "x": 936,
@@ -52,7 +52,7 @@
             }
         },
         "ValidateDeletionId": {
-            "component": "aretecode_finance/Validate",
+            "component": "finance/Validate",
             "metadata": {
                 "label": "ValidateDeletionId",
                 "x": 504,
@@ -62,7 +62,7 @@
             }
         },
         "Removed": {
-            "component": "aretecode_finance/Removed",
+            "component": "finance/Removed",
             "metadata": {
                 "label": "Removed",
                 "x": 720,
