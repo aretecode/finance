@@ -8,10 +8,10 @@ exports.getComponent = ->
   c.icon = 'cloud'
 
   c.addInOnData 'in', (payload) ->
-    c.outPorts.out.send '5023'
+    c.outPorts.out.send process.env.PORT||5023
     c.outPorts.out.disconnect()
 
-    c.outPorts.after.send '5023'
+    c.outPorts.after.send process.env.PORT||5023
     c.outPorts.after.disconnect()
 
   c.outPorts.add 'out'

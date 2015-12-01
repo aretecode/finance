@@ -55,7 +55,7 @@ class FetchWithMonthYear extends Database
       .catch (e) ->
         _this.error
           message: _this.table + ' reporting not found for month: `' +
-            date.getMonth() + '` and year: `' + date.getFullYear() + '`'
+            data.month + '` and year: `' + data.year + '`'
           error: e
 
 exports.getComponent = -> new FetchWithMonthYear
