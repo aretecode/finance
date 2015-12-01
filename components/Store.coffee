@@ -40,8 +40,8 @@ class Store extends Database
             tag: tag
             id: store.id
 
-        stored = _.clone store
-        stored.tags = tags
+        # stored = _.clone store
+        # stored.tags = tags
 
         _this.outPorts.out.send
           success: rows.rowCount is 1
