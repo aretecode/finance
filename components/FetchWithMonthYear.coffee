@@ -31,21 +31,16 @@ class FetchWithMonthYear extends Database
       .andWhere('type', @table)
       .toString()
 
-      @pg.raw(query).then (all) -> return all.rows
+      @pg.raw(query).then (all) -> all.rows
       .map (item) ->
         _this.pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
           item.tags = tagRow.map (tag) -> tag.tag
-          return item
+          item
       .then (items) ->
-        # getting all the tags from all the items
         for item in items
           for tag in item.tags
-            tags[tag] = 0
-
-        # go through all tags & get corresponding items
-        for tag, value of tags
-          for item in items
-            tags[tag] += item.amount if _.contains item.tags, tag
+            if _.contains item.tags, tag
+              tags[tag] = (tags[tag]||0) + item.amount
 
         _this.outPorts.out.send
           success: tags?

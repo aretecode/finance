@@ -37,7 +37,7 @@
     "mocha": "~2.3.4"
   },
   "scripts": {
-    "startmain": "coffee node_modules/.bin/noflo-nodejs --graph graphs/main.json --trace",
+    "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/main.json --trace --debug=true --register=false",
     "gtest": "grunt test",
     "start": "coffee node_modules/.bin/noflo-nodejs",
     "pretest": "coffeelint components",

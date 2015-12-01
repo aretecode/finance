@@ -7,16 +7,18 @@
 * [x] default wiring for Components connect & disconnect? (@see component/Validate)
 * [x] how to test components that do database transactions? (@see spec/)
 
-^ both of these were caused thanks to inheriting an auto disconnect when prev process disconnected.
+^ both of these were caused thanks to inheriting an auto port disconnect when prev process disconnected.
 
 * [x] why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
-* [ ] how to send array to inPort.pattern in xpress/Router using FlowHub
+* [x] how to send array to inPort.pattern in xpress/Router using FlowHub [the order they are dragged] [issue425](https://github.com/noflo/noflo-ui/issues/425) [issue111](https://github.com/noflo/noflo-ui/issues/111) [issue24](https://github.com/noflo/noflo-ui/issues/14)
 * [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
-* [ ] Where to do HTTP req, set up Routing Server in FlowHub?
+* [ ] Where to do HTTP reqs after Server is set up (In FlowHub)
+* [x] Where to set up Routing Server in FlowHub?
 * [ ] Why the pool gets destroyed when including the connection now?
 * [ ] How to pass data on with no inPort?
-* [ ] Why you can't delete projects from github on FlowHub
-* [ ] Is # @runtime noflo-nodejs still useful...
+* [ ] Why you can't delete projects from github on FlowHub?
+* [ ] Is # @runtime noflo-nodejs still useful?
+* [ ] Why does FlowHub duplicate projects cloned into it appending `username` before `name` and give duplicate components for that project? (upload gif of it)
 
 
 # New:
@@ -35,11 +37,14 @@
 * [x] make it work on FlowHub
 * [x] recreate FBP graphs as subgraphs in FlowHub
 * [x] recreate *all* FBP graphs
-* [ ] example of all working in FlowHub
+* [x] example of all working in FlowHub
 * [x] make it work in FlowHub
-* [ ] make it *all* work in FlowHub
-* [ ] rename `name` as `type`
+* [x] make it *all* work in FlowHub
+* [ ] make it work on Heroku
+* [ ] change multiple routers to use (FlowHub)~arrayport
 * [ ] could pass all down one pipeline, no res port
+* [ ] _
+* [ ] rename `name` as `type`
 * [ ] Response could be one in port, pass in data about which
 * [ ] maybe https://github.com/noflo/grunt-noflo-manifest
 * [ ] add all the Grunts
@@ -51,7 +56,7 @@
 * [x] use WirePattern more in depth
 * [x] use Group
 * [x] use FloHub
-* [ ] use FloHub more in depth
+* [x] use FloHub more in depth
 * [x] fix this Test inconsistency (sometimes has a timeout, usually on first test?)
 * [x] pass the `req` down a side port to the Response
 * [x] update all properties
@@ -61,7 +66,7 @@
 * [x] import .json into flowhub via github (using https://github.com/noflo/noflo-browser-app)
 * [x] add .json to github via flowhub
 * [x] Test methods of the src/ (FinanceOperation, Tag)
-* [ ] improve code clarity in FetchWithMonthYear
+* [x] improve code clarity in FetchWithMonthYear
 * [x] add Income
 * [x] add Balance Reports
 * [ ] download flowhub graphs and run them in noflo
