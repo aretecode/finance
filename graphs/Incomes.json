@@ -18,7 +18,7 @@
             }
         },
         "type": {
-            "process": "SplitExpense",
+            "process": "SplitIncome",
             "port": "in",
             "metadata": {
                 "x": 36,
@@ -111,40 +111,40 @@
                 "height": 72
             }
         },
-        "SplitExpense": {
+        "SplitIncome": {
             "component": "core/Split",
             "metadata": {
-                "label": "SplitExpense",
+                "label": "SplitIncome",
                 "x": 540,
                 "y": -144,
                 "width": 72,
                 "height": 72
             }
         },
-        "CreateExpense_ozo3a": {
+        "CreateIncome_ozo3a": {
             "component": "aretecode_finance/CreateFinanceOp",
             "metadata": {
-                "label": "CreateExpense",
+                "label": "CreateIncome",
                 "x": 828,
                 "y": 180,
                 "width": 72,
                 "height": 72
             }
         },
-        "DeleteExpense_scha2": {
+        "DeleteIncome_scha2": {
             "component": "aretecode_finance/DeleteFinanceOp",
             "metadata": {
-                "label": "DeleteExpense",
+                "label": "DeleteIncome",
                 "x": 828,
                 "y": 612,
                 "width": 72,
                 "height": 72
             }
         },
-        "UpdateExpense_5690p": {
+        "UpdateIncome_5690p": {
             "component": "aretecode_finance/UpdateFinanceOp",
             "metadata": {
-                "label": "UpdateExpense",
+                "label": "UpdateIncome",
                 "x": 828,
                 "y": 756,
                 "width": 72,
@@ -161,10 +161,10 @@
                 "height": 72
             }
         },
-        "RetrieveExpense_no1kx": {
+        "RetrieveIncome_no1kx": {
             "component": "aretecode_finance/RetrieveFinanceOp",
             "metadata": {
-                "label": "RetrieveExpense",
+                "label": "RetrieveIncome",
                 "x": 828,
                 "y": 324,
                 "width": 72,
@@ -266,7 +266,7 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
@@ -283,7 +283,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "CreateExpense_ozo3a",
+                "process": "CreateIncome_ozo3a",
                 "port": "req"
             },
             "metadata": {
@@ -296,7 +296,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "UpdateExpense_5690p",
+                "process": "UpdateIncome_5690p",
                 "port": "requ"
             },
             "metadata": {
@@ -309,7 +309,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "DeleteExpense_scha2",
+                "process": "DeleteIncome_scha2",
                 "port": "req"
             },
             "metadata": {
@@ -335,7 +335,7 @@
                 "port": "req"
             },
             "tgt": {
-                "process": "RetrieveExpense_no1kx",
+                "process": "RetrieveIncome_no1kx",
                 "port": "req"
             },
             "metadata": {
@@ -344,11 +344,11 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
-                "process": "CreateExpense_ozo3a",
+                "process": "CreateIncome_ozo3a",
                 "port": "type"
             },
             "metadata": {
@@ -357,11 +357,11 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
-                "process": "RetrieveExpense_no1kx",
+                "process": "RetrieveIncome_no1kx",
                 "port": "type"
             },
             "metadata": {
@@ -370,7 +370,7 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
@@ -383,11 +383,11 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
-                "process": "DeleteExpense_scha2",
+                "process": "DeleteIncome_scha2",
                 "port": "type"
             },
             "metadata": {
@@ -396,11 +396,11 @@
         },
         {
             "src": {
-                "process": "SplitExpense",
+                "process": "SplitIncome",
                 "port": "out"
             },
             "tgt": {
-                "process": "UpdateExpense_5690p",
+                "process": "UpdateIncome_5690p",
                 "port": "type"
             },
             "metadata": {
