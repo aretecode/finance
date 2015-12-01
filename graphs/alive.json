@@ -1,0 +1,1494 @@
+{
+    "properties": {
+        "name": "all",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "icon": "",
+        "sha": "8807a5b2c67a47fe7b92b505fa5aa4b80bb7f55b",
+        "changed": true,
+        "project": "aretecode_finance",
+        "id": "aretecode_finance_graphs_all"
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "Server": {
+            "component": "xpress/Server",
+            "metadata": {
+                "x": 36,
+                "y": 864,
+                "width": 72,
+                "height": 72,
+                "label": "Server"
+            }
+        },
+        "AuthMiddle": {
+            "component": "finance/AuthMiddleware",
+            "metadata": {
+                "x": 252,
+                "y": 828,
+                "width": 72,
+                "height": 72,
+                "label": "AuthMiddle"
+            }
+        },
+        "JsonMiddleware": {
+            "component": "finance/JsonBodyParserMiddleware",
+            "metadata": {
+                "x": 360,
+                "y": 1008,
+                "width": 72,
+                "height": 72,
+                "label": "JsonMiddleware"
+            }
+        },
+        "Router": {
+            "component": "xpress/Router",
+            "metadata": {
+                "x": 504,
+                "y": 972,
+                "width": 72,
+                "height": 72,
+                "label": "Router"
+            }
+        },
+        "Store": {
+            "component": "finance/Store",
+            "metadata": {
+                "x": 1008,
+                "y": 864,
+                "width": 72,
+                "height": 72,
+                "label": "Store"
+            }
+        },
+        "Create": {
+            "component": "finance/Create",
+            "metadata": {
+                "x": 720,
+                "y": 792,
+                "width": 72,
+                "height": 72,
+                "label": "Create"
+            }
+        },
+        "CreateResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 828,
+                "width": 72,
+                "height": 72,
+                "label": "CreateResponse"
+            }
+        },
+        "CreateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 864,
+                "width": 72,
+                "height": 72,
+                "label": "CreateValidate"
+            }
+        },
+        "Retrieve": {
+            "component": "finance/Retrieve",
+            "metadata": {
+                "x": 720,
+                "y": 1116,
+                "width": 72,
+                "height": 72,
+                "label": "Retrieve"
+            }
+        },
+        "RetrieveResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 1116,
+                "width": 72,
+                "height": 72,
+                "label": "RetrieveResponse"
+            }
+        },
+        "RetrieveValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 1188,
+                "width": 72,
+                "height": 72,
+                "label": "RetrieveValidate"
+            }
+        },
+        "Fetch": {
+            "component": "finance/Fetch",
+            "metadata": {
+                "x": 1008,
+                "y": 1152,
+                "width": 72,
+                "height": 72,
+                "label": "Fetch"
+            }
+        },
+        "Delete": {
+            "component": "finance/Delete",
+            "metadata": {
+                "x": 720,
+                "y": 1404,
+                "width": 72,
+                "height": 72,
+                "label": "Delete"
+            }
+        },
+        "DeleteResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 1404,
+                "width": 72,
+                "height": 72,
+                "label": "DeleteResponse"
+            }
+        },
+        "DeleteValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 1476,
+                "width": 72,
+                "height": 72,
+                "label": "DeleteValidate"
+            }
+        },
+        "Removed": {
+            "component": "finance/Removed",
+            "metadata": {
+                "x": 1008,
+                "y": 1440,
+                "width": 72,
+                "height": 72,
+                "label": "Removed"
+            }
+        },
+        "Update": {
+            "component": "finance/Update",
+            "metadata": {
+                "x": 720,
+                "y": 1800,
+                "width": 72,
+                "height": 72,
+                "label": "Update"
+            }
+        },
+        "UpdateResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 1836,
+                "width": 72,
+                "height": 72,
+                "label": "UpdateResponse"
+            }
+        },
+        "UpdateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 1872,
+                "width": 72,
+                "height": 72,
+                "label": "UpdateValidate"
+            }
+        },
+        "StoreUpdate": {
+            "component": "finance/StoreUpdate",
+            "metadata": {
+                "x": 1008,
+                "y": 1872,
+                "width": 72,
+                "height": 72,
+                "label": "StoreUpdate"
+            }
+        },
+        "FetchList": {
+            "component": "finance/FetchList",
+            "metadata": {
+                "x": 864,
+                "y": 1620,
+                "width": 72,
+                "height": 72,
+                "label": "FetchList"
+            }
+        },
+        "List": {
+            "component": "finance/List",
+            "metadata": {
+                "x": 720,
+                "y": 1548,
+                "width": 72,
+                "height": 72,
+                "label": "List"
+            }
+        },
+        "ListResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1008,
+                "y": 1584,
+                "width": 72,
+                "height": 72,
+                "label": "ListResponse"
+            }
+        },
+        "IncomeStore": {
+            "component": "finance/Store",
+            "metadata": {
+                "x": 1008,
+                "y": 576,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeStore"
+            }
+        },
+        "IncomeCreate": {
+            "component": "finance/Create",
+            "metadata": {
+                "x": 720,
+                "y": 540,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeCreate"
+            }
+        },
+        "IncomeCreateResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 540,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeCreateResponse"
+            }
+        },
+        "IncomeCreateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 576,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeCreateValidate"
+            }
+        },
+        "IncomeRetrieve": {
+            "component": "finance/Retrieve",
+            "metadata": {
+                "x": 720,
+                "y": 972,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeRetrieve"
+            }
+        },
+        "IncomeRetrieveResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 972,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeRetrieveResponse"
+            }
+        },
+        "IncomeRetrieveValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 1008,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeRetrieveValidate"
+            }
+        },
+        "IncomeFetch": {
+            "component": "finance/Fetch",
+            "metadata": {
+                "x": 1008,
+                "y": 1008,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeFetch"
+            }
+        },
+        "IncomeDelete": {
+            "component": "finance/Delete",
+            "metadata": {
+                "x": 720,
+                "y": 684,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeDelete"
+            }
+        },
+        "IncomeDeleteResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 684,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeDeleteResponse"
+            }
+        },
+        "IncomeDeleteValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 720,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeDeleteValidate"
+            }
+        },
+        "IncomeRemoved": {
+            "component": "finance/Removed",
+            "metadata": {
+                "x": 1008,
+                "y": 720,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeRemoved"
+            }
+        },
+        "IncomeUpdate": {
+            "component": "finance/Update",
+            "metadata": {
+                "x": 720,
+                "y": 1260,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeUpdate"
+            }
+        },
+        "IncomeUpdateResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1116,
+                "y": 1260,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeUpdateResponse"
+            }
+        },
+        "IncomeUpdateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "x": 864,
+                "y": 1296,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeUpdateValidate"
+            }
+        },
+        "IncomeStoreUpdate": {
+            "component": "finance/StoreUpdate",
+            "metadata": {
+                "x": 1008,
+                "y": 1296,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeStoreUpdate"
+            }
+        },
+        "IncomeFetchList": {
+            "component": "finance/FetchList",
+            "metadata": {
+                "x": 864,
+                "y": 216,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeFetchList"
+            }
+        },
+        "IncomeList": {
+            "component": "finance/List",
+            "metadata": {
+                "x": 720,
+                "y": 180,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeList"
+            }
+        },
+        "IncomeListResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1008,
+                "y": 180,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeListResponse"
+            }
+        },
+        "WithMonthYear": {
+            "component": "finance/FetchWithMonthYear",
+            "metadata": {
+                "x": 864,
+                "y": 1764,
+                "width": 72,
+                "height": 72,
+                "label": "WithMonthYear"
+            }
+        },
+        "Monthly": {
+            "component": "finance/Monthly",
+            "metadata": {
+                "x": 720,
+                "y": 1728,
+                "width": 72,
+                "height": 72,
+                "label": "Monthly"
+            }
+        },
+        "MonthlyResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1008,
+                "y": 1728,
+                "width": 72,
+                "height": 72,
+                "label": "MonthlyResponse"
+            }
+        },
+        "IncomeWithMonthYear": {
+            "component": "finance/FetchWithMonthYear",
+            "metadata": {
+                "x": 864,
+                "y": 72,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeWithMonthYear"
+            }
+        },
+        "IncomeMonthly": {
+            "component": "finance/Monthly",
+            "metadata": {
+                "x": 720,
+                "y": 36,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeMonthly"
+            }
+        },
+        "IncomeMonthlyResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1008,
+                "y": 36,
+                "width": 72,
+                "height": 72,
+                "label": "IncomeMonthlyResponse"
+            }
+        },
+        "Trend": {
+            "component": "finance/Trend",
+            "metadata": {
+                "x": 720,
+                "y": 360,
+                "width": 72,
+                "height": 72,
+                "label": "Trend"
+            }
+        },
+        "TrendResponse": {
+            "component": "finance/Response",
+            "metadata": {
+                "x": 1260,
+                "y": 324,
+                "width": 72,
+                "height": 72,
+                "label": "TrendResponse"
+            }
+        },
+        "Entries": {
+            "component": "AlphaOmegaEntries",
+            "metadata": {
+                "x": 864,
+                "y": 360,
+                "width": 72,
+                "height": 72,
+                "label": "Entries"
+            }
+        },
+        "BalanceTrend": {
+            "component": "finance/BalanceTrend",
+            "metadata": {
+                "x": 1008,
+                "y": 360,
+                "width": 72,
+                "height": 72,
+                "label": "BalanceTrend"
+            }
+        },
+        "Reports": {
+            "component": "finance/Reports",
+            "metadata": {
+                "x": 1116,
+                "y": 396,
+                "width": 72,
+                "height": 72,
+                "label": "Reports"
+            }
+        },
+        "Logger": {
+            "component": "xpress/TestLogger",
+            "metadata": {
+                "x": 720,
+                "y": 1908,
+                "width": 72,
+                "height": 72,
+                "label": "Logger"
+            }
+        },
+        "finance/PrepareServer_5o35f": {
+            "component": "finance/PrepareServer",
+            "metadata": {
+                "label": "finance/PrepareServer",
+                "x": -108,
+                "y": 864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_745b": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": -252,
+                "y": 864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_8zt0f": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "core/Output",
+                "x": 36,
+                "y": 1044,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/RunInterval_2vh2i": {
+            "component": "core/RunInterval",
+            "metadata": {
+                "label": "core/RunInterval",
+                "x": -108,
+                "y": 720,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_3lnma": {
+            "component": "core/Output",
+            "metadata": {
+                "label": "core/Output",
+                "x": 36,
+                "y": 720,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "Server",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "AuthMiddle",
+                "port": "app"
+            }
+        },
+        {
+            "src": {
+                "process": "AuthMiddle",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "JsonMiddleware",
+                "port": "app"
+            }
+        },
+        {
+            "src": {
+                "process": "JsonMiddleware",
+                "port": "app"
+            },
+            "tgt": {
+                "process": "Router",
+                "port": "app"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Create",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "CreateResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "CreateValidate",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "CreateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Store",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Store",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "CreateResponse",
+                "port": "created"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Retrieve",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "RetrieveResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "RetrieveValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "RetrieveValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Fetch",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Fetch",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "RetrieveResponse",
+                "port": "retrieved"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Delete",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Delete",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "DeleteResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Delete",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "DeleteValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "DeleteValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Removed",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Removed",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "DeleteResponse",
+                "port": "deleted"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Update",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Update",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "UpdateResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Update",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "UpdateValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "UpdateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "StoreUpdate",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "StoreUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "UpdateResponse",
+                "port": "updated"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "List",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "ListResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "FetchList",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "FetchList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ListResponse",
+                "port": "retrieved"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeCreate",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeCreate",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeCreateResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeCreate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeCreateValidate",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeCreateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStore",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStore",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeCreateResponse",
+                "port": "created"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeRetrieve",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieve",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieve",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieveValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetch",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetch",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveResponse",
+                "port": "retrieved"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeDelete",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeDelete",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeDeleteResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeDelete",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeDeleteValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeDeleteValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRemoved",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRemoved",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeDeleteResponse",
+                "port": "deleted"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeUpdate",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeUpdate",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeUpdateResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeUpdateValidate",
+                "port": "id"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeUpdateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStoreUpdate",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStoreUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeUpdateResponse",
+                "port": "updated"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeList",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeList",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeListResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetchList",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetchList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeListResponse",
+                "port": "retrieved"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Monthly",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "MonthlyResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Monthly",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "WithMonthYear",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "WithMonthYear",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "MonthlyResponse",
+                "port": "monthly"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "IncomeMonthly",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeMonthly",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "IncomeMonthlyResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeMonthly",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeWithMonthYear",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeWithMonthYear",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeMonthlyResponse",
+                "port": "monthly"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "req"
+            },
+            "tgt": {
+                "process": "Trend",
+                "port": "req"
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "res"
+            },
+            "tgt": {
+                "process": "TrendResponse",
+                "port": "res"
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withoutrange"
+            },
+            "tgt": {
+                "process": "Entries",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Entries",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "BalanceTrend",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withrange"
+            },
+            "tgt": {
+                "process": "BalanceTrend",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Reports",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Reports",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "TrendResponse",
+                "port": "trend"
+            }
+        },
+        {
+            "src": {
+                "process": "Server",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Logger",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "Router",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Logger",
+                "port": "in"
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_745b",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/PrepareServer_5o35f",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "finance/PrepareServer_5o35f",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Server",
+                "port": "port"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "finance/PrepareServer_5o35f",
+                "port": "after"
+            },
+            "tgt": {
+                "process": "core/Output_8zt0f",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "core/Repeat_745b",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "core/RunInterval_2vh2i",
+                "port": "start"
+            },
+            "metadata": {
+                "route": 0
+            }
+        },
+        {
+            "src": {
+                "process": "core/RunInterval_2vh2i",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "core/Output_3lnma",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "post /api/expenses",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/expenses/:id",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "delete /api/expenses/:id",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "put /api/expenses",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/expenses*",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/reports/expenses/monthly*",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "post /api/incomes",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/incomes/:id",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "delete /api/incomes/:id",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "put /api/incomes",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/incomes*",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/reports/incomes/monthly*",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "get /api/reports/trend*",
+            "tgt": {
+                "process": "Router",
+                "port": "pattern"
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "Store",
+                "port": "name"
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "FetchList",
+                "port": "name"
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "IncomeStore",
+                "port": "name"
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "IncomeFetchList",
+                "port": "name"
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "WithMonthYear",
+                "port": "name"
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "IncomeWithMonthYear",
+                "port": "name"
+            }
+        },
+        {
+            "data": "staying alive",
+            "tgt": {
+                "process": "core/Repeat_745b",
+                "port": "in"
+            }
+        },
+        {
+            "data": 10000,
+            "tgt": {
+                "process": "core/RunInterval_2vh2i",
+                "port": "interval"
+            }
+        }
+    ]
+}

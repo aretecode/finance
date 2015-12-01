@@ -46,7 +46,7 @@
   "scripts": {
     "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/main.json --trace --debug=true --register=false",
     "gtest": "grunt test",
-    "start": "coffee node_modules/.bin/noflo-nodejs",
+    "start": "coffee node_modules/.bin/noflo-nodejs --trace",
     "pretest": "coffeelint components",
     "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/AllNew.coffee"
   },
