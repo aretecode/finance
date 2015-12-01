@@ -15,6 +15,10 @@
 * [ ] Where to do HTTP req, set up Routing Server in FlowHub?
 * [ ] Why the pool gets destroyed when including the connection now?
 * [ ] How to pass data on with no inPort?
+* [ ] Why you can't delete projects from github on FlowHub
+* [ ] Is # @runtime noflo-nodejs still useful...
+
+
 
 # New:
 * [x] rename FinanceOperation to FinanceOp
@@ -31,13 +35,15 @@
 * [ ] write a better SUM query for balancetrend
 * [x] make it work on FlowHub
 * [x] recreate FBP graphs as subgraphs in FlowHub
-* [ ] recreate *all* FBP graphs
+* [x] recreate *all* FBP graphs
 * [ ] example of all working in FlowHub
 * [x] make it work in FlowHub
-* [x] make it *all* work in FlowHub
+* [ ] make it *all* work in FlowHub
 * [ ] rename `name` as `type`
 * [ ] could pass all down one pipeline, no res port
 * [ ] Response could be one in port, pass in data about which
+* [ ] maybe https://github.com/noflo/grunt-noflo-manifest
+* [ ] add all the Grunts
 
 # @TODO:
 * [x] Validate
