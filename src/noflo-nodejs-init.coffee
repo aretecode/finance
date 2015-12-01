@@ -3,8 +3,8 @@ flowhub = require 'flowhub-registry'
 uuid = require 'uuid'
 lib = require '../index'
 
-defaults = lib.getDefaults()
 stored = lib.getStored()
+defaults = lib.getDefaults stored
 
 program = (require 'yargs')
   .options(
