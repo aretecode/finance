@@ -1,0 +1,57 @@
+{
+  "name": "arete/finance",
+  "repo": "aretecode/finance",
+  "version": "0.2.111",
+  "dependencies": {
+    "noflo/noflo": "*",
+    "noflo/noflo-dom": "*",
+    "noflo/noflo-interaction": "*",
+    "noflo/noflo-runtime-webrtc": "*",
+    "noflo/noflo-core": "^0.1.14",
+    "noflo/noflo-filesystem": "^1.0.6",
+    "noflo/noflo-math": "0.0.6",
+    "noflo/noflo-nodejs": "^0.5.2",
+    "noflo/noflo-tester": "0.0.2",
+    "noflo/noflo-xpress": "^0.2.0"
+  },
+  "remotes": [
+    "https://raw.githubusercontent.com"
+  ],
+  "scripts": [
+    "index.js",
+    "graphs/main.json"
+  ],
+  "json": [
+    "graphs/main.json",
+    "component.json"
+  ],
+  "noflo": {
+    "graphs": {
+      "main": "graphs/main.json"
+    },
+    "components": {
+      "Database": "components/Database.coffee",
+      "CRUD": "components/CRUD.coffee",
+
+      "Retrieve": "components/Retrieve.coffee",
+      "Create": "components/Create.coffee",
+      "Delete": "components/Delete.coffee",
+      "Update": "components/Update.coffee",
+      "List": "components/List.coffee",
+      "Monthly": "components/Monthly.coffee",
+
+      "Store": "components/Store.coffee",
+      "Removed": "components/Removed.coffee",
+      "FetchList": "components/FetchList.coffee",
+      "StoreUpdate": "components/StoreUpdate.coffee",
+      "Fetch": "components/Fetch.coffee",
+      "FetchWithMonthYear": "components/FetchWithMonthYear.coffee",
+
+      "Validate": "components/Validate.coffee",
+      "Response": "components/Response.coffee",
+      "AuthMiddleware": "components/AuthMiddleware.coffee",
+      "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee",
+
+      "PrepareServer": "components/PrepareServer.coffee"
+    }
+  }
