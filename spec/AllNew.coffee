@@ -12,7 +12,7 @@ try require './../.env.coffee' catch e
 
 describe 'App (AllNew)', ->
   net = null
-  pg = require('./../src/Persistence/connection.coffee').getPg()
+  pg = require('./../src/Finance.coffee').getConnection()
   id = uuid.v4()
 
   before (done) ->
@@ -20,8 +20,7 @@ describe 'App (AllNew)', ->
       pg.schema.hasTable('finance_op').then (exists) ->
         return resolve('exists') if exists
         pg.schema.createTableIfNotExists 'finance_op', (table) ->
-          # uuid('id')
-          table.string('id', 36).primary()
+          table.string('id', 36).primary() # uuid('id')
           table.string('currency').notNullable()
           table.integer('amount').notNullable()
           table.timestamp('created_at') # .defaultTo(pg.fn.now())

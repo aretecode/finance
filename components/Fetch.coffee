@@ -8,9 +8,8 @@ class Fetch extends Database
 
   constructor: ->
     super()
-    @setPg()
-
     @inPorts.in.on 'data', (data) =>
+      @setPg()
       # 0. selecting all fields
       # 1. selecting all of the tags
       # 2. merging them into a comma separated list
@@ -26,20 +25,20 @@ class Fetch extends Database
         WHERE "finance_op".id = \'' + data.id + "'"
 
       @pg.raw(query)
-      .then (rows) ->
+      .then (rows) =>
         if rows.rows.length is 0
-          _this.outPorts.out.send
+          @sendThenDisc
             success: false
             data: []
         else
-          _this.outPorts.out.send
+          @sendThenDisc
             success: true
             data: rows.rows[0]
-
-        # _this.pg.destroy()
-        _this.outPorts.out.disconnect()
-      .catch (e) ->
-        _this.error e
-        # _this.pg.destroy()
+        @pg.destroy()
+      .catch (e) =>
+        @error
+          error: e
+          component: 'fetch'
+        @pg.destroy()
 
 exports.getComponent = -> new Fetch

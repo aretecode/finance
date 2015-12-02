@@ -20,7 +20,6 @@ describe 'Test Monthly>FetchWithMonthYear Component', ->
       chai.expect(data.success).to.equal true
       chai.expect(data.data).to.be.an 'object'
       for tag, value in data.data
-        console.log tag, value
         chai.expect(tag).to.be.a 'string'
         chai.expect(value).to.be.an 'int'
       # expect all properties, get all tags from db

@@ -2,25 +2,28 @@ _ = require 'underscore'
 noflo = require 'noflo'
 
 validEvents = [
-  'attach',
-  'connect',
-  'beginGroup',
-  'data',
-  'endGroup',
-  'disconnect',
+  'attach'
+  'connect'
+  'beginGroup'
+  'data'
+  'endGroup'
+  'disconnect'
   'detach']
 
 invalidPorts = [
-  'ports',
-  'sendThenDisconnect',
-  'sendThenDiscon',
-  'addOn',
-  'addOnData']
+  'ports'
+  'sendThenDisconnect'
+  'sendThenDiscon'
+  'addOn'
+  'addOnData'
+  'sendThenDisc']
 
 # could rename ComponentAdapter|ComponentDecorator
 # @TODO: string in/out constructor for defaults
 # akin to c.outPorts.add 'out'
 class ExtendedComponent extends noflo.Component
+  sendThenDisc: (name, data) ->
+    @sendThenDiscon name, data
   sendThenDisconnect: (name, data) ->
     @sendThenDiscon name, data
   sendThenDiscon: (name, data) ->
@@ -50,11 +53,11 @@ class ExtendedComponent extends noflo.Component
 
   addInOn: (name, opts, process) ->
     @inPorts.addOn name, opts, process
-    @ # chainable
+    @
 
   addInOnData: (name, opts, process) ->
     @inPorts.addOnData name, opts, process
-    @ # chainable
+    @
 
   constructor: (options) ->
     super options
@@ -86,7 +89,7 @@ class ExtendedComponent extends noflo.Component
               return
             process data, event
 
-        @ # chainable
+        @
 
       addOnData: (name, opts, process) ->
         unless process? # _.isFunction opts
@@ -101,8 +104,9 @@ class ExtendedComponent extends noflo.Component
       sendThenDiscon: (name, data) ->
         @[name].send data
         @[name].disconnect()
-
-        @ # chainable
+      sendThenDisc: (name, data) ->
+        @sendThenDiscon name, data
+        @
 
     _.extend @outPorts, outPortProperties
     _.extend @inPorts, inPortProperties

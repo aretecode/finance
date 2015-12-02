@@ -1,20 +1,11 @@
 noflo = require 'noflo'
+finance = require './../src/Finance.coffee'
 
-class Database extends noflo.Component
+class Database extends finance.ExtendedComponent
   icon: 'database'
 
   setPg: ->
-    conn =
-      host: process.env.DATABASE_HOST
-      user: process.env.DATABASE_USER
-      password: process.env.DATABASE_PASSWORD
-      database: process.env.DATABASE_NAME
-      charset: 'utf8'
-      port: 5432
-    pool =
-      min: 2
-      max: 20
-    @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+    @pg = finance.getConnection()
 
   constructor: ->
     @inPorts = new noflo.InPorts

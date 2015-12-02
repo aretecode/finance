@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.118",
+  "version": "0.2.153",
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -12,8 +12,11 @@
   "dependencies": {
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
+    "cli-color": "~1.1.0",
+    "coffee-cache": "1.0.2",
     "coffee-script": "1.10.0",
     "express": "^4.13.3",
+    "flowhub-registry": "0.0.3",
     "knex": "~0.9.0",
     "moment": "^2.10.6",
     "noflo": "^0.5.14",
@@ -21,6 +24,7 @@
     "noflo-filesystem": "^1.0.6",
     "noflo-math": "0.0.6",
     "noflo-nodejs": "^0.5.2",
+    "noflo-runtime-base": "~0.6.0",
     "noflo-runtime-websocket": "^0.5.2",
     "noflo-tester": "0.0.2",
     "noflo-xpress": "^0.2.0",
@@ -29,13 +33,7 @@
     "pg": "~4.4.3",
     "underscore": "^1.8.3",
     "uuid": "^2.0.1",
-    "uuid-validate": "0.0.2",
-    "cli-color": "~1.1.0",
-    "coffee-cache": "1.0.2",
-    "flowhub-registry": "0.0.3",
-    "noflo-runtime-base": "~0.6.0",
-    "password-maker": "1.0.5",
-    "yargs": "^3.27.0"
+    "uuid-validate": "0.0.2"
   },
   "devDependencies": {
     "chai": "~3.4.1",
@@ -44,9 +42,11 @@
     "mocha": "~2.3.4"
   },
   "scripts": {
-    "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/main.json --trace --debug=true --register=false",
+    "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/all.json --trace --debug=true --register=false",
+    "postinstall_": "coffee createdb.coffee",
     "gtest": "grunt test",
-    "start": "coffee node_modules/.bin/noflo-nodejs --trace",
+
+    "start": "./node_modules/.bin/noflo-nodejs --trace",
     "pretest": "coffeelint components",
     "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/AllNew.coffee"
   },

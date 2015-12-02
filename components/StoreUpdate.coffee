@@ -10,17 +10,7 @@ class StoreUpdate extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 20
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+      @setPg()
 
       update =
         id: data.id
@@ -34,24 +24,23 @@ class StoreUpdate extends Database
       @pg('finance_op')
       .where(hasId)
       .update(update)
-      .then (rows) ->
+      .then (rows) =>
         # we have no tags, send it out
         if data.tags?
-          _this.outPorts.out.send
+          @outPorts.out.send
             success: rows is 1
             data: update
-          _this.outPorts.out.disconnect()
+          @outPorts.out.disconnect()
 
         else
-          eh = 1
           tags = util.uniqArrFrom data.tags
-          _this.pg('tags').where(hasId).del().then (deleted) ->
+          @pg('tags').where(hasId).del().then (deleted) ->
             saveTag = (tag, cb) ->
-              _this.pg
+              @pg
               .insert(tag)
               .into('tags')
               .whereNotExists( ->
-                @select(_this.pg.raw(1)).from('tags')
+                @select(@pg.raw(1)).from('tags')
                 .where(id: tag.id)
                 .andWhere(tag: tag.tag)
               )
@@ -62,21 +51,21 @@ class StoreUpdate extends Database
             for tag in tags
               if tag is _.last tags # only want to call cb on the last one
                 cb = (result) ->
-                  _this.outPorts.out.send
+                  @outPorts.out.send
                     success: rows is 1
                     data: update
-                  _this.outPorts.out.disconnect()
-                  _this.pg.destroy()
+                  @outPorts.out.disconnect()
+                  @pg.destroy()
               saveTag
                 tag: tag.name
                 id: update.id
               , cb||null
-      .catch (e) ->
-        _this.error
+      .catch (e) =>
+        @error
           message: 'could not update!'
           error: e
           data: data
           component: 'StoreUpdate'
-        _this.pg.destroy()
+        @pg.destroy()
 
 exports.getComponent = -> new StoreUpdate

@@ -9,17 +9,7 @@ class FetchWithMonthYear extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 20
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+      @setPg()
 
       data.year = new Date().getFullYear() unless data.year?
       data.month = new Date().getMonth()+1 unless data.month?
@@ -31,25 +21,25 @@ class FetchWithMonthYear extends Database
       .andWhere('type', @table)
       .toString()
 
-      @pg.raw(query).then (all) -> all.rows
-      .map (item) ->
-        _this.pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
+      @pg.raw(query).then (all) => all.rows
+      .map (item) =>
+        @pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
           item.tags = tagRow.map (tag) -> tag.tag
           item
-      .then (items) ->
+      .then (items) =>
         for item in items
           for tag in item.tags
             if _.contains item.tags, tag
               tags[tag] = (tags[tag]||0) + item.amount
 
-        _this.outPorts.out.send
+        @pg.destroy()
+        @sendThenDisc
           success: tags?
           data: tags
-        _this.outPorts.out.disconnect()
-
-      .catch (e) ->
-        _this.error
-          message: _this.table + ' reporting not found for month: `' +
+      .catch (e) =>
+        @pg.destroy()
+        @error
+          message: @table + ' reporting not found for month: `' +
             data.month + '` and year: `' + data.year + '`'
           error: e
 

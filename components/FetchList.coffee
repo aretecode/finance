@@ -12,7 +12,6 @@ class FetchList extends Database
     @inPorts.in.on 'data', (data) =>
       @setPg()
 
-      {pg, table, outPorts} = {@pg, @table, @outPorts}
       if data.query? and data.query.tag?
         query = '
         SELECT *,
@@ -24,13 +23,18 @@ class FetchList extends Database
           FROM "finance_op"
           INNER JOIN "tags" ON "tags".id = "finance_op".id
         WHERE "tags".tag = \'' +data.query.tag+ '\'
-        AND "finance_op".type = \''+table+'\''
+        AND "finance_op".type = \''+@table+'\''
 
-        @pg.raw(query).then (rows) ->
-          outPorts.out.send
+        @pg.raw(query).then (rows) =>
+          @sendThenDisc
             success: rows.rows.length isnt 0
             data: rows.rows
-          outPorts.out.disconnect()
+          @pg.destroy()
+        .catch (e) =>
+          @error
+            error: e
+            msg: 'could not find with tag #{data.query.tag} (FetchList)'
+          @pg.destroy()
         return
 
       else if data.query? and data.query.date?
@@ -40,34 +44,40 @@ class FetchList extends Database
         query = @pg('finance_op').select()
         .whereRaw('EXTRACT(MONTH FROM created_at) = ' + month)
         .andWhereRaw('EXTRACT(YEAR FROM created_at) = ' + year)
-        .andWhere('type', table)
+        .andWhere('type', @table)
         .toString()
 
         @pg.raw(query)
-        .then (rows) ->
-          rows.rows.map (item) ->
-            pg.select().from('tags').where(id: item.id).then (tags) ->
+        .then (rows) =>
+          rows.rows.map (item) =>
+            @pg.select().from('tags').where(id: item.id).then (tags) =>
               item.tags = tags
-
-          outPorts.out.send
+          @sendThenDisc
             success: rows.rows.length isnt 0
             data: rows.rows
-          outPorts.out.disconnect()
-
+          @pg.destroy()
+        .catch (e) =>
+          @error
+            error: e
+            msg: 'could not #{@table} find with date #{data.query.date}
+            (FetchList)'
+          @pg.destroy()
         return
-        # message = table + ' listing not found for month: `' +
-        # date.getMonth() + '` and year: `' + date.getFullYear() + '`'
 
-      @pg('finance_op').select().where('type', table).then (row) -> row
-      .map (item) ->
-        pg.select().from('tags').where(id: item.id).then (tags) ->
+      @pg('finance_op').select().where('type', @table).then (row) => row
+      .map (item) =>
+        @pg.select().from('tags').where(id: item.id).then (tags) =>
           item.tags = tags
           item
-      .then (rows) ->
-        _this.pg.destroy()
-        outPorts.out.send
+      .then (rows) =>
+        @sendThenDisc
           success: rows.length isnt 0
           data: rows
-        outPorts.out.disconnect()
+        @pg.destroy()
+      .catch (e) =>
+        @error
+          error: e
+          msg: 'could not find (FetchList)'
+        @pg.destroy()
 
 exports.getComponent = -> new FetchList

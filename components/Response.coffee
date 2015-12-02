@@ -41,6 +41,10 @@ class Response extends noflo.Component
             body: data.data
       catch e
         console.log e
+        c.error
+          error: e
+          component 'Response'
+          data: data
 
     wiredResponses = (res, data, responses) ->
       for r in responses

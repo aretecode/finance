@@ -14,10 +14,10 @@ describe 'Test FlowHubServerPrepare Component', ->
 
     # expect string|int if needed
     t.receive 'out', (data) ->
-      # console.log data
-
-    t.receive 'after', (data) ->
-      # console.log data
+      port = parseInt data
+      chai.expect(port).to.be.a 'number'
+      chai.expect(port).to.be.at.least 0
+      chai.expect(port).to.be.at.most 80000
       done()
 
     t.send

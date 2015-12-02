@@ -1,0 +1,7 @@
+{
+  "name": "Finance",
+  "description": "Simple personal finance backend tracking using NoFlo & FlowHub.",
+  "repository": "https://github.com/aretecode/finance",
+  "keywords": ["node", "express", "noflo", "finance", "flowhub"],
+  "image": "heroku/nodejs"
+}

@@ -4,22 +4,22 @@
 
 
 # Wondering
-* [x] default wiring for Components connect & disconnect? (@see component/Validate)
-* [x] how to test components that do database transactions? (@see spec/)
+* [x] Default wiring for Components connect & disconnect? (@see component/Validate)
+* [x] How to test components that do database transactions? (@see spec/)
 
 ^ both of these were caused thanks to inheriting an auto port disconnect when prev process disconnected.
 
-* [x] why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
-* [x] how to send array to inPort.pattern in xpress/Router using FlowHub [the order they are dragged] [issue425](https://github.com/noflo/noflo-ui/issues/425) [issue111](https://github.com/noflo/noflo-ui/issues/111) [issue24](https://github.com/noflo/noflo-ui/issues/14)
+* [x] Why the first test will timeout, and why they will all timeout sometimes? (Have to use a stupidly high [10 sec] timeout when testing... this was fickle.)
+* [x] How to send array to inPort.pattern in xpress/Router using FlowHub [the order they are dragged] [issue425](https://github.com/noflo/noflo-ui/issues/425) [issue111](https://github.com/noflo/noflo-ui/issues/111) [issue24](https://github.com/noflo/noflo-ui/issues/14)
 * [ ] Why does https://github.com/noflo/noflo-xpress/blob/master/lib/BaseRouter.coffee not list `HEAD` and `PATCH` as valid verbs?
-* [ ] Where to do HTTP reqs after Server is set up (In FlowHub)
+* [ ] Where to do HTTP reqs go after Server is set up (In FlowHub)?
 * [x] Where to set up Routing Server in FlowHub?
-* [ ] Why the pool gets destroyed when including the connection now?
-* [ ] How to pass data on with no inPort?
-* [ ] Why you can't delete projects from github on FlowHub?
+* [x] Why the pool gets destroyed when including the connection now? (module.exports are cached)
+* [x] How to pass data on with no inPort? (loadbang only)
+* [x] Why you can't delete projects from github on FlowHub? (there is an API, but not UI (link))
 * [ ] Is # @runtime noflo-nodejs still useful?
 * [ ] Why does FlowHub duplicate projects cloned into it appending `username` before `name` and give duplicate components for that project? (upload gif of it)
-
+* [ ] Can the Component change icons with the label?
 
 # New:
 * [x] rename FinanceOperation to FinanceOp
@@ -40,14 +40,14 @@
 * [x] example of all working in FlowHub
 * [x] make it work in FlowHub
 * [x] make it *all* work in FlowHub
-* [ ] make it work on Heroku
-* [ ] change multiple routers to use (FlowHub)~arrayport
-* [ ] could pass all down one pipeline, no res port
-* [ ] _
+* [x] make it work on Heroku
+* [x] change multiple routers to use (FlowHub)~arrayport
+* [ ] could pass (req) down one pipeline, no res port (will this reduce reusability of the components atomically?)
+* [ ] pass DB connection down the pipe along with req?
 * [ ] rename `name` as `type`
-* [ ] Response could be one in port, pass in data about which
-* [ ] maybe https://github.com/noflo/grunt-noflo-manifest
-* [ ] add all the Grunts
+* [ ] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it.
+* [ ] Response could be one inPort, pass in data about which one it is
+* [ ] stricter Tests when truncating afterAll() since we have a limited dataset
 
 # @TODO:
 * [x] Validate
@@ -109,6 +109,8 @@
 * [ ] write documentation?
 * [ ] port for each Validate param?
 * [ ] multiple responses in components/Response not just failure success(pass)
+* [ ] maybe https://github.com/noflo/grunt-noflo-manifest
+* [ ] add all the Grunts
 
 # NoFlo extension
 * [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable

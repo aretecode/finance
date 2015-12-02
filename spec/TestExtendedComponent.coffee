@@ -14,7 +14,12 @@ describe 'NoFlo extension', ->
 
     c.inPorts.addOn 'arrayin', {on: ['data', 'connect']}, (data, event) ->
       console.log data
-    c.inPorts.addOn 'arrayinwoev', {on: ['data', 'connect']}, (data) ->
+    c.inPorts.addOn 'arrayinwoevent', {on: ['data', 'connect']}, (data) ->
       console.log data
     c.addInOn 'short', {on: 'data'}, (data) ->
-      console.log data
+      c.sendThenDiscon 'out', data
+    c.addInOnData 'favorite', (data) ->
+      # automatically chooses first valid outport, useful with only 1
+      c.sendThenDiscon data
+
+    c.outPorts.add 'out'

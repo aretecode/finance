@@ -9,13 +9,8 @@ exports.getComponent = ->
 
   c.addInOnData 'in', (payload) ->
     port = (process.env.PORT||5023)
-    c.outPorts.out.send port
-    c.outPorts.out.disconnect()
-
-    c.outPorts.after.send port
-    c.outPorts.after.disconnect()
+    c.sendThenDisc port
 
   c.outPorts.add 'out'
-  c.outPorts.add 'after'
 
   c

@@ -1,6 +1,6 @@
 {
     "properties": {
-        "name": "all",
+        "name": "living",
         "environment": {
             "type": "noflo-nodejs"
         },
@@ -14,16 +14,6 @@
     "outports": {},
     "groups": [],
     "processes": {
-        "Server": {
-            "component": "xpress/Server",
-            "metadata": {
-                "x": 36,
-                "y": 864,
-                "width": 72,
-                "height": 72,
-                "label": "Server"
-            }
-        },
         "AuthMiddle": {
             "component": "finance/AuthMiddleware",
             "metadata": {
@@ -554,17 +544,17 @@
                 "label": "Logger"
             }
         },
-        "finance/PrepareServer_5o35f": {
-            "component": "finance/PrepareServer",
+        "core/Output_1agkd": {
+            "component": "core/Output",
             "metadata": {
-                "label": "finance/PrepareServer",
-                "x": -108,
-                "y": 864,
+                "label": "core/Output",
+                "x": 576,
+                "y": 1296,
                 "width": 72,
                 "height": 72
             }
         },
-        "core/Repeat_745b": {
+        "core/Repeat_7odd8": {
             "component": "core/Repeat",
             "metadata": {
                 "label": "core/Repeat",
@@ -574,28 +564,38 @@
                 "height": 72
             }
         },
-        "core/Output_8zt0f": {
+        "xpress/Server_x2hts": {
+            "component": "xpress/Server",
+            "metadata": {
+                "label": "xpress/Server",
+                "x": 108,
+                "y": 864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/PrepareServer_h27l5": {
+            "component": "finance/PrepareServer",
+            "metadata": {
+                "label": "finance/PrepareServer",
+                "x": -72,
+                "y": 864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Output_ksucw": {
             "component": "core/Output",
             "metadata": {
                 "label": "core/Output",
-                "x": 36,
-                "y": 1044,
+                "x": 1584,
+                "y": 1440,
                 "width": 72,
                 "height": 72
             }
         }
     },
     "connections": [
-        {
-            "src": {
-                "process": "Server",
-                "port": "app"
-            },
-            "tgt": {
-                "process": "AuthMiddle",
-                "port": "app"
-            }
-        },
         {
             "src": {
                 "process": "AuthMiddle",
@@ -1248,7 +1248,7 @@
         },
         {
             "src": {
-                "process": "Server",
+                "process": "Router",
                 "port": "error"
             },
             "tgt": {
@@ -1262,39 +1262,330 @@
                 "port": "error"
             },
             "tgt": {
-                "process": "Logger",
+                "process": "core/Output_1agkd",
                 "port": "in"
+            },
+            "metadata": {
+                "route": 0
             }
         },
         {
             "src": {
-                "process": "core/Repeat_745b",
+                "process": "core/Repeat_7odd8",
                 "port": "out"
             },
             "tgt": {
-                "process": "finance/PrepareServer_5o35f",
+                "process": "finance/PrepareServer_h27l5",
                 "port": "in"
             },
-            "metadata": {}
+            "metadata": {
+                "route": null
+            }
         },
         {
             "src": {
-                "process": "finance/PrepareServer_5o35f",
+                "process": "finance/PrepareServer_h27l5",
                 "port": "out"
             },
             "tgt": {
-                "process": "Server",
+                "process": "xpress/Server_x2hts",
                 "port": "port"
             },
             "metadata": {}
         },
         {
             "src": {
-                "process": "finance/PrepareServer_5o35f",
-                "port": "after"
+                "process": "xpress/Server_x2hts",
+                "port": "app"
             },
             "tgt": {
-                "process": "core/Output_8zt0f",
+                "process": "AuthMiddle",
+                "port": "app"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeMonthlyResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeListResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeFetchList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeWithMonthYear",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeMonthly",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Reports",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "TrendResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "IncomeCreateResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Create",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "CreateValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Store",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Retrieve",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Fetch",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "RetrieveValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Removed",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "DeleteValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Delete",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "MonthlyResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "WithMonthYear",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "ListResponse",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "List",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Update",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "UpdateValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "StoreUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "core/Output_ksucw",
                 "port": "in"
             },
             "metadata": {}
@@ -1433,9 +1724,9 @@
             }
         },
         {
-            "data": "4011",
+            "data": "go",
             "tgt": {
-                "process": "core/Repeat_745b",
+                "process": "core/Repeat_7odd8",
                 "port": "in"
             }
         }

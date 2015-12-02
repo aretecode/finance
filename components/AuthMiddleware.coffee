@@ -50,4 +50,4 @@ exports.getComponent = ->
     description: 'Configured Express Application'
   c.outPorts.add 'error', datatype: 'object'
 
-  return c
+  c

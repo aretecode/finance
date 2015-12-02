@@ -1,6 +1,7 @@
 noflo = require 'noflo'
 _ = require 'underscore'
 validateId = require 'uuid-validate'
+{ExtendedComponent} = require './../src/Finance.coffee'
 
 currencies = JSON.parse('{
   "AED": "United Arab Emirates Dirham",
@@ -176,7 +177,7 @@ currencies = JSON.parse('{
   "ZWL": "Zimbabwean Dollar"
 }')
 
-class Validate extends noflo.Component
+class Validate extends ExtendedComponent
   description: 'Validate income from xpress params.'
   icon: 'filter'
 
@@ -184,17 +185,18 @@ class Validate extends noflo.Component
     unless _.contains Object.keys(currencies), currency.toUpperCase()
       @error
         key: 'currency'
-        error: 'currency `#{currency}` was not a valid currency.'
+        error: "currency `#{currency}` was not a valid currency."
   amount: (amount) ->
-    unless parseInt amount >= 0
+    unless parseInt(amount) >= 0
       @error
         key: 'amount'
-        error: 'amount `#{amount}`is not at least 0.'
+        error: "amount `#{amount}`is not at least 0."
   createdAt: (createdAt) ->
   descriptions: (descriptions) ->
   tags: (tags) ->
-  idv: (id) ->
-    unless validateId id or validateId id
+  idv: (data) ->
+    id = if data.id? then data.id else data
+    unless validateId id
       @error
         key: 'id'
         error: "id `#{id}` is not a valid id"

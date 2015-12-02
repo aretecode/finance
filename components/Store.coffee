@@ -11,17 +11,7 @@ class Store extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 100
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+      @setPg()
 
       store =
         currency: data.currency
@@ -34,45 +24,45 @@ class Store extends Database
       tags = util.uniqArrFrom data.tags
 
       @pg.insert(store).into('finance_op')
-      .then (rows) ->
+      .then (rows) =>
         for tag in tags
+          # when it is last one, @pg.destroy()
           saveTag
             tag: tag
             id: store.id
 
-        # stored = _.clone store
-        # stored.tags = tags
-
-        _this.outPorts.out.send
+        stored = _.clone store
+        stored.tags = tags
+        @sendThenDisc
           success: rows.rowCount is 1
-          data: store
-        _this.outPorts.out.disconnect()
-      .catch (e) ->
-        console.log e.code
+          data: stored
+      .catch (e) =>
+        @pg.destroy()
+
         if e.code is 23505
-          _this.outPorts.out.send
+          @sendThenDisc
             success: 'duplicate'
-            data: 'already exists (@TODO: add http code 409)'
-          _this.outPorts.out.disconnect()
+            data: data
+            stored: stored
         else
-          _this.error
+          @error
             message: 'could not save!'
             error: e
             component: 'Store'
 
-      saveTag = (tag, cb) ->
-        _this.pg
+      saveTag = (tag, cb) =>
+        @pg
         .insert(tag)
         .into('tags')
-        .whereNotExists( ->
-          @select(_this.pg.raw(1)).from('tags')
+        .whereNotExists( =>
+          @select(@pg.raw(1)).from('tags')
           .where(id: tag.id)
           .andWhere(tag: tag.tag)
         )
-        .then ((tag) ->
+        .then (tag) ->
           if _.isFunction cb
             cb tag
-        )
-        .catch ((e) -> _this.error(e))
+        .catch (e) =>
+          @error e
 
 exports.getComponent = -> new Store

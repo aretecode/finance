@@ -1,1 +1,1 @@
-web: ./bin/noflo-nodejs --graph graphs/alive.json --trace=true --debug=true --register=false
+web: node index.js

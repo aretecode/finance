@@ -3,7 +3,7 @@ noflo = require 'noflo'
 util = require './../src/Finance.coffee'
 moment = require 'moment'
 
-class BalanceTrend extends noflo.Component
+class BalanceTrend extends util.ExtendedComponent
   description: 'Balance trending by month'
   icon: 'scale'
 
@@ -24,17 +24,7 @@ class BalanceTrend extends noflo.Component
     @inPorts.range.on 'data', (@range) =>
 
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 20
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
+      @pg = util.getConnection()
 
       earliest = util.dateFrom(data.earliest)
       latest = util.dateFrom(data.latest)
@@ -51,35 +41,32 @@ class BalanceTrend extends noflo.Component
           endMonth: latest.getMonth()+1
           endYear: latest.getFullYear()
 
-      {pg, range, outPorts} = {@pg, @range, @outPorts}
       # select only amount & currency
-      findBetweenMonths = (table, cb) ->
-        query = pg('finance_op').select()
+      findBetweenMonths = (table, cb) =>
+        query = @pg('finance_op').select()
         .whereRaw('"finance_op".created_at::DATE <= \'' +l+ '\'::DATE')
         .andWhereRaw('"finance_op".created_at::DATE >= \'' +e+ '\'::DATE')
         .andWhere('type', table)
         .toString()
 
-        pg.raw(query).then (all) -> return all.rows
-        .map (item) ->
-          pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
+        @pg.raw(query).then (all) -> all.rows
+        .map (item) =>
+          @pg.select('tag').from('tags').where(id: item.id).then (tagRow) ->
             item.tags = tagRow
-            return item
-        .then (all) ->
+            item
+        .then (all) =>
           cb all
-        .catch (e) ->
-          _this.error
+        .catch (e) =>
+          @error
             error: e
             component: 'BalanceTrend'
 
-      findBetweenMonths 'income', (incomes) ->
-        findBetweenMonths 'expense', (expenses) ->
-          outPorts.out.send
-            range: range
+      findBetweenMonths 'income', (incomes) =>
+        findBetweenMonths 'expense', (expenses) =>
+          @sendThenDisc
+            range: @range
             incomes: incomes
             expenses: expenses
-
-          _this.pg.destroy()
-          outPorts.out.disconnect()
+          @pg.destroy()
 
 exports.getComponent = -> new BalanceTrend

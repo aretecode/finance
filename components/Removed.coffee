@@ -8,31 +8,20 @@ class Removed extends Database
   constructor: ->
     super()
     @inPorts.in.on 'data', (data) =>
-      conn =
-        host: process.env.DATABASE_HOST
-        user: process.env.DATABASE_USER
-        password: process.env.DATABASE_PASSWORD
-        database: process.env.DATABASE_NAME
-        charset: 'utf8'
-        port: 5432
-      pool =
-        min: 2
-        max: 20
-      @pg = require('knex')(client: 'pg', connection: conn, pool, debug: true)
-
+      @setPg()
       hasId = id: data.id
-      @pg('finance_op').where(hasId).del().then (result) ->
-        _this.pg('tags').where(hasId).del()
-        .then (tagResult) ->
-          _this.outPorts.out.send
+      @pg('finance_op').where(hasId).del().then (result) =>
+        @pg('tags').where(hasId).del().then (tagResult) =>
+          result.tags = tagResult
+          @sendThenDisc
             success: result is 1
-            data: result, tagResult
-          _this.outPorts.out.disconnect()
-          _this.pg.destroy()
-      .catch (e) ->
-        _this.error
+            data: result
+          @pg.destroy()
+      .catch (e) =>
+        @error
           data: data
           error: e
           component: 'Removed'
+        @pg.destroy()
 
 exports.getComponent = -> new Removed

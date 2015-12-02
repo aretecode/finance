@@ -3,7 +3,6 @@ node_modules
 .env.coffee
 /*.env
 backups
-app.json
 dev
 flowhub.json
 *.sublime-workspace
