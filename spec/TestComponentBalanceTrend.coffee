@@ -1,8 +1,7 @@
 chai = require 'chai'
-noflo = require 'noflo'
+suite = require './testsuite'
 Tester = require 'noflo-tester'
 c = require('./../components/BalanceTrend.coffee').getComponent()
-suite = require './testsuite'
 
 describe 'Test BalanceTrend Component', ->
   t = new Tester c
@@ -16,10 +15,6 @@ describe 'Test BalanceTrend Component', ->
       query:
         start: new Date('2000-1-1')
         end: new Date()
-        # startMonth: 1
-        # startYear: 2000
-        # endMonth: 12
-        # endYear: 2050
 
     t.receive 'out', (data) ->
       chai.expect(data).to.be.an 'object'

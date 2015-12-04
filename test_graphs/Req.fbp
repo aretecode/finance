@@ -1,0 +1,265 @@
+# Adding the app server
+'4011' -> PORT Server(xpress/Server)
+Server APP -> APP AuthMiddle(finance/AuthMiddleware)
+AuthMiddle APP -> APP JsonMiddleware(finance/JsonBodyParserMiddleware)
+JsonMiddleware APP -> APP Router(xpress/Router)
+
+# Routing
+'post /api/expenses' -> PATTERN[0] Router
+'get /api/expenses/:id' -> PATTERN[1] Router
+'delete /api/expenses/:id' -> PATTERN[2] Router
+'put /api/expenses' -> PATTERN[3] Router
+'get /api/expenses*' -> PATTERN[4] Router
+'get /api/reports/expenses/monthly*' -> PATTERN[5] Router
+
+'post /api/incomes' -> PATTERN[6] Router
+'get /api/incomes/:id' -> PATTERN[7] Router
+'delete /api/incomes/:id' -> PATTERN[8] Router
+'put /api/incomes' -> PATTERN[9] Router
+'get /api/incomes*' -> PATTERN[10] Router
+'get /api/reports/incomes/monthly*' -> PATTERN[11] Router
+
+'get /api/reports/trend*' -> PATTERN[12] Router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############
+#
+# EXPENSES
+#
+############
+
+#
+# CREATE/SAVE (Expense)
+#
+'expense' -> TYPE Store(finance/Store)
+Router REQ[0] -> IN CreateValidate(finance/Validate)
+CreateValidate OUT -> IN Store(finance/Store)
+Store OUT -> CREATED CreateRes(finance/Res)
+
+Store ERROR -> ERROR CreateRes
+CreateValidate ERROR -> ERROR CreateRes
+
+#
+# RETRIEVE/FIND/GET
+#
+'expense' -> TYPE Fetch(finance/Fetch)
+Router REQ[1] -> IN RetrieveValidate(finance/Validate)
+RetrieveValidate OUT -> IN Fetch
+Fetch OUT -> RETRIEVED RetrieveRes(finance/Res)
+# Err
+RetrieveValidate ERROR -> ERROR RetrieveRes
+Fetch ERROR -> ERROR RetrieveRes
+
+#
+# REMOVE/DELETE
+#
+'expense' -> TYPE Removed(finance/Removed)
+Router REQ[2] -> IN RemoveValidate(finance/Validate)
+RemoveValidate OUT -> IN Removed(finance/Removed)
+Removed OUT -> DELETED DeletedRes(finance/Res)
+# Err
+Removed ERROR -> ERROR DeletedRes
+RemoveValidate ERROR -> ERROR DeletedRes
+
+#
+# UPDATE
+#
+'expense' -> TYPE Update(finance/StoreUpdate)
+Router REQ[3] -> IN UpdateValidate(finance/Validate)
+UpdateValidate OUT -> IN Update
+Update OUT -> UPDATED UpdateRes(finance/Res)
+# Err
+UpdateValidate ERROR -> ERROR UpdateRes
+Update ERROR -> ERROR UpdateRes
+
+#
+# LIST
+#
+'expense' -> TYPE List(finance/FetchList)
+Router REQ[4] -> IN ListValidate(finance/Validate)
+ListValidate OUT -> IN List
+List OUT -> RETRIEVED ListRes(finance/Res)
+# Err
+ListValidate ERROR -> ERROR ListRes
+List ERROR -> ERROR ListRes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############
+#
+# INCOME
+#
+############
+
+#
+# CREATE/SAVE (Expense)
+#
+'expense' -> TYPE IncomeStore(finance/Store)
+Router REQ[0] -> IN IncomeCreateValidate(finance/Validate)
+IncomeCreateValidate OUT -> IN IncomeStore(finance/Store)
+IncomeStore OUT -> CREATED IncomeCreateRes(finance/Res)
+
+IncomeStore ERROR -> ERROR IncomeCreateRes
+IncomeCreateValidate ERROR -> ERROR IncomeCreateRes
+
+#
+# RETRIEVE/FIND/GET
+#
+'expense' -> TYPE IncomeFetch(finance/Fetch)
+Router REQ[1] -> IN IncomeRetrieveValidate(finance/Validate)
+IncomeRetrieveValidate OUT -> IN IncomeFetch
+IncomeFetch OUT -> RETRIEVED IncomeRetrieveRes(finance/Res)
+# Err
+IncomeRetrieveValidate ERROR -> ERROR IncomeRetrieveRes
+IncomeFetch ERROR -> ERROR IncomeRetrieveRes
+
+#
+# REMOVE/DELETE
+#
+'expense' -> TYPE IncomeRemoved(finance/Removed)
+Router REQ[2] -> IN IncomeRemoveValidate(finance/Validate)
+IncomeRemoveValidate OUT -> IN IncomeRemoved(finance/Removed)
+IncomeRemoved OUT -> DELETED IncomeDeletedRes(finance/Res)
+# Err
+IncomeRemoved ERROR -> ERROR IncomeDeletedRes
+IncomeRemoveValidate ERROR -> ERROR IncomeDeletedRes
+
+#
+# UPDATE
+#
+'expense' -> TYPE IncomeUpdate(finance/StoreUpdate)
+Router REQ[3] -> IN IncomeUpdateValidate(finance/Validate)
+IncomeUpdateValidate OUT -> IN IncomeUpdate
+IncomeUpdate OUT -> UPDATED IncomeUpdateRes(finance/Res)
+# Err
+IncomeUpdateValidate ERROR -> ERROR IncomeUpdateRes
+IncomeUpdate ERROR -> ERROR IncomeUpdateRes
+
+#
+# LIST
+#
+'expense' -> TYPE IncomeList(finance/FetchList)
+Router REQ[4] -> IN IncomeListValidate(finance/Validate)
+IncomeListValidate OUT -> IN IncomeList
+IncomeList OUT -> RETRIEVED IncomeListRes(finance/Res)
+# Err
+IncomeListValidate ERROR -> ERROR IncomeListRes
+IncomeList ERROR -> ERROR IncomeListRes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######
+#
+# REPORTS/MONTHLY
+#
+'expense' -> TYPE WithMonthYear(finance/FetchWithMonthYear)
+Router REQ[5] -> IN MonthValidate(finance/Validate)
+MonthValidate OUT -> IN WithMonthYear
+WithMonthYear OUT -> MONTHLY MonthlyRes(finance/Res)
+# Err
+MonthValidate ERROR -> ERROR MonthlyRes
+WithMonthYear ERROR -> ERROR MonthlyRes
+
+######
+#
+# REPORTS/BALANCE/TREND
+#
+Router REQ[12] -> IN Trend(finance/Trend)
+
+# if it has no range, get one
+Trend WITHOUTRANGE -> IN Entries(AlphaOmegaEntries)
+Entries OUT -> IN BalanceTrend(finance/BalanceTrend)
+
+# else, it has one, use it
+Trend WITHRANGE -> IN BalanceTrend
+
+BalanceTrend OUT -> IN Reports(finance/Reports)
+Reports OUT -> TREND TrendRes(finance/Res)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# LOGS & ERRORS
+#
+ListRes ERROR ->  IN Logger(core/Output)
+CreateRes ERROR -> IN Logger
+DeletedRes ERROR -> IN Logger
+UpdateRes ERROR -> IN Logger
+Store ERROR -> IN Logger
+
+IncomeCreateRes ERROR -> IN Logger
+IncomeRetrieveRes ERROR -> IN Logger
+IncomeDeletedRes ERROR -> IN Logger
+IncomeUpdateRes ERROR -> IN Logger
+IncomeListRes ERROR -> IN Logger
+
+Server ERROR -> IN Logger
+Router ERROR -> IN Logger

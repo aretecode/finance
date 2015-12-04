@@ -6,48 +6,26 @@ moment = require 'moment'
 express = require 'express'
 Promise = require 'bluebird'
 suite = require './testsuite'
+finance = require('./../src/Finance.coffee')
 expect = chai.expect
 
 try require './../.env.coffee' catch e
 
 describe 'App (AllNew)', ->
   net = null
-  pg = require('./../src/Finance.coffee').getConnection()
+  pg = finance.getConnection()
   id = uuid.v4()
 
   before (done) ->
-    createFinanceOp = new Promise (resolve, reject) ->
-      pg.schema.hasTable('finance_op').then (exists) ->
-        return resolve('exists') if exists
-        pg.schema.createTableIfNotExists 'finance_op', (table) ->
-          table.string('id', 36).primary() # uuid('id')
-          table.string('currency').notNullable()
-          table.integer('amount').notNullable()
-          table.timestamp('created_at') # .defaultTo(pg.fn.now())
-          table.string('description').nullable().defaultTo(null)
-          table.enu('type', ['income', 'expense']).notNullable()
-        .then (created) ->
-          resolve(created)
-
-    createTags = new Promise (resolve, reject) ->
-      pg.schema.hasTable('tags').then (exists) ->
-        return resolve('exists') if exists
-        pg.schema.createTableIfNotExists 'tags', (table) ->
-          table.string('id', 36)
-          table.string('tag').notNullable()
-          table.primary(['id', 'tag'])
-        .then (created) ->
-          resolve(created)
-
-    Promise.settle([createFinanceOp, createTags]).then (settled) ->
-      noflo.loadFile 'test_graphs/App.fbp', {}, (network) ->
-        net = network
-        done()
+    # finance.hijackConsoleLog()
+    noflo.loadFile 'test_graphs/Req.fbp', {}, (network) ->
+      net = network
+      done()
 
   after (done) ->
     net.stop()
-    pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
-      done()
+    #pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
+    done()
     pg.destroy()
 
   it 'should create using POST (with an old date)', (done) ->
@@ -107,19 +85,21 @@ describe 'App (AllNew)', ->
   it 'should test all component tests', (done) ->
     require './TestComponentServerPrepare.coffee'
     require './TestExtendedComponent.coffee'
-    require './TestComponentCreate.coffee'
-    require './TestComponentStore.coffee'
-    require './TestComponentStoreUpdate.coffee'
     require './TestComponentValidate.coffee'
-    require './TestComponentFetchWithMY.coffee'
     require './TestComponentAOE.coffee'
-    require './TestComponentFetch.coffee'
-    require './TestComponentTrend.coffee'
     require './TestComponentBalanceTrend.coffee'
     require './TestComponentList.coffee'
     require './TestComponentReports.coffee'
-    done()
 
+    require './TestComponentRes.coffee'
+    require './TestComponentStore.coffee'
+    require './TestComponentFetch.coffee'
+    require './TestComponentRemoved.coffee'
+    require './TestComponentStoreUpdate.coffee'
+    require './TestComponentFetchWithMY.coffee'
+    require './TestComponentTrend.coffee'
+    require './TestComponentAuthMiddleware.coffee'
+    done()
   it 'should list using GET', (done) ->
     options = suite.optionsFrom 'GET', '/api/expenses'
 

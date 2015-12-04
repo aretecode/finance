@@ -11,11 +11,11 @@ describe 'NoFlo extension', ->
       data: (data) ->
         console.log data
         c.outPorts.sendThenDiscon 'out', data
-
     c.inPorts.addOn 'arrayin', {on: ['data', 'connect']}, (data, event) ->
       console.log data
     c.inPorts.addOn 'arrayinwoevent', {on: ['data', 'connect']}, (data) ->
       console.log data
+
     c.addInOn 'short', {on: 'data'}, (data) ->
       c.sendThenDiscon 'out', data
     c.addInOnData 'favorite', (data) ->

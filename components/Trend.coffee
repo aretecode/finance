@@ -1,43 +1,38 @@
 noflo = require 'noflo'
+finance = require './../src/Finance.coffee'
 
-class Trend extends noflo.Component
-  description: 'Trend'
-  icon: 'line-chart'
+exports.getComponent = ->
+  c = new finance.ExtendedComponent()
+  c.description = 'Trend'
+  c.icon = 'line-chart'
 
-  constructor: ->
-    @inPorts = new noflo.InPorts
-      req:
-        datatype: 'object'
-    @outPorts = new noflo.OutPorts
-      withrange:
-        datatype: 'all'
-      withoutrange:
-        datatype: 'all'
-      res:
-        datatype: 'object'
-        description: 'Response object'
+  c.addInOnData 'in',
+  datatype: 'object'
+  , (data) ->
+    unless data.query? and data.query.start?
+      c.sendThenDisc 'withoutrange',
+        req: data
+      return
 
-    @inPorts.req.on 'data', (data) =>
-      @outPorts.res.send data.res
+    start = new Date(data.query.start)
+    end = new Date(data.query.end)
+    range =
+      startMonth: start.getMonth()+1
+      startYear: start.getFullYear()
+      endMonth: end.getMonth()+1
+      endYear: end.getFullYear()
 
-      if data.query? and data.query.start?
-        start = new Date(data.query.start)
-        end = new Date(data.query.end)
-        range =
-          startMonth: start.getMonth()+1
-          startYear: start.getFullYear()
-          endMonth: end.getMonth()+1
-          endYear: end.getFullYear()
-        @outPorts.withrange.send
-          earliest: start
-          latest: end
-          range: range
+    c.sendThenDisc 'withrange',
+      req: data
+      latest: end
+      range: range
+      earliest: start
 
-        @outPorts.res.disconnect()
-        @outPorts.withrange.disconnect()
-      else
-        @outPorts.withoutrange.send data.query
-        @outPorts.res.disconnect()
-        @outPorts.withoutrange.disconnect()
+  c.outPorts.add 'withoutrange',
+    datatype: 'object'
+    required: true
+  c.outPorts.add 'withrange',
+    datatype: 'object'
+    required: true
 
-exports.getComponent = -> new Trend
+  c

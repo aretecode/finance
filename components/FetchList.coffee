@@ -23,17 +23,13 @@ class FetchList extends Database
           FROM "finance_op"
           INNER JOIN "tags" ON "tags".id = "finance_op".id
         WHERE "tags".tag = \'' +data.query.tag+ '\'
-        AND "finance_op".type = \''+@table+'\''
+        AND "finance_op".type = \''+@type+'\''
 
         @pg.raw(query).then (rows) =>
           @sendThenDisc
             success: rows.rows.length isnt 0
             data: rows.rows
-          @pg.destroy()
-        .catch (e) =>
-          @error
-            error: e
-            msg: 'could not find with tag #{data.query.tag} (FetchList)'
+            req: data
           @pg.destroy()
         return
 
@@ -44,7 +40,7 @@ class FetchList extends Database
         query = @pg('finance_op').select()
         .whereRaw('EXTRACT(MONTH FROM created_at) = ' + month)
         .andWhereRaw('EXTRACT(YEAR FROM created_at) = ' + year)
-        .andWhere('type', @table)
+        .andWhere('type', @type)
         .toString()
 
         @pg.raw(query)
@@ -55,16 +51,11 @@ class FetchList extends Database
           @sendThenDisc
             success: rows.rows.length isnt 0
             data: rows.rows
-          @pg.destroy()
-        .catch (e) =>
-          @error
-            error: e
-            msg: 'could not #{@table} find with date #{data.query.date}
-            (FetchList)'
+            req: data
           @pg.destroy()
         return
 
-      @pg('finance_op').select().where('type', @table).then (row) => row
+      @pg('finance_op').select().where('type', @type).then (row) => row
       .map (item) =>
         @pg.select().from('tags').where(id: item.id).then (tags) =>
           item.tags = tags
@@ -73,11 +64,7 @@ class FetchList extends Database
         @sendThenDisc
           success: rows.length isnt 0
           data: rows
-        @pg.destroy()
-      .catch (e) =>
-        @error
-          error: e
-          msg: 'could not find (FetchList)'
+          req: data
         @pg.destroy()
 
 exports.getComponent = -> new FetchList

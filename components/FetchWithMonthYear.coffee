@@ -11,14 +11,14 @@ class FetchWithMonthYear extends Database
     @inPorts.in.on 'data', (data) =>
       @setPg()
 
-      data.year = new Date().getFullYear() unless data.year?
-      data.month = new Date().getMonth()+1 unless data.month?
+      year = (data.year||new Date().getFullYear())
+      month = (data.month||new Date().getMonth()+1)
       tags = {}
 
       query = @pg('finance_op').select()
-      .whereRaw('EXTRACT(MONTH FROM created_at) = ' + data.month)
-      .andWhereRaw('EXTRACT(YEAR FROM created_at) = ' + data.year)
-      .andWhere('type', @table)
+      .whereRaw('EXTRACT(MONTH FROM created_at) = ' + month)
+      .andWhereRaw('EXTRACT(YEAR FROM created_at) = ' + year)
+      .andWhere('type', @type)
       .toString()
 
       @pg.raw(query).then (all) => all.rows
@@ -36,10 +36,13 @@ class FetchWithMonthYear extends Database
         @sendThenDisc
           success: tags?
           data: tags
+          req: data # any component after Validate has just data...
+
       .catch (e) =>
         @pg.destroy()
         @error
-          message: @table + ' reporting not found for month: `' +
+          req: data
+          message: @type + ' reporting not found for month: `' +
             data.month + '` and year: `' + data.year + '`'
           error: e
 

@@ -1,8 +1,7 @@
 chai = require 'chai'
-noflo = require 'noflo'
+suite = require './testsuite'
 Tester = require 'noflo-tester'
 c = require('./../components/AlphaOmegaEntries.coffee').getComponent()
-suite = require './testsuite'
 
 describe 'Test AlphaOmegaEntries Component', ->
   t = new Tester c

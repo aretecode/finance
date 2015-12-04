@@ -28,12 +28,14 @@ class AlphaOmegaEntries extends finance.ExtendedComponent
       @pg.raw(earliestQ).then (earliest) =>
         @pg.raw(latestQ).then (latest) =>
           @sendThenDisc
+            req: data.req
             earliest: earliest.rows[0].created_at
             latest: latest.rows[0].created_at
           @pg.destroy()
-      .catch (e) ->
+      .catch (e) =>
         @pg.destroy()
         @error
+          req: data.req
           error: e
           component: 'AlphaOmega'
 

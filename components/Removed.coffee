@@ -9,19 +9,23 @@ class Removed extends Database
     super()
     @inPorts.in.on 'data', (data) =>
       @setPg()
-      hasId = id: data.id
+      hasId = id: data.params.id
       @pg('finance_op').where(hasId).del().then (result) =>
         @pg('tags').where(hasId).del().then (tagResult) =>
-          result.tags = tagResult
           @sendThenDisc
             success: result is 1
-            data: result
+            data:
+              deleted: result
+              tagsDeleted: result
+            req: data
+            con: @pg
           @pg.destroy()
       .catch (e) =>
+        console.log 'was an error...'
         @error
-          data: data
           error: e
+          con: @pg
+          req: data
           component: 'Removed'
         @pg.destroy()
-
 exports.getComponent = -> new Removed

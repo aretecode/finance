@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 http = require 'http'
 finance = require './../src/Finance.coffee'
 

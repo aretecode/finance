@@ -12,10 +12,9 @@ class Database extends finance.ExtendedComponent
       in:
         datatype: 'object'
         description: 'Object being Stored'
-      name:
-        datatype: 'all'
-        description: 'The name of the database
-        /type-of-finance-operation (income, or expense)'
+      type:
+        datatype: 'string'
+        description: '(income, or expense)'
         required: true
       pg:
         datatype: 'object'
@@ -29,7 +28,7 @@ class Database extends finance.ExtendedComponent
         description: 'sent through the error port
         if not valid. @TODO: add port for each param'
 
-    @inPorts.name.on 'data', (@table) =>
+    @inPorts.type.on 'data', (@type) =>
     @inPorts.pg.on 'data', (@pg) =>
 
 exports.getComponent = -> new Database

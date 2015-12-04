@@ -1,11 +1,12 @@
 noflo = require 'noflo'
 moment = require 'moment'
 {_} = require 'underscore'
+finance = require './../src/Finance.coffee'
 
 class Report
   constructor: (@month, @year, @income, @expense, @balance) ->
 
-class Reports extends noflo.Component
+class Reports extends finance.ExtendedComponent
   description: 'Reporting the balance trending by month'
   icon: 'report'
 
@@ -14,10 +15,10 @@ class Reports extends noflo.Component
       in:
         datatype: 'all'
         required: true
-      balance:
-        datatype: 'int'
-      reports:
-        datatype: 'array'
+      # balance:
+      # datatype: 'int'
+      # reports:
+      # datatype: 'array'
 
     @outPorts = new noflo.OutPorts
       out:
@@ -26,8 +27,8 @@ class Reports extends noflo.Component
       error:
         datatype: 'object'
 
-    @inPorts.in.on 'balance', (@balance) =>
-    @inPorts.in.on 'reports', (@reports) =>
+    # @inPorts.balance.on 'data', (@balance) =>
+    # @inPorts.reports.on 'data', (@reports) =>
 
     @inPorts.in.on 'data', (data) =>
       reports = @reports||[]
@@ -35,21 +36,23 @@ class Reports extends noflo.Component
       range = data.range
       incomes = data.incomes
       expenses = data.expenses
-      outPorts = @outPorts
 
       unless data.incomes? and data.expenses? and data.range?
-        @outPorts.out.send
+        @sendThenDisc
           success: false
-        @outPorts.out.disconnect()
-        return null
+          data:
+            range: data.range
+            incomes: data.incomes
+            expenses: data.expenses
+          req: data.req
+        return
 
-      yearAndMonthFilter = (item, month) ->
+      yearAndMonthFilter = (item, month) =>
         item.created_at = moment(item.created_at)
         m = (item.created_at.month()+1)
         y = item.created_at.year()
-        return true if y is year and m is month
-        return false
-      toNumber = (items, month) ->
+        return if y is year and m is month then true else false
+      toNumber = (items, month) =>
         items = items.filter (item) ->
           yearAndMonthFilter(item, month)
 
@@ -69,9 +72,9 @@ class Reports extends noflo.Component
           reports.push new Report(month,
             year, monthIncomes, monthExpenses, balance)
 
-      @outPorts.out.send
+      @sendThenDisconnect
         success: true
         data: reports
-      @outPorts.out.disconnect()
+        req: data.req
 
 exports.getComponent = -> new Reports

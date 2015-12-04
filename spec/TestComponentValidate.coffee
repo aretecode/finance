@@ -1,8 +1,8 @@
+uuid = require 'uuid'
 chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
 c = require('./../components/Validate.coffee').getComponent()
-uuid = require 'uuid'
 
 describe 'Validate', ->
   t = new Tester c
@@ -13,8 +13,11 @@ describe 'Validate', ->
 
   it 'should send the same data out when nothing is invalid', (done) ->
     d =
-      currency: 'CAD'
-      amount: 10
+      body:
+        currency: 'CAD'
+        amount: 10
+      query: {}
+      params: {}
 
     t.receive 'out', (data) ->
       chai.expect(data).to.equal d
@@ -25,41 +28,69 @@ describe 'Validate', ->
 
   it 'should give an error for an invalid amount.', (done) ->
     t.receive 'error', (data) ->
-      chai.expect(data.key).to.equal 'amount'
+      chai.expect(data.errors[0].key).to.equal 'amount'
       done()
 
     t.send
       in:
-        currency: 'CAD'
-        amount: 'string eh'
+        body:
+          currency: 'CAD'
+          amount: 'string eh'
+        query: {}
+        params: {}
 
   it 'should give an error for an invalid currency.', (done) ->
     t.receive 'error', (data) ->
-      chai.expect(data.key).to.equal 'currency'
+      chai.expect(data.errors[0].key).to.equal 'currency'
       done()
 
     t.send
       in:
-        currency: 'NONEXISTENT'
-        amount: 1
+        body:
+          currency: 'NONEXISTENT'
+          amount: 1
+        query: {}
+        params: {}
 
-  it 'should give an error for an invalid id.', (done) ->
+  it 'should give an error for an invalid amount *and* currency.', (done) ->
     t.receive 'error', (data) ->
-      chai.expect(data.key).to.equal 'id'
+      chai.expect(data.errors[0].key).to.equal 'amount'
+      chai.expect(data.errors[1].key).to.equal 'currency'
       done()
 
     t.send
-      id:
-        id: 'notreal'
+      in:
+        body:
+          currency: 100
+          amount: {key: 'object'}
+        query: {}
+        params: {}
+
+  # do for params, body, and query
+  it 'should give an error for an invalid id.', (done) ->
+    t.receive 'error', (data) ->
+      chai.expect(data.errors[0].key).to.equal 'id'
+      done()
+
+    t.send
+      in:
+        params:
+          id: 'notreal'
+        body: {}
+        query: {}
 
   it 'should give a the same output as the input with a valid uuid.', (done) ->
     id = uuid.v4()
     t.receive 'out', (data) ->
-      chai.expect(data).to.equal id
+      chai.expect(data.params.id).to.equal id
       done()
 
     t.receive 'error', (data) ->
       done()
 
     t.send
-      id: id
+      in:
+        params:
+          id: id
+        body: {}
+        query: {}

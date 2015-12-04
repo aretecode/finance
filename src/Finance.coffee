@@ -55,8 +55,7 @@ module.exports.hijackConsoleLog = ->
     console[method] = ->
       stack = (new Error).stack.split(/\n/)
       # Chrome includes a single "Error" line, FF doesn't.
-      if stack[0].indexOf('Error') == 0
-        stack = stack.slice(1)
+      stack = stack.slice(1) if stack[0].indexOf('Error') == 0
       args = [].slice.apply(arguments).concat([stack[1].trim()])
       old.apply console, args
     return

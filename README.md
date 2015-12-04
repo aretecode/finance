@@ -19,7 +19,8 @@
 * [x] Why you can't delete projects from github on FlowHub? (there is an API, but not UI (link))
 * [ ] Is # @runtime noflo-nodejs still useful?
 * [ ] Why does FlowHub duplicate projects cloned into it appending `username` before `name` and give duplicate components for that project? (upload gif of it)
-* [ ] Can the Component change icons with the label?
+* [ ] Can the Component change icons with the label? Or have access to the label name?
+* [ ] Would it be better to have a Connection Component attached to the piping, or get connection in each Component?
 
 # New:
 * [x] rename FinanceOperation to FinanceOp
@@ -42,12 +43,13 @@
 * [x] make it *all* work in FlowHub
 * [x] make it work on Heroku
 * [x] change multiple routers to use (FlowHub)~arrayport
-* [ ] could pass (req) down one pipeline, no res port (will this reduce reusability of the components atomically?)
+* [x] could pass (req) down one pipeline, no res port (will this reduce reusability of the components atomically? yes, but it focuses code it for this one instance)
 * [ ] pass DB connection down the pipe along with req?
-* [ ] rename `name` as `type`
-* [ ] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it.
+* [x] rename `name` as `type`
+* [x] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it. (removed)
 * [ ] Response could be one inPort, pass in data about which one it is
 * [ ] stricter Tests when truncating afterAll() since we have a limited dataset
+* [ ] change
 
 # @TODO:
 * [x] Validate
@@ -85,7 +87,7 @@
 * [x] add Travis
 * [x] use Travis
 * [x] Travis badge
-* [ ] use Groups to send the data to Response
+* [x] use Groups to send the data to Response (rather, put all in one data pipe)
 * [ ] Test using noflo-tester using .fbp
 * [ ] Test in FlowHub (http Component?)
 * [x] call Super insteadof childConstructor

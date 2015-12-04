@@ -9,7 +9,7 @@
     return false;
   };
 
-  noflo.loadFile('graphs/all.json', process.cwd(), function(network) {
+  noflo.loadFile('graphs/req.json', process.cwd(), function(network) {
     var net;
     return net = network;
   });

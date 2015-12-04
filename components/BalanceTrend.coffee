@@ -42,11 +42,11 @@ class BalanceTrend extends util.ExtendedComponent
           endYear: latest.getFullYear()
 
       # select only amount & currency
-      findBetweenMonths = (table, cb) =>
+      findBetweenMonths = (type, cb) =>
         query = @pg('finance_op').select()
         .whereRaw('"finance_op".created_at::DATE <= \'' +l+ '\'::DATE')
         .andWhereRaw('"finance_op".created_at::DATE >= \'' +e+ '\'::DATE')
-        .andWhere('type', table)
+        .andWhere('type', type)
         .toString()
 
         @pg.raw(query).then (all) -> all.rows
@@ -64,6 +64,7 @@ class BalanceTrend extends util.ExtendedComponent
       findBetweenMonths 'income', (incomes) =>
         findBetweenMonths 'expense', (expenses) =>
           @sendThenDisc
+            req: data.req
             range: @range
             incomes: incomes
             expenses: expenses

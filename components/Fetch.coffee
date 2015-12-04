@@ -1,6 +1,5 @@
 noflo = require 'noflo'
 {Database} = require './Database.coffee'
-{Factory} = require './../src/Finance.coffee'
 
 class Fetch extends Database
   description: 'Find a finance operation.'
@@ -22,7 +21,7 @@ class Fetch extends Database
             WHERE "tags".id = "finance_op".id
           ) AS tags
         FROM "finance_op"
-        WHERE "finance_op".id = \'' + data.id + "'"
+        WHERE "finance_op".id = \'' + data.params.id + "'"
 
       @pg.raw(query)
       .then (rows) =>
@@ -30,14 +29,17 @@ class Fetch extends Database
           @sendThenDisc
             success: false
             data: []
+            req: data
         else
           @sendThenDisc
             success: true
             data: rows.rows[0]
+            req: data
         @pg.destroy()
       .catch (e) =>
         @error
           error: e
+          data: data
           component: 'fetch'
         @pg.destroy()
 

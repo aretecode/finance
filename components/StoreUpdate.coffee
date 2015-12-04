@@ -1,6 +1,6 @@
+uuid = require 'uuid'
 noflo = require 'noflo'
 {_} = require 'underscore'
-uuid = require 'uuid'
 {Database} = require './Database.coffee'
 util = require './../src/Finance.coffee'
 
@@ -11,61 +11,59 @@ class StoreUpdate extends Database
     super()
     @inPorts.in.on 'data', (data) =>
       @setPg()
+      body = data.body
 
       update =
-        id: data.id
-      update.currency = data.currency if data.currency?
-      update.created_at = util.dateFrom data.created_at if data.created_at?
-      update.amount = data.amount if data.amount?
-      update.description = data.description if data.description?
+        id: body.id
+      update.currency = body.currency if body.currency?
+      update.created_at = util.dateFrom body.created_at if body.created_at?
+      update.amount = body.amount if body.amount?
+      update.description = body.description if body.description?
 
-      hasId = id: data.id
+      hasId = id: body.id
+
+      updated = _.clone update
+      updated.tags = body.tags
 
       @pg('finance_op')
       .where(hasId)
       .update(update)
       .then (rows) =>
         # we have no tags, send it out
-        if data.tags?
-          @outPorts.out.send
-            success: rows is 1
-            data: update
-          @outPorts.out.disconnect()
+        unless body.tags?
+          @sendThenDisc
+            success: rows.length is 1
+            body: updated
+            req: data
+          @pg.destroy()
 
-        else
-          tags = util.uniqArrFrom data.tags
-          @pg('tags').where(hasId).del().then (deleted) ->
-            saveTag = (tag, cb) ->
-              @pg
-              .insert(tag)
-              .into('tags')
-              .whereNotExists( ->
-                @select(@pg.raw(1)).from('tags')
-                .where(id: tag.id)
-                .andWhere(tag: tag.tag)
-              )
-              .then ((tag) ->
-                cb tag if _.isFunction cb
-              )
-              .catch ((e) -> console.log e)
-            for tag in tags
-              if tag is _.last tags # only want to call cb on the last one
-                cb = (result) ->
-                  @outPorts.out.send
-                    success: rows is 1
-                    data: update
-                  @outPorts.out.disconnect()
-                  @pg.destroy()
-              saveTag
-                tag: tag.name
-                id: update.id
-              , cb||null
+        tags = util.uniqArrFrom body.tags
+        @pg('tags').where(hasId).del().then (deleted) =>
+          saveTag = (tag, cb) =>
+            @pg
+            .insert(tag)
+            .into('tags')
+            .then (tag) =>
+              cb tag if _.isFunction cb
+          for tag in tags
+            if tag is _.last tags # only want to call cb on the last one
+              cb = (result) =>
+                @sendThenDisc
+                  success: true
+                  data: updated
+                  req: data
+                @pg.destroy()
+            saveTag
+              tag: tag
+              id: update.id
+            , cb||null
       .catch (e) =>
         @error
-          message: 'could not update!'
           error: e
           data: data
           component: 'StoreUpdate'
+          message: 'could not update!'
+          req: data
         @pg.destroy()
 
 exports.getComponent = -> new StoreUpdate

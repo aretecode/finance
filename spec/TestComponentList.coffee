@@ -16,5 +16,5 @@ describe 'Test List Component', ->
       done()
 
     t.send
-      name: 'expense'
+      type: 'expense'
       in: 'empty input?'

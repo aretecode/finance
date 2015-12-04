@@ -1,5 +1,6 @@
 noflo = require 'noflo'
 _ = require 'underscore'
+moment = require 'moment'
 validateId = require 'uuid-validate'
 {ExtendedComponent} = require './../src/Finance.coffee'
 
@@ -177,27 +178,56 @@ currencies = JSON.parse('{
   "ZWL": "Zimbabwean Dollar"
 }')
 
+# http://www.bennadel.com/blog/2434-http-status-codes-for-invalid-data-400-vs-422.htm
+# 422 for ujnprocessable entity
+# 415 - unsupported media type
 class Validate extends ExtendedComponent
-  description: 'Validate income from xpress params.'
+  description: 'Validate income from xpress request.'
   icon: 'filter'
 
   currency: (currency) ->
-    unless _.contains Object.keys(currencies), currency.toUpperCase()
-      @error
+    unless _.isString(currency) and _.contains Object.keys(currencies), currency.toUpperCase()
+      @errors.push
         key: 'currency'
         error: "currency `#{currency}` was not a valid currency."
+
   amount: (amount) ->
     unless parseInt(amount) >= 0
-      @error
+      @errors.push
         key: 'amount'
         error: "amount `#{amount}`is not at least 0."
-  createdAt: (createdAt) ->
-  descriptions: (descriptions) ->
+
+  datePart: (part) ->
+    unless parseInt(part) >= 0
+      @errors.push
+        key: 'datePart'
+        error: "datePart `#{part}`is not at least 0."
+
+  date: (dateAndOrTime) ->
+    return if _.isFinite dateAndOrTime
+    try
+      d = new Date(dateAndOrTime)
+    catch e
+      return @errors.push
+        key: 'date'
+        error: "created_at|date `#{dateAndOrTime}`is not a valid date. " + e.message
+
+    unless moment(d).isValid()
+      @errors.push
+        key: 'date'
+        error: "created_at|date `#{dateAndOrTime}`is not a valid date."
+
+  descriptions: (descriptions) -> #xss?
+
   tags: (tags) ->
-  idv: (data) ->
-    id = if data.id? then data.id else data
+    unless _.isArray(tags) or _.isString(tags)
+      @errors.push
+        key: 'tags'
+        error: "tags `#{tags}` were not valid"
+
+  idv: (id) ->
     unless validateId id
-      @error
+      @errors.push
         key: 'id'
         error: "id `#{id}` is not a valid id"
 
@@ -206,45 +236,65 @@ class Validate extends ExtendedComponent
       in:
         datatype: 'object'
         description: 'Object being Validated'
-      id:
-        datatype: 'string'
-        description: 'validating the identity'
-      update:
-        datatype: 'object'
-        description: 'Object for updating (has optional params/props)'
 
     @outPorts = new noflo.OutPorts
       out:
         datatype: 'object'
+        required: true
       error:
         datatype: 'object'
         description: 'sent through the error port if not valid.'
 
+    # passing in Req
     @inPorts.in.on 'data', (data) =>
-      @currency data.currency
-      @amount data.amount
-      @createdAt data.created_at if data.created_at?
-      @descriptions data.descriptions if data.descriptions?
-      @tags data.tags if data.tags?
-      @idv data.id if data.id?
+      @errors = []
 
-      @outPorts.out.send data
-      @outPorts.out.disconnect()
+      # _.isObject(data.query)
+      # @TODO: error if it doesn't have .id
+      # if its params, it should be the only one
+      # if it uses * (such as in list) params has a 0 key
+      pKeys = Object.keys data.params
+      if pKeys.length > 0 and pKeys[0] isnt '0'
+        @idv data.params.id
 
-    @inPorts.update.on 'data', (data) =>
-      @idv data.id
-      @amount data.amount if data.amount?
-      @currency data.currency if data.currency?
-      @createdAt data.created_at if data.created_at?
-      @descriptions data.descriptions if data.descriptions?
-      @tags data.tags if data.tags?
+      # if its a query, that means date or tag
+      if Object.keys(data.query).length > 0
+        query = data.query
 
-      @outPorts.out.send data
-      @outPorts.out.disconnect()
+        if query.month? and query.year?
+          @datePart query.month
+          @datePart query.year
+        else if query.date?
+          @date query.date
+        else if query.start?
+          @date query.start
+          @date query.end
+        else if query.tags?
+          @tags query.tags
+        else if query.tag?
+          @tags query.tag
+        else
+          @errors.push
+            key: 'query'
+            error: "query `#{query}` did not contain supported media-types"
+            data: data
 
-    @inPorts.id.on 'data', (id) =>
-      @idv id
-      @outPorts.out.send id
-      @outPorts.out.disconnect()
+      if Object.keys(data.body).length > 0
+        body = data.body
+        @amount body.amount
+        @currency body.currency
+        @date body.created_at if body.created_at?
+        @descriptions body.descriptions if body.descriptions?
+        @tags body.tags if body.tags?
+
+        # IF IT IS UPDATE, IT REQUIRES ID... check the path?
+        @idv body.id if body.id?
+
+      if @errors.length > 0
+        @error
+          errors: @errors
+          req: data
+      else
+        @sendThenDiscon data
 
 exports.getComponent = -> new Validate

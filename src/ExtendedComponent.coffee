@@ -16,7 +16,8 @@ invalidPorts = [
   'sendThenDiscon'
   'addOn'
   'addOnData'
-  'sendThenDisc']
+  'sendThenDisc',
+  'error']
 
 # could rename ComponentAdapter|ComponentDecorator
 # @TODO: string in/out constructor for defaults

@@ -1,23 +1,22 @@
 chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
-c = require('./../components/Fetch.coffee').getComponent()
+c = require('./../components/Removed.coffee').getComponent()
 
-describe 'Test Fetch Component', ->
+describe 'Test Removed Component', ->
   t = new Tester c
 
   before (done) ->
     t.start ->
       done()
 
-  it 'should not be able to find when it does not exist', (done) ->
+  it 'should not be able to delete when it does not exist', (done) ->
     d =
       params:
         id: '3462fa39-37ea-4110-809f-fd82f74cff95'
 
     t.receive 'out', (data) ->
       chai.expect(data.success).to.equal false
-      # chai.expect(data.data.id).to.equal d.id
       done()
 
     t.send

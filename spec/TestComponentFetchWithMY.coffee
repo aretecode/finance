@@ -29,5 +29,5 @@ describe 'Test Monthly>FetchWithMonthYear Component', ->
       done()
 
     t.send
-      name: 'expense'
+      type: 'expense'
       in:  d
