@@ -18,14 +18,38 @@ describe 'App (AllNew)', ->
 
   before (done) ->
     # finance.hijackConsoleLog()
-    noflo.loadFile 'test_graphs/Req.fbp', {}, (network) ->
-      net = network
-      done()
+    createFinanceOp = new Promise (resolve, reject) ->
+      pg.schema.hasTable('finance_op').then (exists) ->
+        return resolve('exists') if exists
+        pg.schema.createTableIfNotExists 'finance_op', (table) ->
+          table.string('id', 36).primary() # uuid('id')
+          table.string('currency').notNullable()
+          table.integer('amount').notNullable()
+          table.timestamp('created_at') # .defaultTo(pg.fn.now())
+          table.string('description').nullable().defaultTo(null)
+          table.enu('type', ['income', 'expense']).notNullable()
+        .then (created) ->
+          resolve(created)
+
+    createTags = new Promise (resolve, reject) ->
+      pg.schema.hasTable('tags').then (exists) ->
+        return resolve('exists') if exists
+        pg.schema.createTableIfNotExists 'tags', (table) ->
+          table.string('id', 36)
+          table.string('tag').notNullable()
+          table.primary(['id', 'tag'])
+        .then (created) ->
+          resolve(created)
+
+    Promise.settle([createFinanceOp, createTags]).then (settled) ->
+      noflo.loadFile 'test_graphs/App.fbp', {}, (network) ->
+        net = network
+        done()
 
   after (done) ->
     net.stop()
-    #pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
-    done()
+    pg.raw('TRUNCATE tags, finance_op').then (truncated) ->
+      done()
     pg.destroy()
 
   it 'should create using POST (with an old date)', (done) ->

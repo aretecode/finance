@@ -1,6 +1,6 @@
 {
   "properties": {
-    "name": "Req",
+    "name": "main",
     "environment": {
       "type": "noflo-nodejs"
     },

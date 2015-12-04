@@ -1,7 +1,7 @@
 {
   "name": "finance",
   "repo": "aretecode/finance",
-  "version": "0.2.153",
+  "version": "0.2.156",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -31,27 +31,18 @@
     },
     "components": {
       "Database": "components/Database.coffee",
-      "CRUD": "components/CRUD.coffee",
-
-      "Retrieve": "components/Retrieve.coffee",
-      "Create": "components/Create.coffee",
-      "Delete": "components/Delete.coffee",
-      "Update": "components/Update.coffee",
-      "List": "components/List.coffee",
-      "Monthly": "components/Monthly.coffee",
-
       "Store": "components/Store.coffee",
       "Removed": "components/Removed.coffee",
       "FetchList": "components/FetchList.coffee",
       "StoreUpdate": "components/StoreUpdate.coffee",
       "Fetch": "components/Fetch.coffee",
       "FetchWithMonthYear": "components/FetchWithMonthYear.coffee",
-
       "Validate": "components/Validate.coffee",
-      "Response": "components/Response.coffee",
       "AuthMiddleware": "components/AuthMiddleware.coffee",
-      "JsonBodyParserMiddleware", "components/JsonBodyParserMiddleware.coffee",
-
+      "BalanceTrend": "components/BalanceTrend.coffee",
+      "Reports": "components/Reports.coffee",
+      "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee",
+      "JsonBodyParserMiddleware": "components/JsonBodyParserMiddleware.coffee",
       "PrepareServer": "components/PrepareServer.coffee"
     }
   }
