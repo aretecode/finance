@@ -1,6 +1,9 @@
 _ = require 'underscore'
 {ExtendedComponent} = require('./ExtendedComponent.coffee')
 
+{DatabaseComponent} = require('./DatabaseComponent.coffee')
+{DefaultInOutComponent} = require('./DefaultInOutComponent.coffee')
+
 module.exports.ExtendedComponent = ExtendedComponent
 
 module.exports.dateFrom = (date) ->
@@ -59,3 +62,6 @@ module.exports.hijackConsoleLog = ->
       args = [].slice.apply(arguments).concat([stack[1].trim()])
       old.apply console, args
     return
+
+module.exports.DatabaseComponent = DatabaseComponent
+module.exports.DefaultInOutComponent = DefaultInOutComponent

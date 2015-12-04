@@ -224,14 +224,16 @@ Router REQ[12] -> IN Trend(finance/Trend)
 # if it has no range, get one
 Trend WITHOUTRANGE -> IN Entries(AlphaOmegaEntries)
 Entries OUT -> IN BalanceTrend(finance/BalanceTrend)
-
 # else, it has one, use it
 Trend WITHRANGE -> IN BalanceTrend
 
 BalanceTrend OUT -> IN Reports(finance/Reports)
 Reports OUT -> TREND TrendRes(finance/Res)
 
-
+# Err
+BalanceTrend ERROR -> ERROR TrendRes
+Entries ERROR -> ERROR TrendRes
+# Trend ERROR -> ERROR TrendRes
 
 
 

@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.156",
+  "version": "0.2.158",
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "chai": "~3.4.1",
+    "chai-datetime": "^1.4.0",
     "coffeelint": "^1.13.1",
     "fbp": "^1.1.4",
     "mocha": "~2.3.4"
@@ -48,13 +49,12 @@
     "gtest": "grunt test",
     "start": "./node_modules/.bin/noflo-nodejs --trace",
     "_pretest": "coffeelint components src",
-    "test": "NODE_ENV=test mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/AllA.coffee"
+    "test": "NODE_ENV=test mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/AllNew.coffee"
   },
   "noflo": {
     "icon": "globe",
     "loader": "ComponentLoader.coffee",
     "components": {
-      "Database": "components/Database.coffee",
       "Store": "components/Store.coffee",
       "Removed": "components/Removed.coffee",
       "FetchList": "components/FetchList.coffee",

@@ -22,6 +22,7 @@ invalidPorts = [
 # could rename ComponentAdapter|ComponentDecorator
 # @TODO: string in/out constructor for defaults
 # akin to c.outPorts.add 'out'
+# @TODO: default to `out` if it exists?
 class ExtendedComponent extends noflo.Component
   sendThenDisc: (name, data) ->
     @sendThenDiscon name, data

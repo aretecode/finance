@@ -36,6 +36,7 @@ class FetchWithMonthYear extends Database
           success: tags?
           data: tags
           req: data # any component after Validate has just data...
+        @pg.destroy()
 
       .catch (e) =>
         @pg.destroy()

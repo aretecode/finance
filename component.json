@@ -1,7 +1,7 @@
 {
   "name": "finance",
   "repo": "aretecode/finance",
-  "version": "0.2.156",
+  "version": "0.2.158",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -30,7 +30,6 @@
       "main": "graphs/main.json"
     },
     "components": {
-      "Database": "components/Database.coffee",
       "Store": "components/Store.coffee",
       "Removed": "components/Removed.coffee",
       "FetchList": "components/FetchList.coffee",

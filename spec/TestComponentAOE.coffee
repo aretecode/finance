@@ -17,5 +17,9 @@ describe 'Test AlphaOmegaEntries Component', ->
       suite.expectValidDate(data.latest)
       done()
 
+    # @TODO: truncate table, then do this test again
+    t.receive 'error', (data) ->
+      done(throw new Error('error port triggered'))
+
     t.send
       in: ""

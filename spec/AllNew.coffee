@@ -6,16 +6,18 @@ moment = require 'moment'
 express = require 'express'
 Promise = require 'bluebird'
 suite = require './testsuite'
+finance = require('./../src/Finance.coffee')
 expect = chai.expect
 
 try require './../.env.coffee' catch e
 
 describe 'App (AllNew)', ->
   net = null
-  pg = require('./../src/Finance.coffee').getConnection()
+  pg = finance.getConnection()
   id = uuid.v4()
 
   before (done) ->
+    # finance.hijackConsoleLog()
     createFinanceOp = new Promise (resolve, reject) ->
       pg.schema.hasTable('finance_op').then (exists) ->
         return resolve('exists') if exists
@@ -107,19 +109,21 @@ describe 'App (AllNew)', ->
   it 'should test all component tests', (done) ->
     require './TestComponentServerPrepare.coffee'
     require './TestExtendedComponent.coffee'
-    require './TestComponentCreate.coffee'
-    require './TestComponentStore.coffee'
-    require './TestComponentStoreUpdate.coffee'
     require './TestComponentValidate.coffee'
-    require './TestComponentFetchWithMY.coffee'
-    require './TestComponentAOE.coffee'
-    require './TestComponentFetch.coffee'
-    require './TestComponentTrend.coffee'
     require './TestComponentBalanceTrend.coffee'
     require './TestComponentList.coffee'
     require './TestComponentReports.coffee'
-    done()
+    require './TestComponentRes.coffee'
+    require './TestComponentStore.coffee'
+    require './TestComponentFetch.coffee'
+    require './TestComponentStoreUpdate.coffee'
+    require './TestComponentFetchWithMY.coffee'
+    require './TestComponentTrend.coffee'
+    require './TestComponentAuthMiddleware.coffee'
+    require './TestComponentAOE.coffee'
+    require './TestComponentRemoved.coffee'
 
+    done()
   it 'should list using GET', (done) ->
     options = suite.optionsFrom 'GET', '/api/expenses'
 

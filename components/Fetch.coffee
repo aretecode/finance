@@ -21,7 +21,7 @@ class Fetch extends Database
             WHERE "tags".id = "finance_op".id
           ) AS tags
         FROM "finance_op"
-        WHERE "finance_op".id = \'' + data.params.id + "'"
+        WHERE "finance_op".id = \'' +data.params.id+ "'"
 
       @pg.raw(query)
       .then (rows) =>

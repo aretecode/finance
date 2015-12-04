@@ -16,7 +16,8 @@ describe 'Test AuthMiddleware Component', ->
       express()
 
     t.receive 'app', (data) ->
-      # chai.expect(data).to.be.an 'object'
+      chai.expect(data).to.be.a 'function'
+      #chai.expect(data.listeners.contains('auth...')).to.equal true
       done()
 
     t.send

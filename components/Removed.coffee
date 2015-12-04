@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 {Database} = require './Database.coffee'
 
 class Removed extends Database

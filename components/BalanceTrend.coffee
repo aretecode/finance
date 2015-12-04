@@ -1,16 +1,16 @@
 noflo = require 'noflo'
-{_} = require 'underscore'
-util = require './../src/Finance.coffee'
 moment = require 'moment'
+{_} = require 'underscore'
+finance = require './../src/Finance.coffee'
 
-class BalanceTrend extends util.ExtendedComponent
+class BalanceTrend extends finance.ExtendedComponent
   description: 'Balance trending by month'
   icon: 'scale'
 
   constructor: ->
     @inPorts = new noflo.InPorts
       in:
-        datatype: 'all'
+        datatype: 'object'
         required: true
       range:
         datatype: 'object'
@@ -24,10 +24,10 @@ class BalanceTrend extends util.ExtendedComponent
     @inPorts.range.on 'data', (@range) =>
 
     @inPorts.in.on 'data', (data) =>
-      @pg = util.getConnection()
+      @pg = finance.getConnection()
 
-      earliest = util.dateFrom(data.earliest)
-      latest = util.dateFrom(data.latest)
+      earliest = finance.dateFrom(data.earliest)
+      latest = finance.dateFrom(data.latest)
       e = moment(earliest).format()
       l = moment(latest).format()
 
@@ -60,6 +60,7 @@ class BalanceTrend extends util.ExtendedComponent
           @error
             error: e
             component: 'BalanceTrend'
+          @pg.destroy()
 
       findBetweenMonths 'income', (incomes) =>
         findBetweenMonths 'expense', (expenses) =>

@@ -287,7 +287,7 @@ class Validate extends ExtendedComponent
         @descriptions body.descriptions if body.descriptions?
         @tags body.tags if body.tags?
 
-        # IF IT IS UPDATE, IT REQUIRES ID... check the path?
+        # IF IT IS UPDATE, IT REQUIRES ID... check the req.path.contains?
         @idv body.id if body.id?
 
       if @errors.length > 0

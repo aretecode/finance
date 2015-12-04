@@ -1,6 +1,7 @@
-chai = require 'chai'
 noflo = require 'noflo'
 Tester = require 'noflo-tester'
+chai = require 'chai'
+chai.use require('chai-datetime')
 c = require('./../components/Trend.coffee').getComponent()
 
 describe 'Test Trend Component', ->
@@ -13,14 +14,15 @@ describe 'Test Trend Component', ->
   it 'should send out (query) params (with range)', (done) ->
     d =
       query:
-        start: new Date('2000-1-1')
+        start: new Date('2000-1-2')
         end: new Date()
 
     t.receive 'withrange', (data) ->
-      # chai.expect(data.range.startMonth).to.equal d.query.startMonth
-      # chai.expect(data.range.startYear).to.equal d.query.startYear
-      # chai.expect(data.range.endMonth).to.equal d.query.endMonth
-      # chai.expect(data.range.endYear).to.equal d.query.endYear
+      chai.expect(data.earliest).to.be.afterDate(new Date('2000-1-1'))
+      chai.expect(data.latest).to.be.afterDate(new Date('2000-1-1'))
+
+      chai.expect(data.latest).to.be.beforeDate(new Date('2025-1-1'))
+      chai.expect(data.earliest).to.be.beforeDate(new Date('2025-1-1'))
       done()
 
     t.send

@@ -5,13 +5,21 @@ Strategy = require('passport-http-bearer').Strategy
 
 exports.getComponent = ->
   c = new ExtendedComponent
+    outPorts:
+      app:
+        datatype: 'object'
+        required: true
+        caching: true
+        description: 'Configured Express Application'
+      error:
+        datatype: 'object'
+
   c.description = 'Adds very basic auth'
   c.icon = 'lock'
 
-  c.inPorts.addOn 'app',
+  c.addInOnData 'app',
     datatype: 'object'
     description: 'Express Application'
-    on: 'data'
   , (app) ->
     try
       records = [
@@ -34,20 +42,11 @@ exports.getComponent = ->
           return cb err if err
           return cb null, false if !user
           return cb null, user
-      app.all '*', passport.authenticate('bearer', session: false),
-      (req, res, next) ->
+      app.all '*', passport.authenticate('bearer', session: false), (req, res, next) ->
         next()
 
-      c.outPorts.app.send app
-      c.outPorts.app.disconnect()
+      c.sendThenDisconnect app
     catch e
       return c.error new Error "Could not setup server: #{e.message}"
-
-  c.outPorts.add 'app',
-    datatype: 'object'
-    required: true
-    caching: true
-    description: 'Configured Express Application'
-  c.outPorts.add 'error', datatype: 'object'
 
   c
