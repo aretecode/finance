@@ -2,6 +2,7 @@
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+# [Previous](https://github.com/aretecode/finance/tree/response-separation)
 
 # Wondering
 * [x] Default wiring for Components connect & disconnect? (@see component/Validate)
@@ -49,7 +50,7 @@
 * [x] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it. (removed)
 * [ ] Response could be one inPort, pass in data about which one it is
 * [ ] stricter Tests when truncating afterAll() since we have a limited dataset
-* [ ] change
+* [ ] Can FlowHub only pull from Master?
 
 # @TODO:
 * [x] Validate
