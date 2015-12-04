@@ -42,7 +42,7 @@ describe 'App (AllNew)', ->
           resolve(created)
 
     Promise.settle([createFinanceOp, createTags]).then (settled) ->
-      noflo.loadFile 'test_graphs/App.fbp', {}, (network) ->
+      noflo.loadFile 'test_graphs/Req.fbp', {}, (network) ->
         net = network
         done()
 
