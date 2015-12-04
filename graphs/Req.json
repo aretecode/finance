@@ -1,4 +1,13 @@
 {
+  "properties": {
+    "name": "Req",
+    "environment": {
+      "type": "noflo-nodejs"
+    },
+    "icon": "",
+    "changed": true,
+    "project": "aretecode_finance"
+  },
   "processes": {
     "Server": {
       "component": "xpress/Server"
