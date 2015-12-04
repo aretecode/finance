@@ -31,7 +31,6 @@ class AlphaOmegaEntries extends finance.ExtendedComponent
             req: data.req
             earliest: earliest.rows[0].created_at
             latest: latest.rows[0].created_at
-          @pg.destroy()
       .catch (e) =>
         @pg.destroy()
         @error

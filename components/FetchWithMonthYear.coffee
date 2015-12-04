@@ -32,7 +32,6 @@ class FetchWithMonthYear extends Database
             if _.contains item.tags, tag
               tags[tag] = (tags[tag]||0) + item.amount
 
-        @pg.destroy()
         @sendThenDisc
           success: tags?
           data: tags

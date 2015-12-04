@@ -52,7 +52,6 @@ class FetchList extends Database
             success: rows.rows.length isnt 0
             data: rows.rows
             req: data
-          @pg.destroy()
         return
 
       @pg('finance_op').select().where('type', @type).then (row) => row
