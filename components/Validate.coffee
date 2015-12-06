@@ -178,8 +178,7 @@ currencies = JSON.parse('{
   "ZWL": "Zimbabwean Dollar"
 }')
 
-# http://www.bennadel.com/blog/2434-http-status-codes-for-invalid-data-400-vs-422.htm
-# 422 for ujnprocessable entity
+# 422 - ujnprocessable entity
 # 415 - unsupported media type
 class Validate extends ExtendedComponent
   description: 'Validate income from xpress request.'
