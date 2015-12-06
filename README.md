@@ -50,7 +50,8 @@
 * [x] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it. (removed)
 * [ ] Response could be one inPort, pass in data about which one it is
 * [ ] stricter Tests when truncating afterAll() since we have a limited dataset
-* [ ] Can FlowHub only pull from Master?
+* [ ] can FlowHub only pull from Master?
+* [ ] refactor Database to lib/
 
 # @TODO:
 * [x] Validate

@@ -10,6 +10,6 @@ exports.getComponent = ->
     port = (process.env.PORT||5023)
     c.sendThenDisc port
 
-  c.outPorts.add 'out'
+  c.outPorts.add 'out', datatype: 'integer'
 
   c

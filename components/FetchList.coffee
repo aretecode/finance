@@ -31,6 +31,13 @@ class FetchList extends Database
             data: rows.rows
             req: data
           @pg.destroy()
+        .catch (e) =>
+          @error
+            error: e
+            data: data
+            component: 'FetchList'
+          @pg.destroy()
+
         return
 
       else if data.query? and data.query.date?
@@ -52,6 +59,13 @@ class FetchList extends Database
             success: rows.rows.length isnt 0
             data: rows.rows
             req: data
+        .catch (e) =>
+          @error
+            error: e
+            data: data
+            component: 'FetchList'
+          @pg.destroy()
+
         return
 
       @pg('finance_op').select().where('type', @type).then (row) => row
@@ -64,6 +78,12 @@ class FetchList extends Database
           success: rows.length isnt 0
           data: rows
           req: data
+        @pg.destroy()
+      .catch (e) =>
+        @error
+          error: e
+          data: data
+          component: 'FetchList'
         @pg.destroy()
 
 exports.getComponent = -> new FetchList

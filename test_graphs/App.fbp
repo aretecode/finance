@@ -219,7 +219,8 @@ WithMonthYear ERROR -> ERROR MonthlyRes
 #
 # REPORTS/BALANCE/TREND
 #
-Router REQ[12] -> IN Trend(finance/Trend)
+Router REQ[12] -> IN TrendValidate(finance/Validate)
+TrendValidate OUT -> IN Trend(finance/Trend)
 
 # if it has no range, get one
 Trend WITHOUTRANGE -> IN Entries(AlphaOmegaEntries)

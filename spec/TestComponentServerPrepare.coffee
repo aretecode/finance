@@ -12,7 +12,6 @@ describe 'Test FlowHubServerPrepare Component', ->
 
   it 'should make sure it sends out & after port', (done) ->
 
-    # expect string|int if needed
     t.receive 'out', (data) ->
       port = parseInt data
       chai.expect(port).to.be.a 'number'
@@ -21,4 +20,4 @@ describe 'Test FlowHubServerPrepare Component', ->
       done()
 
     t.send
-      in: 'start'
+      in: 'go go gadget server'
