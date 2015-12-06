@@ -22,6 +22,7 @@
 * [ ] Why does FlowHub duplicate projects cloned into it appending `username` before `name` and give duplicate components for that project? (upload gif of it)
 * [ ] Can the Component change icons with the label? Or have access to the label name?
 * [ ] Would it be better to have a Connection Component attached to the piping, or get connection in each Component?
+* [ ] can FlowHub only pull from Master?
 
 # New:
 * [x] rename FinanceOperation to FinanceOp
@@ -50,7 +51,6 @@
 * [x] change CRUD not only to better represent what it does in name (between Route and rest of the machines for that Route) but also use boolean inPorts to set the properties being set by components that (currently) extend it. (removed)
 * [ ] Response could be one inPort, pass in data about which one it is
 * [ ] stricter Tests when truncating afterAll() since we have a limited dataset
-* [ ] can FlowHub only pull from Master?
 * [ ] refactor Database to lib/
 
 # @TODO:
@@ -73,7 +73,7 @@
 * [x] improve code clarity in FetchWithMonthYear
 * [x] add Income
 * [x] add Balance Reports
-* [ ] download flowhub graphs and run them in noflo
+* [x] download flowhub graphs and run them in noflo
 * [ ] convert raw queries to knexjs
 * [x] change test order so it doesn't have to be run three times
 
@@ -82,10 +82,11 @@
 * [x] Test with HTTP
 * [x] update tags
 * [ ] add Morgan as Middleware to log
-* [ ] send things after tags are all saved (@see components/Store)
+* [x] send things after tags are all saved (@see components/Store)
 * [ ] improve query to save if not exists (use Raw) (@see components/Store)
 * [x] Filter null instead of returning in the map in FetchList
-* [ ] TODOS in non noflo `personal-finance-tracker`
+* [x] TODOS in non noflo `personal-finance-tracker` (moved here)
+* [ ]
 * [x] add Travis
 * [x] use Travis
 * [x] Travis badge
@@ -93,7 +94,6 @@
 * [ ] Test using noflo-tester using .fbp
 * [ ] Test in FlowHub (http Component?)
 * [x] call Super insteadof childConstructor
-* [ ] rename CRUD component to better represent it as the router connection
 * [x] remove unnessecary port events
 
 # Future
@@ -101,25 +101,27 @@
 * [ ] add rollback & undo feature to the commit
 * [ ] filter XSS in the description
 * [x] static (or something) optional Error port sender
-* [ ] Validate could be a filter insteadof a Component ***
-* [ ] transform Data before going to Validator? in Create or _
-* [ ] add chaining constructor to src/Factory
-* [ ] Test the AuthMiddlewareComponent
-* [ ] Test the DeleteComponent
-* [ ] could change CRUD to take inPort of the action and not need named Components
+* [x] Validate could be a filter insteadof a Component (better how it is)
+* [x] transform Data before going to Validator? in Create or _ (n/a)
+* [x] add chaining constructor to src/Factory (removed Factory)
+* [x] Test the AuthMiddlewareComponent
+* [x] Test the DeleteComponent (removed)
+* [x] could change CRUD to take inPort of the action and not need named Components (removed)
 * [x] work with BlueBird Promises
 * [ ] work with BlueBird more in depth
-* [ ] validate range in BalanceTrend
+* [x] validate range in BalanceTrend
 * [ ] write documentation?
 * [ ] port for each Validate param?
-* [ ] multiple responses in components/Response not just failure success(pass)
+* [x] multiple responses in components/Response not just failure success(pass)
 * [ ] maybe https://github.com/noflo/grunt-noflo-manifest
 * [ ] add all the Grunts
+* [ ] use backbone
 
 # NoFlo extension
 * [ ] dig into the noflo source code & compare how it translates from PHP & if any of my extensions are applicable
 * [x] ^ did a microextension (addOn)
 * [x] add SendThenDisconnect()
+* [x] addInOnData
 
 # Other
 * [x] rename `successful` to `success`

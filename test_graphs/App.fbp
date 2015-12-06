@@ -31,11 +31,6 @@ JsonMiddleware APP -> APP Router(xpress/Router)
 
 
 
-
-
-
-
-
 ############
 #
 # EXPENSES
@@ -96,18 +91,6 @@ List OUT -> RETRIEVED ListRes(finance/Res)
 # Err
 ListValidate ERROR -> ERROR ListRes
 List ERROR -> ERROR ListRes
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -190,19 +173,6 @@ IncomeList ERROR -> ERROR IncomeListRes
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ######
 #
 # REPORTS/MONTHLY
@@ -234,10 +204,6 @@ Reports OUT -> TREND TrendRes(finance/Res)
 # Err
 BalanceTrend ERROR -> ERROR TrendRes
 Entries ERROR -> ERROR TrendRes
-# Trend ERROR -> ERROR TrendRes
-
-
-
 
 
 
