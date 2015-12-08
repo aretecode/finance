@@ -2,7 +2,7 @@ noflo = require 'noflo'
 _ = require 'underscore'
 moment = require 'moment'
 validateId = require 'uuid-validate'
-{ExtendedComponent} = require './../src/Finance.coffee'
+{ExtendedComponent} = require '../src/Finance.coffee'
 
 currencies = JSON.parse('{
   "AED": "United Arab Emirates Dirham",

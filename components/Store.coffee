@@ -3,7 +3,7 @@ noflo = require 'noflo'
 moment = require 'moment'
 {_} = require 'underscore'
 {Database} = require './Database.coffee'
-util = require './../src/Finance.coffee'
+util = require '../src/Finance.coffee'
 
 class Store extends Database
   description: 'Store the data.'

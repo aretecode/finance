@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 moment = require 'moment'
-finance = require './../src/Finance.coffee'
+finance = require '../src/Finance.coffee'
 
 class AlphaOmegaEntries extends finance.ExtendedComponent
   description: 'Earliest & latest dates'

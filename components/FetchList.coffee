@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 {_} = require 'underscore'
 {Database} = require './Database.coffee'
-util = require('./../src/Finance.coffee')
+util = require('../src/Finance.coffee')
 
 class FetchList extends Database
   description: 'Fetch the list of finance operations.'

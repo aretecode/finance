@@ -2,7 +2,7 @@ uuid = require 'uuid'
 noflo = require 'noflo'
 {_} = require 'underscore'
 {Database} = require './Database.coffee'
-util = require './../src/Finance.coffee'
+util = require '../src/Finance.coffee'
 
 class StoreUpdate extends Database
   description: 'Store the Updated the data.'

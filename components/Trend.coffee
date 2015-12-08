@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-finance = require './../src/Finance.coffee'
+finance = require '../src/Finance.coffee'
 
 exports.getComponent = ->
   c = new finance.ExtendedComponent()

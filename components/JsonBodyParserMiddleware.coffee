@@ -1,5 +1,5 @@
 bodyParser = require 'body-parser'
-{ExtendedComponent} = require './../src/Finance.coffee'
+{ExtendedComponent} = require '../src/Finance.coffee'
 
 exports.getComponent = ->
   c = new ExtendedComponent
@@ -12,8 +12,7 @@ exports.getComponent = ->
   , (app) ->
     try
       app.use bodyParser.json(type: 'application/json')
-      c.outPorts.app.send app
-      c.outPorts.app.disconnect()
+      c.outPorts.app.sendThenDisc app
     catch e
       return c.error new Error "Could not setup server: #{e.message}"
 

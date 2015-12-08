@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 moment = require 'moment'
 {_} = require 'underscore'
-finance = require './../src/Finance.coffee'
+finance = require '../src/Finance.coffee'
 
 class BalanceTrend extends finance.ExtendedComponent
   description: 'Balance trending by month'

@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 passport = require 'passport'
 Strategy = require('passport-http-bearer').Strategy
-{ExtendedComponent} = require './../src/Finance.coffee'
+{ExtendedComponent} = require '../src/Finance.coffee'
 
 exports.getComponent = ->
   c = new ExtendedComponent
