@@ -84,6 +84,7 @@
 * [ ] add Morgan as Middleware to log
 * [x] send things after tags are all saved (@see components/Store)
 * [ ] improve query to save if not exists (use Raw) (@see components/Store)
+* [x] select only required columns
 * [x] Filter null instead of returning in the map in FetchList
 * [x] TODOS in non noflo `personal-finance-tracker` (moved here)
 * [ ]

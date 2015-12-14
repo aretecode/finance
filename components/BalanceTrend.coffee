@@ -43,7 +43,7 @@ class BalanceTrend extends finance.ExtendedComponent
 
       # select only amount & currency
       findBetweenMonths = (type, cb) =>
-        query = @pg('finance_op').select()
+        query = @pg('finance_op').select('id', 'amount', 'currency')
         .whereRaw('"finance_op".created_at::DATE <= \'' +l+ '\'::DATE')
         .andWhereRaw('"finance_op".created_at::DATE >= \'' +e+ '\'::DATE')
         .andWhere('type', type)
