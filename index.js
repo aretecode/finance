@@ -9,13 +9,7 @@
     return false;
   };
 
-  options =
-  {
-    debug: true,
-    baseDir: process.cwd()
-  }
-
-  noflo.loadFile('graphs/main.json', options, function(network) {
+  noflo.loadFile('graphs/req.json', process.cwd(), function(network) {
     var net;
     return net = network;
   });

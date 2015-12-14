@@ -1,5 +1,5 @@
 http = require 'http'
-finance = require '../src/Finance.coffee'
+finance = require './../src/Finance.coffee'
 
 exports.getComponent = ->
   c = new finance.ExtendedComponent
@@ -7,7 +7,7 @@ exports.getComponent = ->
   c.icon = 'cloud'
 
   c.addInOnData 'in', (payload) ->
-    port = (process.env.PORT or 5023)
+    port = (process.env.PORT||5023)
     c.sendThenDisc port
 
   c.outPorts.add 'out', datatype: 'integer'
