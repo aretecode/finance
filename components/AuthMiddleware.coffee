@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 passport = require 'passport'
 Strategy = require('passport-http-bearer').Strategy
 {ExtendedComponent} = require './../src/Finance.coffee'
@@ -45,8 +44,8 @@ exports.getComponent = ->
       app.all '*', passport.authenticate('bearer', session: false), (req, res, next) ->
         next()
 
-      c.sendThenDisconnect app
+      c.sendThenDisc app
     catch e
-      return c.error new Error "Could not setup server: #{e.message}"
+      return c.error new Error "Could not setup (Auth) server: #{e.message}"
 
   c

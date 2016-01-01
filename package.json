@@ -1,6 +1,6 @@
 {
   "name": "finance",
-  "version": "0.2.162",
+  "version": "0.2.165",
   "repository": {
     "type": "git",
     "url": "git://github.com/aretecode/finance.git"
@@ -13,9 +13,11 @@
   "dependencies": {
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
+    "bunyan": "^1.5.1",
     "cli-color": "~1.1.0",
     "coffee-cache": "1.0.2",
     "coffee-script": "1.10.0",
+    "cors": "^2.7.1",
     "express": "^4.13.3",
     "flowhub-registry": "0.0.3",
     "knex": "~0.9.0",
@@ -44,7 +46,7 @@
     "mocha": "~2.3.4"
   },
   "scripts": {
-    "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/all.json --trace --debug=true --register=false",
+    "startmain": "./node_modules/.bin/noflo-nodejs --graph graphs/main.json --trace --debug=true --register=false",
     "postinstall_": "coffee createdb.coffee",
     "gtest": "grunt test",
     "start": "./node_modules/.bin/noflo-nodejs --trace --debug",
@@ -67,7 +69,9 @@
       "Reports": "components/Reports.coffee",
       "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee",
       "JsonBodyParserMiddleware": "components/JsonBodyParserMiddleware.coffee",
-      "PrepareServer": "components/PrepareServer.coffee"
+      "PrepareServer": "components/PrepareServer.coffee",
+      "CORSMiddleware": "components/CORSMiddleware.coffee",
+      "BunyanLog": "components/BunyanLog.coffee"
     }
   }
 }

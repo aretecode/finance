@@ -1,5 +1,3 @@
-noflo = require 'noflo'
-{_} = require 'underscore'
 {Database} = require './Database.coffee'
 util = require('./../src/Finance.coffee')
 
@@ -30,14 +28,11 @@ class FetchList extends Database
             success: rows.rows.length isnt 0
             data: rows.rows
             req: data
-          @pg.destroy()
         .catch (e) =>
           @error
             error: e
             data: data
             component: 'FetchList'
-          @pg.destroy()
-
         return
 
       else if data.query? and data.query.date?
@@ -64,8 +59,6 @@ class FetchList extends Database
             error: e
             data: data
             component: 'FetchList'
-          @pg.destroy()
-
         return
 
       @pg('finance_op').select().where('type', @type).then (row) => row
@@ -78,12 +71,10 @@ class FetchList extends Database
           success: rows.length isnt 0
           data: rows
           req: data
-        @pg.destroy()
       .catch (e) =>
         @error
           error: e
           data: data
           component: 'FetchList'
-        @pg.destroy()
 
 exports.getComponent = -> new FetchList

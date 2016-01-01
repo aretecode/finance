@@ -1,11 +1,28 @@
-noflo = require 'noflo'
+finance = require './../src/Finance.coffee'
 
-class Res extends noflo.Component
+# @TODO: move this
+formattedReq = (data) ->
+  req = data.req or data
+
+  error: data.error
+  data: data.data
+  component: 'FetchList'
+  reqData:
+    url: req.url
+    route: req.route
+    xhr: req.xhr
+    method: req.method
+    req: req
+    params: req.params
+    query: req.query
+    body: req.body
+
+class Res extends finance.ExtendedComponent
   description: 'Send a Response.'
   icon: 'send'
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       created:
         datatype: 'object'
       updated:
@@ -21,8 +38,10 @@ class Res extends noflo.Component
       error:
         datatype: 'object'
 
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       error:
+        datatype: 'object'
+      log:
         datatype: 'object'
 
     sendRes = (data, passCode, passMsg, failCode, failMsg) =>
@@ -31,8 +50,7 @@ class Res extends noflo.Component
       else if data.req?
         res = data.req.res
       else
-        throw new Error(data)
-        return
+        return throw new Error(data)
 
       if data.success is true
         res.status(passCode).json
@@ -56,7 +74,12 @@ class Res extends noflo.Component
     @inPorts.trend.on 'data', (data) =>
       sendRes data, 200, 'found', 404, 'not found'
     @inPorts.error.on 'data', (data) =>
-      console.log data
-      sendRes data, 500, 'server error',  500, 'server error'
+      @sendThenDisc 'error', formattedReq(data)
+      sendRes data.data, 500, 'server error',  500, 'server error'
+
+  shutdown = ->
+    @started = false
+    finance.getConnection().destroy()
+    throw new Error('res shutdown... shut down / destroy connection')
 
 exports.getComponent = -> new Res

@@ -1,5 +1,3 @@
-noflo = require 'noflo'
-_ = require 'underscore'
 moment = require 'moment'
 validateId = require 'uuid-validate'
 {ExtendedComponent} = require './../src/Finance.coffee'
@@ -185,7 +183,7 @@ class Validate extends ExtendedComponent
   icon: 'filter'
 
   currency: (currency) ->
-    unless _.isString(currency) and _.contains Object.keys(currencies), currency.toUpperCase()
+    unless typeof(currency) is 'string' and Object.keys(currencies).indexOf(currency.toUpperCase()) > -1
       @errors.push
         key: 'currency'
         error: "currency `#{currency}` was not a valid currency."
@@ -203,7 +201,8 @@ class Validate extends ExtendedComponent
         error: "datePart `#{part}`is not at least 0."
 
   date: (dateAndOrTime) ->
-    return if _.isFinite dateAndOrTime
+    return if isFinite dateAndOrTime
+
     try
       d = new Date(dateAndOrTime)
     catch e
@@ -219,7 +218,7 @@ class Validate extends ExtendedComponent
   descriptions: (descriptions) -> #xss?
 
   tags: (tags) ->
-    unless _.isArray(tags) or _.isString(tags)
+    unless Array.isArray(tags) or typeof tags is 'string'
       @errors.push
         key: 'tags'
         error: "tags `#{tags}` were not valid"
@@ -231,12 +230,12 @@ class Validate extends ExtendedComponent
         error: "id `#{id}` is not a valid id"
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       in:
         datatype: 'object'
         description: 'Object being Validated'
 
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       out:
         datatype: 'object'
         required: true
@@ -248,7 +247,6 @@ class Validate extends ExtendedComponent
     @inPorts.in.on 'data', (data) =>
       @errors = []
 
-      # _.isObject(data.query)
       # @TODO: error if it doesn't have .id
       # if its params, it should be the only one
       # if it uses * (such as in list) params has a 0 key
@@ -258,36 +256,35 @@ class Validate extends ExtendedComponent
 
       # if its a query, that means date or tag
       if Object.keys(data.query).length > 0
-        query = data.query
+        q = data.query
 
-        if query.month? and query.year?
-          @datePart query.month
-          @datePart query.year
-        else if query.date?
-          @date query.date
-        else if query.start?
-          @date query.start
-          @date query.end
-        else if query.tags?
-          @tags query.tags
-        else if query.tag?
-          @tags query.tag
+        if q.month? and q.year?
+          @datePart q.month
+          @datePart q.year
+        else if q.date?
+          @date q.date
+        else if q.start?
+          @date q.start
+          @date q.end
+        else if q.tags?
+          @tags q.tags
+        else if q.tag?
+          @tags q.tag
         else
           @errors.push
             key: 'query'
-            error: "query `#{query}` did not contain supported media-types"
+            error: "query `#{q}` did not contain supported media-types"
             data: data
 
       if Object.keys(data.body).length > 0
-        body = data.body
-        @amount body.amount
-        @currency body.currency
-        @date body.created_at if body.created_at?
-        @descriptions body.descriptions if body.descriptions?
-        @tags body.tags if body.tags?
+        b = data.body
+        @amount b.amount
+        @currency b.currency
+        @date b.created_at if b.created_at?
+        @descriptions b.descriptions if b.descriptions?
+        @tags b.tags if b.tags?
 
-        # IF IT IS UPDATE, IT REQUIRES ID... check the req.path.contains?
-        @idv body.id if body.id?
+        @idv b.id if b.id? or data.method is 'PUT'
 
       if @errors.length > 0
         @error

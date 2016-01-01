@@ -76,6 +76,10 @@
 * [x] download flowhub graphs and run them in noflo
 * [ ] convert raw queries to knexjs
 * [x] change test order so it doesn't have to be run three times
+* [ ] use .locals in ExpressJS?
+* [ ] Logging
+* [ ] Route erorr reqyest through Log
+* [ ] put noflo exports in FinanceExports? Split src/ into a diff repo?
 
 # After
 * [ ] pass in connection to an inPort (@see components/Database)

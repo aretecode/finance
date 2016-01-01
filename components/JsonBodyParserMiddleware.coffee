@@ -12,10 +12,9 @@ exports.getComponent = ->
   , (app) ->
     try
       app.use bodyParser.json(type: 'application/json')
-      c.outPorts.app.send app
-      c.outPorts.app.disconnect()
+      c.sendThenDisc app
     catch e
-      return c.error new Error "Could not setup server: #{e.message}"
+      return c.error new Error "Could not setup (JSON Body Parser) server: #{e.message}"
 
   c.outPorts.add 'app',
     datatype: 'object'

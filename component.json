@@ -1,7 +1,7 @@
 {
   "name": "finance",
   "repo": "aretecode/finance",
-  "version": "0.2.162",
+  "version": "0.2.165",
   "dependencies": {
     "noflo/noflo": "*",
     "noflo/noflo-dom": "*",
@@ -12,7 +12,7 @@
     "noflo/noflo-math": "0.0.6",
     "noflo/noflo-nodejs": "^0.5.2",
     "noflo/noflo-tester": "0.0.2",
-    "noflo/noflo-xpress": "^0.2.0"
+    "noflo/noflo-xpress": "^0.2.1"
   },
   "remotes": [
     "https://raw.githubusercontent.com"
@@ -42,6 +42,8 @@
       "Reports": "components/Reports.coffee",
       "AlphaOmegaEntries": "components/AlphaOmegaEntries.coffee",
       "JsonBodyParserMiddleware": "components/JsonBodyParserMiddleware.coffee",
-      "PrepareServer": "components/PrepareServer.coffee"
+      "PrepareServer": "components/PrepareServer.coffee",
+      "CORSMiddleware": "components/CORSMiddleware.coffee",
+      "BunyanLog": "components/BunyanLog.coffee"
     }
   }

@@ -1,6 +1,4 @@
-noflo = require 'noflo'
 moment = require 'moment'
-{_} = require 'underscore'
 finance = require './../src/Finance.coffee'
 
 class Report
@@ -11,7 +9,7 @@ class Reports extends finance.ExtendedComponent
   icon: 'report'
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       in:
         datatype: 'all'
         required: true
@@ -20,7 +18,7 @@ class Reports extends finance.ExtendedComponent
       # reports:
       # datatype: 'array'
 
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       out:
         datatype: 'object'
         required: true
@@ -31,8 +29,8 @@ class Reports extends finance.ExtendedComponent
     # @inPorts.reports.on 'data', (@reports) =>
 
     @inPorts.in.on 'data', (data) =>
-      reports = @reports||[]
-      balance = @balance||0
+      reports = @reports or []
+      balance = @balance or 0
       range = data.range
       incomes = data.incomes
       expenses = data.expenses
@@ -48,7 +46,7 @@ class Reports extends finance.ExtendedComponent
         return
 
       yearAndMonthFilter = (item, month) =>
-        item.created_at = moment(item.created_at)
+        item.created_at = moment item.created_at
         m = (item.created_at.month()+1)
         y = item.created_at.year()
         return if y is year and m is month then true else false

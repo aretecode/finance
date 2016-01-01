@@ -1,7 +1,5 @@
 uuid = require 'uuid'
-noflo = require 'noflo'
 moment = require 'moment'
-{_} = require 'underscore'
 {Database} = require './Database.coffee'
 util = require './../src/Finance.coffee'
 
@@ -12,16 +10,16 @@ class Store extends Database
     super()
     @inPorts.in.on 'data', (data) =>
       @setPg()
-      body = data.body
+      b = data.body
       store =
-        currency: body.currency
-        amount: body.amount
-        description: body.description
+        currency: b.currency
+        amount: b.amount
+        description: b.description
         type: @type
-      store.id = if body.id? then body.id else uuid.v4()
+      store.id = if b.id? then b.id else uuid.v4()
 
-      store.created_at = util.dateFrom body.created_at
-      tags = util.uniqArrFrom body.tags
+      store.created_at = util.dateFrom b.created_at
+      tags = util.uniqArrFrom b.tags
 
       @pg.insert(store).into('finance_op').then (rows) =>
         for tag in tags
@@ -30,19 +28,18 @@ class Store extends Database
             tag: tag
             id: store.id
 
-        stored = _.clone store
-        stored.tags = tags
+        store.tags = tags
         @sendThenDisc
           success: rows.rowCount is 1
-          data: stored
+          data: store
           req: data
 
       .catch (e) =>
         if e.code is 23505
           @sendThenDisc
             success: 'duplicate'
-            data: body
-            stored: stored
+            data: b
+            stored: store
             req: data
         else
           @error
@@ -61,7 +58,7 @@ class Store extends Database
           .andWhere(tag: tag.tag)
         )
         .then (tag) =>
-          cb tag if _.isFunction cb
+          cb tag if typeof cb is 'function'
         .catch (e) =>
           @error e
 

@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 {Database} = require './Database.coffee'
 
 class Fetch extends Database
@@ -35,12 +34,10 @@ class Fetch extends Database
             success: true
             data: rows.rows[0]
             req: data
-        @pg.destroy()
       .catch (e) =>
         @error
           error: e
           data: data
           component: 'fetch'
-        @pg.destroy()
 
 exports.getComponent = -> new Fetch

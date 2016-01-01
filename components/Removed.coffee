@@ -17,14 +17,10 @@ class Removed extends Database
               deleted: result
               tagsDeleted: result
             req: data
-            con: @pg
-          @pg.destroy()
       .catch (e) =>
-        console.log 'was an error...'
         @error
           error: e
-          con: @pg
           req: data
           component: 'Removed'
-        @pg.destroy()
+
 exports.getComponent = -> new Removed

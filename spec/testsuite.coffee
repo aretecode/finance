@@ -57,7 +57,7 @@ expectAllProperties = (data, properties) ->
 optionsFrom = (method, path) ->
   options =
     hostname: 'localhost'
-    port: 4011
+    port: 5023
     path: path
     method: method
     headers:
@@ -70,7 +70,7 @@ jsonOptions = (method, path, body) ->
 
   options =
     hostname: 'localhost'
-    port: 4011
+    port: 5023
     path: path
     method: method
     headers:

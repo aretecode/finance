@@ -1,6 +1,4 @@
-noflo = require 'noflo'
 moment = require 'moment'
-{_} = require 'underscore'
 finance = require './../src/Finance.coffee'
 
 class BalanceTrend extends finance.ExtendedComponent
@@ -8,13 +6,13 @@ class BalanceTrend extends finance.ExtendedComponent
   icon: 'scale'
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       in:
         datatype: 'object'
         required: true
       range:
         datatype: 'object'
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       out:
         datatype: 'object'
         required: true
@@ -41,7 +39,6 @@ class BalanceTrend extends finance.ExtendedComponent
           endMonth: latest.getMonth()+1
           endYear: latest.getFullYear()
 
-      # select only amount & currency
       findBetweenMonths = (type, cb) =>
         query = @pg('finance_op').select('id', 'amount', 'currency')
         .whereRaw('"finance_op".created_at::DATE <= \'' +l+ '\'::DATE')
@@ -60,7 +57,6 @@ class BalanceTrend extends finance.ExtendedComponent
           @error
             error: e
             component: 'BalanceTrend'
-          @pg.destroy()
 
       findBetweenMonths 'income', (incomes) =>
         findBetweenMonths 'expense', (expenses) =>
@@ -69,6 +65,5 @@ class BalanceTrend extends finance.ExtendedComponent
             range: @range
             incomes: incomes
             expenses: expenses
-          @pg.destroy()
 
 exports.getComponent = -> new BalanceTrend

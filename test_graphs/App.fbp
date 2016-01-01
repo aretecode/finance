@@ -1,8 +1,11 @@
 # Adding the app server
-'4011' -> PORT Server(xpress/Server)
-Server APP -> APP AuthMiddle(finance/AuthMiddleware)
+'start' -> IN PrepareServer(finance/PrepareServer)
+PrepareServer OUT -> PORT Server(xpress/Server)
+Server APP -> APP CORSMiddleware(finance/CORSMiddleware)
+CORSMiddleware APP -> APP AuthMiddle(finance/AuthMiddleware)
 AuthMiddle APP -> APP JsonMiddleware(finance/JsonBodyParserMiddleware)
 JsonMiddleware APP -> APP Router(xpress/Router)
+
 
 # Routing
 'post /api/expenses' -> PATTERN[0] Router
@@ -232,3 +235,10 @@ IncomeListRes ERROR -> IN Logger
 
 Server ERROR -> IN Logger
 Router ERROR -> IN Logger
+
+
+IncomeCreateRes ERROR -> IN ResLogger(finance/BunyanLog)
+IncomeRetrieveRes ERROR -> IN ResLogger(finance/BunyanLog)
+IncomeDeletedRes ERROR -> IN ResLogger(finance/BunyanLog)
+IncomeUpdateRes ERROR -> IN ResLogger(finance/BunyanLog)
+IncomeListRes ERROR -> IN ResLogger(finance/BunyanLog)

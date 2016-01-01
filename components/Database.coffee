@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 finance = require './../src/Finance.coffee'
 
 class Database extends finance.ExtendedComponent
@@ -8,7 +7,7 @@ class Database extends finance.ExtendedComponent
     @pg = finance.getConnection()
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       in:
         datatype: 'object'
         description: 'Object being Stored'
@@ -20,7 +19,7 @@ class Database extends finance.ExtendedComponent
         datatype: 'object'
         description: 'Postgres knex database connection'
 
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       out:
         datatype: 'object'
       error:

@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 finance = require './../src/Finance.coffee'
 
 exports.getComponent = ->
