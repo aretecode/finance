@@ -17,16 +17,15 @@ class Store extends Database
         description: b.description
         type: @type
       store.id = if b.id? then b.id else uuid.v4()
-
       store.created_at = util.dateFrom b.created_at
-      tags = util.uniqArrFrom b.tags
 
       @pg.insert(store).into('finance_op').then (rows) =>
-        for tag in tags
-          # when it is last one, @pg.destroy()
-          saveTag
-            tag: tag
-            id: store.id
+        tags = if b.tags? then util.uniqArrFrom(b.tags) else null
+        if tags?
+          for tag in tags
+            saveTag
+              tag: tag
+              id: store.id
 
         store.tags = tags
         @sendThenDisc

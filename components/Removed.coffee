@@ -9,13 +9,13 @@ class Removed extends Database
     @inPorts.in.on 'data', (data) =>
       @setPg()
       hasId = id: data.params.id
-      @pg('finance_op').where(hasId).del().then (result) =>
-        @pg('tags').where(hasId).del().then (tagResult) =>
+      @pg('tags').where(hasId).del().then (tagResult) =>
+        @pg('finance_op').where(hasId).del().then (result) =>
           @sendThenDisc
             success: result is 1
             data:
               deleted: result
-              tagsDeleted: result
+              tagsDeleted: tagResult
             req: data
       .catch (e) =>
         @error

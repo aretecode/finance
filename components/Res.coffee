@@ -12,10 +12,10 @@ formattedReq = (data) ->
     route: req.route
     xhr: req.xhr
     method: req.method
-    req: req
     params: req.params
     query: req.query
     body: req.body
+    uuid: req.uuid
 
 class Res extends finance.ExtendedComponent
   description: 'Send a Response.'
@@ -40,8 +40,6 @@ class Res extends finance.ExtendedComponent
 
     @setOutPorts
       error:
-        datatype: 'object'
-      log:
         datatype: 'object'
 
     sendRes = (data, passCode, passMsg, failCode, failMsg) =>
@@ -75,7 +73,7 @@ class Res extends finance.ExtendedComponent
       sendRes data, 200, 'found', 404, 'not found'
     @inPorts.error.on 'data', (data) =>
       @sendThenDisc 'error', formattedReq(data)
-      sendRes data.data, 500, 'server error',  500, 'server error'
+      sendRes (data.data or data), 500, 'server error',  500, 'server error'
 
   shutdown = ->
     @started = false

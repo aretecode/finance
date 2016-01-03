@@ -22,41 +22,51 @@ class StoreUpdate extends Database
       updated = require('util')._extend({}, update)
       updated.tags = b.tags
 
-      @pg('finance_op')
-      .where(hasId)
-      .update(update)
-      .then (rows) =>
-        # we have no tags, send it out
-        unless b.tags?
+      updateOperation = (tagDeletionResult) =>
+        @pg('finance_op')
+        .where(hasId)
+        .update(update)
+        .then (rows) =>
+          # we have no tags, send it out
           @sendThenDisc
-            success: rows.length is 1
-            body: updated
+            success: true
+            data: updated
             req: data
+        .catch (e) =>
+          @error
+            error: e
+            data: updated
+            component: 'StoreUpdate'
+            message: 'could not update!'
+           req: data
 
-        tags = util.uniqArrFrom b.tags
-        @pg('tags').where(hasId).del().then (deleted) =>
-          saveTag = (tag, cb) =>
-            @pg
-            .insert(tag)
-            .into('tags')
-            .then (tag) =>
-              cb tag if cb instanceof Function
-          for tag in tags
-            # only want to call cb on the last one
-            if tag is tags[tags.length-1]
-              cb = (result) =>
-                @sendThenDisc
-                  success: true
-                  data: updated
-                  req: data
-            saveTag
-              tag: tag
-              id: update.id
-            , cb or null
+      tags = if b.tags? then util.uniqArrFrom(b.tags) else null
+
+      # if we have no tags, just do the update,
+      # otherwise do the tags and then the main update
+      unless tags?
+        return updateOperation()
+
+      @pg('tags').where(hasId).del().then (deleted) =>
+        saveTag = (tag, cb) =>
+          @pg
+          .insert(tag)
+          .into('tags')
+          .then (tag) =>
+            cb(tag) if typeof cb is 'function'
+        for tag in tags
+          # only want to call cb on the last one
+          if tag is tags[tags.length-1]
+            cb = updateOperation
+          saveTag
+            tag: tag
+            id: update.id
+          , cb or null
+
       .catch (e) =>
         @error
           error: e
-          data: data
+          data: updated
           component: 'StoreUpdate'
           message: 'could not update!'
           req: data

@@ -70,7 +70,7 @@ class Reports extends finance.ExtendedComponent
           reports.push new Report(month,
             year, monthIncomes, monthExpenses, balance)
 
-      @sendThenDisconnect
+      @sendThenDisc
         success: true
         data: reports
         req: data.req

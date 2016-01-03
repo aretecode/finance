@@ -291,6 +291,6 @@ class Validate extends ExtendedComponent
           errors: @errors
           req: data
       else
-        @sendThenDiscon data
+        @sendThenDisc data
 
 exports.getComponent = -> new Validate

@@ -1,0 +1,677 @@
+{
+    "properties": {
+        "name": "Expenses",
+        "project": "aretecode_finance",
+        "id": "aretecode_finance/Expenses",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true,
+        "icon": ""
+    },
+    "inports": {
+        "expense_create": {
+            "process": "ExpenseCreateValidate",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -1224,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "expense_update": {
+            "process": "ExpenseUpdate",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "expense_list": {
+            "process": "ExpenseList",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "expense_delete": {
+            "process": "ExpenseDelete",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "expense_retrieve": {
+            "process": "ExpenseRetrieve",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "ExpenseStore": {
+            "component": "finance/Store",
+            "metadata": {
+                "label": "ExpenseStore",
+                "x": 360,
+                "y": -1332,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseCreateRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "ExpenseCreateRes",
+                "x": 504,
+                "y": -1368,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseCreateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpenseCreateValidate",
+                "x": 216,
+                "y": -1224,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Log": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -1296,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseUpdate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpenseUpdate",
+                "x": 216,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseRetrieve": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpenseRetrieve",
+                "x": 216,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseDelete": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpenseDelete",
+                "x": 216,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseList": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpenseList",
+                "x": 216,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseStoreUpdate": {
+            "component": "finance/StoreUpdate",
+            "metadata": {
+                "label": "ExpenseStoreUpdate",
+                "x": 360,
+                "y": -1152,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_cuqyj": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_qw6pm": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "ExpenseCreateRes",
+                "x": 504,
+                "y": -1188,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseFetchList": {
+            "component": "aretecode_finance/FetchList",
+            "metadata": {
+                "label": "ExpenseFetchList",
+                "x": 360,
+                "y": -720,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_mv5gy": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseRetrieveRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "ExpenseRetrieveRes",
+                "x": 504,
+                "y": -972,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseFetch": {
+            "component": "finance/Fetch",
+            "metadata": {
+                "label": "ExpenseFetch",
+                "x": 360,
+                "y": -1008,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpenseRemoved": {
+            "component": "finance/Removed",
+            "metadata": {
+                "label": "ExpenseRemoved",
+                "x": 360,
+                "y": -864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_6pd1h": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_59n8v": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "ExpenseRetrieveRes",
+                "x": 504,
+                "y": -828,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_ra9qy": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "ExpenseRetrieveRes",
+                "x": 504,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_ng2yg": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -612,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_89wtj": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 216,
+                "y": -1404,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "ExpenseCreateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseStore",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseStore",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseCreateRes",
+                "port": "created"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseCreateValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseStore",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseCreateRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseStoreUpdate",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseStoreUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_qw6pm",
+                "port": "updated"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_qw6pm",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseStoreUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseRetrieveRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_mv5gy",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseRetrieve",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseFetch",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseFetch",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseRetrieveRes",
+                "port": "retrieved"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseDelete",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseRemoved",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseRemoved",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "deleted"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_6pd1h",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseFetchList",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseFetchList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "retrieved"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_ng2yg",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseFetchList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseRemoved",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseDelete",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseFetch",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ExpenseRetrieveRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpenseRetrieve",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "ExpenseRetrieveRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseStore",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseStoreUpdate",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseFetch",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseRemoved",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "ExpenseFetchList",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "data": "expense",
+            "tgt": {
+                "process": "core/Repeat_89wtj",
+                "port": "in"
+            }
+        }
+    ]
+}

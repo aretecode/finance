@@ -106,6 +106,38 @@ describe 'App (AllNew)', ->
       expect(body.id).to.equal id
       done()
 
+  it 'should create, update, delete -- without tags', (done) ->
+    tempId = uuid.v4()
+
+    createBody =
+      currency: 'cad'
+      amount: 100
+      created_at: Date.now()
+      description: 'example-description'
+      type: 'expense'
+      id: tempId
+
+    updateBody =
+      currency: 'nzd'
+      amount: 70
+      created_at: Date.now()
+      description: 'updated-example-description'
+      type: 'expense'
+      id: tempId
+
+    createString = JSON.stringify createBody
+    createOptions = suite.jsonOptions 'POST', '/api/expenses', createBody
+
+    updateString = JSON.stringify updateBody
+    updateOptions = suite.jsonOptions 'PUT', '/api/expenses', updateBody
+    deleteOptions = suite.optionsFrom 'DELETE', '/api/expenses/' + tempId
+
+    suite.jsonReq 201, createOptions, createString, done, (message, body) ->
+      suite.jsonReq 200, updateOptions, updateString, done, (message, body) ->
+        suite.req 200, deleteOptions, done, (message, body) ->
+          expect(message).to.equal 'deleted'
+          done()
+
   it 'should test all component tests', (done) ->
     require './TestComponentServerPrepare.coffee'
     require './TestExtendedComponent.coffee'
@@ -124,6 +156,7 @@ describe 'App (AllNew)', ->
     require './TestComponentRemoved.coffee'
 
     done()
+
   it 'should list using GET', (done) ->
     options = suite.optionsFrom 'GET', '/api/expenses'
 

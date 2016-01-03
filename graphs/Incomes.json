@@ -1,0 +1,677 @@
+{
+    "properties": {
+        "name": "Incomes",
+        "project": "aretecode_finance",
+        "id": "aretecode_finance/Incomes",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true,
+        "icon": ""
+    },
+    "inports": {
+        "income_create": {
+            "process": "IncomeCreateValidate",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -1224,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "income_update": {
+            "process": "IncomeUpdate",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "income_list": {
+            "process": "IncomeList",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "income_delete": {
+            "process": "IncomeDelete",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "income_retrieve": {
+            "process": "IncomeRetrieve",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "IncomeStore": {
+            "component": "finance/Store",
+            "metadata": {
+                "label": "IncomeStore",
+                "x": 360,
+                "y": -1332,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeCreateRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "IncomeCreateRes",
+                "x": 504,
+                "y": -1368,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeCreateValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "IncomeCreateValidate",
+                "x": 216,
+                "y": -1224,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Log": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -1296,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeUpdate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "IncomeUpdate",
+                "x": 216,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeRetrieve": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "IncomeRetrieve",
+                "x": 216,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeDelete": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "IncomeDelete",
+                "x": 216,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeList": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "IncomeList",
+                "x": 216,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeStoreUpdate": {
+            "component": "finance/StoreUpdate",
+            "metadata": {
+                "label": "IncomeStoreUpdate",
+                "x": 360,
+                "y": -1152,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_cuqyj": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -1080,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_qw6pm": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "IncomeCreateRes",
+                "x": 504,
+                "y": -1188,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeFetchList": {
+            "component": "aretecode_finance/FetchList",
+            "metadata": {
+                "label": "IncomeFetchList",
+                "x": 360,
+                "y": -720,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_mv5gy": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeRetrieveRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "IncomeRetrieveRes",
+                "x": 504,
+                "y": -972,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeFetch": {
+            "component": "finance/Fetch",
+            "metadata": {
+                "label": "IncomeFetch",
+                "x": 360,
+                "y": -1008,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "IncomeRemoved": {
+            "component": "finance/Removed",
+            "metadata": {
+                "label": "IncomeRemoved",
+                "x": 360,
+                "y": -864,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_6pd1h": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -792,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_59n8v": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "IncomeRetrieveRes",
+                "x": 504,
+                "y": -828,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_ra9qy": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "IncomeRetrieveRes",
+                "x": 504,
+                "y": -648,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_ng2yg": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -612,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "core/Repeat_89wtj": {
+            "component": "core/Repeat",
+            "metadata": {
+                "label": "core/Repeat",
+                "x": 216,
+                "y": -1404,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "IncomeCreateValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStore",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStore",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeCreateRes",
+                "port": "created"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeCreateValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStore",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeCreateRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStoreUpdate",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStoreUpdate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_qw6pm",
+                "port": "updated"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_qw6pm",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeStoreUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeUpdate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_cuqyj",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieveRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_mv5gy",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieve",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetch",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetch",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveRes",
+                "port": "retrieved"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeDelete",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRemoved",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRemoved",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "deleted"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_6pd1h",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetchList",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetchList",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "retrieved"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_ng2yg",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetchList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeList",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_ra9qy",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRemoved",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeDelete",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_59n8v",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeFetch",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "IncomeRetrieve",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "IncomeRetrieveRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStore",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeStoreUpdate",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetch",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeRemoved",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "IncomeFetchList",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "data": "income",
+            "tgt": {
+                "process": "core/Repeat_89wtj",
+                "port": "in"
+            }
+        }
+    ]
+}

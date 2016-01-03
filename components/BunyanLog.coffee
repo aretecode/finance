@@ -7,10 +7,12 @@ exports.getComponent = ->
       in:
         datatype: 'object'
         description: 'Data to log'
+      level:
+        datatype: 'string'
+        description: 'enum: debug, info, fatal, error, warn, trace'
     outPorts:
       error:
         datatype: 'object'
-
 
   c.log = bunyan.createLogger
     name: 'finance'
@@ -19,8 +21,15 @@ exports.getComponent = ->
       path: '/var/tmp/financeinfo.json'
     ]
 
+  c.addInOnData 'in', (level) ->
+    c.level = level
+
   c.addInOnData 'in', (data) ->
-    c.log.debug(data)
+    if c.level?
+      c.log[c.level](data)
+    else
+      c.log.debug(data)
+
     c.sendIfConnected data
 
   c
