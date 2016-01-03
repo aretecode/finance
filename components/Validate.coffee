@@ -176,7 +176,7 @@ currencies = JSON.parse('{
   "ZWL": "Zimbabwean Dollar"
 }')
 
-# 422 - ujnprocessable entity
+# 422 - unprocessable entity
 # 415 - unsupported media type
 class Validate extends ExtendedComponent
   description: 'Validate income from xpress request.'

@@ -27,6 +27,8 @@ exports.getComponent = ->
   c.addInOnData 'in', (data) ->
     if c.level?
       c.log[c.level](data)
+    else if data.level?
+      c.log[data.level](data)
     else
       c.log.debug(data)
 

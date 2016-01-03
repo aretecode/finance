@@ -1,0 +1,296 @@
+{
+    "properties": {
+        "name": "TrendReports",
+        "project": "aretecode_finance",
+        "id": "aretecode_finance/Reports",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true,
+        "icon": ""
+    },
+    "inports": {
+        "in": {
+            "process": "ReportsValidate",
+            "port": "in",
+            "metadata": {
+                "x": 252,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "ReportsValidate": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ReportsValidate",
+                "x": 396,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Trend": {
+            "component": "finance/Trend",
+            "metadata": {
+                "label": "Trend",
+                "x": 540,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "AlphaOmegaEntries": {
+            "component": "finance/AlphaOmegaEntries",
+            "metadata": {
+                "label": "AlphaOmegaEntries",
+                "x": 648,
+                "y": 72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "TrendRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "TrendRes",
+                "x": 1080,
+                "y": 396,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Log": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 1224,
+                "y": 396,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "BalanceTrend": {
+            "component": "finance/BalanceTrend",
+            "metadata": {
+                "label": "BalanceTrend",
+                "x": 936,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Reports": {
+            "component": "finance/Reports",
+            "metadata": {
+                "label": "Reports",
+                "x": 792,
+                "y": 216,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_2fnup": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "TrendRes",
+                "x": 828,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_xxh04": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 936,
+                "y": 36,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/Res_97p6l": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "TrendRes",
+                "x": 540,
+                "y": 360,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_44wrz": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": 360,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "ReportsValidate",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Trend",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withoutrange"
+            },
+            "tgt": {
+                "process": "AlphaOmegaEntries",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 6
+            }
+        },
+        {
+            "src": {
+                "process": "AlphaOmegaEntries",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Reports",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "Reports",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "BalanceTrend",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "TrendRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "BalanceTrend",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "TrendRes",
+                "port": "trend"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "TrendRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "Log",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "Trend",
+                "port": "withrange"
+            },
+            "tgt": {
+                "process": "Reports",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "AlphaOmegaEntries",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_2fnup",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_2fnup",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_xxh04",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ReportsValidate",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/Res_97p6l",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "finance/Res_97p6l",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_44wrz",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        }
+    ]
+}

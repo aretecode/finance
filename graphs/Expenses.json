@@ -7,7 +7,8 @@
             "type": "noflo-nodejs"
         },
         "changed": true,
-        "icon": ""
+        "icon": "",
+        "sha": "fc179ab1b43d0a608b4446e7c7c6716af90496d9"
     },
     "inports": {
         "expense_create": {
@@ -56,6 +57,16 @@
             "metadata": {
                 "x": 72,
                 "y": -936,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "expenses_monthly": {
+            "process": "ExpensesMonthly",
+            "port": "in",
+            "metadata": {
+                "x": 72,
+                "y": -468,
                 "width": 72,
                 "height": 72
             }
@@ -270,6 +281,46 @@
                 "label": "core/Repeat",
                 "x": 216,
                 "y": -1404,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "MonthlyFetchWithMonthYear": {
+            "component": "finance/FetchWithMonthYear",
+            "metadata": {
+                "label": "MonthlyFetchWithMonthYear",
+                "x": 360,
+                "y": -540,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ExpensesMonthly": {
+            "component": "finance/Validate",
+            "metadata": {
+                "label": "ExpensesMonthly",
+                "x": 216,
+                "y": -468,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "MonthlyRes": {
+            "component": "finance/Res",
+            "metadata": {
+                "label": "MonthlyRes",
+                "x": 504,
+                "y": -468,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "finance/BunyanLog_fsfdm": {
+            "component": "finance/BunyanLog",
+            "metadata": {
+                "label": "Log",
+                "x": 648,
+                "y": -432,
                 "width": 72,
                 "height": 72
             }
@@ -664,6 +715,84 @@
             },
             "metadata": {
                 "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "core/Repeat_89wtj",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "MonthlyFetchWithMonthYear",
+                "port": "type"
+            },
+            "metadata": {
+                "route": 3
+            }
+        },
+        {
+            "src": {
+                "process": "ExpensesMonthly",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "MonthlyFetchWithMonthYear",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "MonthlyFetchWithMonthYear",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MonthlyRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "MonthlyFetchWithMonthYear",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "MonthlyRes",
+                "port": "monthly"
+            },
+            "metadata": {
+                "route": 7
+            }
+        },
+        {
+            "src": {
+                "process": "MonthlyRes",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "finance/BunyanLog_fsfdm",
+                "port": "in"
+            },
+            "metadata": {
+                "route": 1
+            }
+        },
+        {
+            "src": {
+                "process": "ExpensesMonthly",
+                "port": "error"
+            },
+            "tgt": {
+                "process": "MonthlyRes",
+                "port": "error"
+            },
+            "metadata": {
+                "route": 1
             }
         },
         {

@@ -15,3 +15,7 @@
 * + Start to split back into sub graphs (part 1)
 * * Fix: unify usage of `sendThenDisc`
 * + Test for optional tags
+
+# 0.2.167
+* - Remove compiled coffee (js folder)
+* + Split back into sub sub graphs (part 2)

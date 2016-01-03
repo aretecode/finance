@@ -188,6 +188,15 @@ WithMonthYear OUT -> MONTHLY MonthlyRes(finance/Res)
 MonthValidate ERROR -> ERROR MonthlyRes
 WithMonthYear ERROR -> ERROR MonthlyRes
 
+'income' -> TYPE IncomeWithMonthYear(finance/FetchWithMonthYear)
+Router REQ[11] -> IN IncomeMonthValidate(finance/Validate)
+IncomeMonthValidate OUT -> IN IncomeWithMonthYear
+IncomeWithMonthYear OUT -> MONTHLY IncomeMonthlyRes(finance/Res)
+# ErrIncome
+IncomeMonthValidate ERROR -> ERROR IncomeMonthlyRes
+IncomeWithMonthYear ERROR -> ERROR IncomeMonthlyRes
+
+
 ######
 #
 # REPORTS/BALANCE/TREND
