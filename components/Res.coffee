@@ -70,7 +70,7 @@ class Res extends finance.ExtendedComponent
     @inPorts.monthly.on 'data', (data) =>
       sendRes data, 302, 'found', 404, 'not found (month & yr)'
     @inPorts.trend.on 'data', (data) =>
-      sendRes data, 200, 'found', 404, 'not found'
+      sendRes data, 200, 'found', 404, 'trends not found'
     @inPorts.error.on 'data', (data) =>
       @sendThenDisc 'error', formattedReq(data)
       sendRes (data.data or data), 500, 'server error',  500, 'server error'
@@ -78,6 +78,6 @@ class Res extends finance.ExtendedComponent
   shutdown = ->
     @started = false
     finance.getConnection().destroy()
-    throw new Error('res shutdown... shut down / destroy connection')
+    throw new Error('res shutdown... destroy connection')
 
 exports.getComponent = -> new Res

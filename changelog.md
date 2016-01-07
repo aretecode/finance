@@ -18,4 +18,8 @@
 
 # 0.2.167
 * - Remove compiled coffee (js folder)
-* + Split back into sub sub graphs (part 2)
+* + Split back into sub graphs (part 2)
+
+# 0.2.168
+* * Minor optimizations
+* + Split back into sub graphs (part 3)

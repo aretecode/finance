@@ -18,13 +18,12 @@ class StoreUpdate extends Database
       update.amount = b.amount if b.amount?
       update.description = b.description if b.description?
 
-      hasId = id: b.id
       updated = require('util')._extend({}, update)
       updated.tags = b.tags
 
       updateOperation = (tagDeletionResult) =>
         @pg('finance_op')
-        .where(hasId)
+        .where(id: b.id)
         .update(update)
         .then (rows) =>
           # we have no tags, send it out
@@ -44,10 +43,9 @@ class StoreUpdate extends Database
 
       # if we have no tags, just do the update,
       # otherwise do the tags and then the main update
-      unless tags?
-        return updateOperation()
+      return updateOperation() unless tags?
 
-      @pg('tags').where(hasId).del().then (deleted) =>
+      @pg('tags').where(id: b.id).del().then (deleted) =>
         saveTag = (tag, cb) =>
           @pg
           .insert(tag)

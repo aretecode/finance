@@ -7,8 +7,7 @@ exports.getComponent = ->
   c.icon = 'cloud'
 
   c.addInOnData 'in', (payload) ->
-    port = process.env.PORT or 5023
-    c.sendThenDisc port
+    c.sendThenDisc process.env.PORT or 5023
 
   c.outPorts.add 'out', datatype: 'integer'
 

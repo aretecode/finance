@@ -1,4 +1,3 @@
-noflo = require 'noflo'
 moment = require 'moment'
 finance = require './../src/Finance.coffee'
 
@@ -7,10 +6,10 @@ class AlphaOmegaEntries extends finance.ExtendedComponent
   icon: 'database'
 
   constructor: ->
-    @inPorts = new noflo.InPorts
+    @setInPorts
       in:
         datatype: 'all'
-    @outPorts = new noflo.OutPorts
+    @setOutPorts
       out:
         datatype: 'object'
         required: true
