@@ -80,6 +80,9 @@
 * [ ] Logging
 * [ ] Route erorr reqyest through Log
 * [ ] put noflo exports in FinanceExports? Split src/ into a diff repo?
+* [ ] report issue @NoFloUI duplicate project name
+* [ ] change graph names to temp fix problem from ^
+
 
 # After
 * [ ] pass in connection to an inPort (@see components/Database)
